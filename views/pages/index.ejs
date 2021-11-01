@@ -1,0 +1,363 @@
+<%- include ('header') %>
+<form action="retour" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
+  <h1>Formulaire</h1>
+  <div class="row">
+    <div class="col-xl-3 col-md-6">
+      <label for="lieu" class="form-label">Nom du lieu</label>
+      <img src="assets/images/logo question v2.png" alt="" data-container="body" data-toggle="popover" data-placement="right" data-content="text interne" height="20">
+      <input type="text" class="form-control" name="lieu" required>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <label for="ville" class="form-label">Agglomération ou Commune</label>
+      <input type="text" class="form-control" name="ville">
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <label for="dateEvenement" class="form-label">Date</label>
+      <input type="date" class="form-control" name="dateEvenement">
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <label for="dureeEvenement" class="form-label">Durée de l'Evenement</label>
+      <input type="time" class="form-control" name="dureeEvenement">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <label for="nombreParticipantsWings" class="form-label">Nombre de membre Wings</label>
+      <input type="number" class="form-control" name="nombreParticipantsWings">
+      <label for="nombreParticipantsExterne" class="form-label">Nombre de participants Externe</label>
+      <input type="number" class="form-control" name="nombreParticipantsExterne">
+    </div>
+    <div class="col-lg-9">
+      <label for="crew" class="form-label">Crew de dépoll</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Kraken" value="Kraken">
+        <label class="form-check-label" for="Kraken">Kraken</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Etang de Berre" value="Etang de Berre">
+        <label class="form-check-label" for="Etang de Berre">Etang de Berre</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Amadeus" value="Amadeus">
+        <label class="form-check-label" for="Amadeus">l'Amadeus</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Antenne de Paris" value="Antenne de Paris">
+        <label class="form-check-label" for="Antenne de Paris">Antenne de Paris</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Antenne de Lyon" value="Antenne de Lyon">
+        <label class="form-check-label" for="Antenne de Lyon">Antenne de Lyon</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Antenne du Havre" value="Antenne du Havre">
+        <label class="form-check-label" for="Antenne du Havre">Antenne du Havre</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="Depoll Pirate" value="Depoll Pirate">
+        <label class="form-check-label" for="Depoll Pirate">Dépoll Pirate</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="crew" id="AutreCrew" value="Autre">
+        <label class="form-check-label" for="AutreCrew">Autre</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-3 col-md-6">
+      <label for="autresStructures" class="form-label">Autres structures participantes</label>
+      <input type="text" class="form-control" name="autresStructures">
+    </div>
+  </div>
+  <h3>Info sur le lieu</h3>
+  <div class="row">
+    <div class="col-lg-3">
+      <label for="longueur" class="form-label">Longueur de la zone</label>
+      <input type="number" class="form-control" name="longueur" step="0.1">
+    </div>
+    <div class="col-lg-3">
+      <label for="surface" class="form-label">Surface de la zone</label>
+      <input type="number" class="form-control" name="surface" step="0.1">
+    </div>
+    <div class="col-lg-6">
+      <label for="typeLieu" class="form-label">Type de lieu</label>
+      <select class="form-select" name="typeLieu">
+        <optgroup label="littoral-Port-Zones humides">
+          <option value="Rocher (naturel)"> Rocher (naturel) </option>
+          <option value="Plage (sable, galets, gravillons)"> Plage (sable, galets, gravillons) </option>
+          <option value="Port"> Port </option>
+          <option value="Ouvrages côtiers (digues, enrochements, ...)"> Ouvrages côtiers (digues, enrochements, ...) </option>
+        </optgroup>
+        <optgroup label="Estuaire">
+          <option value="Berges"> Berges </option>
+          <option value="Port"> Port </option>
+          <option value="Ouvrages (digues, ...)"> Ouvrages (digues, ...) </option>
+          <option value="Plage"> Plage </option>
+          <option value="Lit"> Lit </option>
+        </optgroup>
+        <optgroup label="Mer-Océan">
+          <option value="Mer-Océan"> Mer-Océan </option>
+        </optgroup>
+        <optgroup label="Lacs-Cours d&#x27;eau-Marais-Zones humides">
+          <option value="Plan d&#x27;eau - lit"> Plan d&#x27;eau - lit </option>
+          <option value="Plage (sable, galets, gravillons)"> Plage (sable, galets, gravillons) </option>
+          <option value="Berges"> Berges </option>
+          <option value="Port - barrage - écluse"> Port - barrage - écluse </option>
+        </optgroup>
+        <optgroup label="Zone urbaine">
+          <option value="Voie de chemin de fer"> Voie de chemin de fer </option>
+          <option value="Infrastructure routières (Routes, rues, avn, blvd, place ...)"> Infrastructure routières (Routes, rues, avn, blvd, place ...) </option>
+          <option value="Parcs urbains - Jardins publics"> Parcs urbains - Jardins publics </option>
+        </optgroup>
+        <optgroup label="Zone rurale">
+          <option value="Voie de chemin de fer"> Voie de chemin de fer </option>
+          <option value="Forêt - bois"> Forêt - bois </option>
+          <option value="Champs - pairies - landes - garrigues - maquis"> Champs - pairies - landes - garrigues - maquis </option>
+          <option value="Chemin de randonnée - vtt - equestre"> Chemin de randonnée - vtt - equestre </option>
+          <option value="Autre espaces naturels"> Autre espaces naturels </option>
+        </optgroup>
+        <optgroup label="Montagne">
+          <option value="Forêt - bois"> Forêt - bois </option>
+          <option value="Chemin de randonnée - vtt - equestre"> Chemin de randonnée - vtt - equestre </option>
+          <option value="Piste de ski"> Piste de ski </option>
+          <option value="Station de ski"> Station de ski </option>
+          <option value="Autre espaces naturels"> Autre espaces naturels </option>
+        </optgroup>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label for="typesDechet" class="form-label">Type(s) de déchets</label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="typesDechet" value="Echoués" id="Echoués">
+        <label class="form-check-label" for="Echoués">Echoués</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="typesDechet" value="Presents au sol" id="Presents au sol">
+        <label class="form-check-label" for="Presents au sol">Présents au sol</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="typesDechet" value="Enfouis" id="Enfouis">
+        <label class="form-check-label" for="Enfouis">Enfouis</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="typesDechet" value="Flottants" id="Flottants">
+        <label class="form-check-label" for="Flottants">Flottants</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="typesDechet" value="Sur les fonds" id="Sur les fonds">
+        <label class="form-check-label" for="Sur les fonds">Sur les fonds</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="typesDechet" value="Indifferencies" id="Indifferencies">
+        <label class="form-check-label" for="Indifferencies">Indifférenciés</label>
+      </div>
+    </div>
+    <div class="col">
+      <label for="activites" class="form-label">Activités à proximité</label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Peche local" id="Peche local">
+        <label class="form-check-label" for="Peche local">Pêche local</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Peche industriel" id="Peche industriel">
+        <label class="form-check-label" for="Peche industriel"> Pêche industriel (chalutier...)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Activites Commerciales" id="Activites Commerciales">
+        <label class="form-check-label" for="Activites Commerciales">Activités Commerciales</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Tourisme" id="Tourisme">
+        <label class="form-check-label" for="Tourisme">Tourisme</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Activites portuaires" id="Activites portuaires">
+        <label class="form-check-label" for="Activites portuaires">Activités portuaires</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Plaisance" id="Plaisance">
+        <label class="form-check-label" for="Plaisance">Plaisance</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Activites industrielles" id="Activites industrielles">
+        <label class="form-check-label" for="Activites industrielles">Activités industrielles</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Industrie portuaire" id="Industrie portuaire">
+        <label class="form-check-label" for="Industrie portuaire">Industrie portuaire</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Activites nautiques" id="Activites nautiques">
+        <label class="form-check-label" for="Activites nautiques">Activités nautiques (Plongée ...)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Conchyliculture" id="Conchyliculture">
+        <label class="form-check-label" for="Conchyliculture">Conchyliculture</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Restauration/Bar" id="Restauration/Bar">
+        <label class="form-check-label" for="Restauration/Bar">Restauration/Bar</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="activites" value="Autre" id="AutreActivite">
+        <label class="form-check-label" for="AutreActivite">Autre</label>
+      </div>
+    </div>
+  </div>
+  <label for="frequentation" class="form-label">Fréquentation humaine</label>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="frequentation" id="Sauvage" value="Sauvage">
+    <label class="form-check-label" for="Sauvage">Sauvage</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="frequentation" id="Peu Frequentee" value="Peu Frequentee">
+    <label class="form-check-label" for="Peu Frequentee">Peu Fréquentée</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="frequentation" id="Frequentee" value="Frequentee">
+    <label class="form-check-label" for="Frequentee">Fréquentée</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="frequentation" id="Tres Frequentee" value="Tres Frequentee">
+    <label class="form-check-label" for="Tres Frequentee">Très Fréquentée</label>
+  </div>
+  <h3>Etat du terrain après dépollution</h3>
+  <label for="quantiteDechet" class="form-label">Quantité déchet restante</label>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="quantiteDechet" id="Plus de la moitie" value="Plus de la moitie">
+    <label class="form-check-label" for="Plus de la moitie">Plus de la moitié</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="quantiteDechet" id="Beaucoup" value="Beaucoup">
+    <label class="form-check-label" for="Beaucoup">Beaucoup</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="quantiteDechet" id="Peu" value="Peu">
+    <label class="form-check-label" for="Peu">Peu</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="quantiteDechet" id="Presque rien" value="Presque rien">
+    <label class="form-check-label" for="Presque rien">Presque rien</label>
+  </div>
+  <div class="col">
+    <label for="pourquoiIlEnReste" class="form-label">S'il en reste, pourquoi ?</label>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Inaccessibles/Bloques" id="Inaccessibles/Bloques">
+      <label class="form-check-label" for="Inaccessibles/Bloques">Inaccessibles/Bloqués</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Trop petits et nombreux" id="Trop petits et nombreux">
+      <label class="form-check-label" for="Trop petits et nombreux">Trop petits et nombreux</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Plus assez de temps" id="Plus assez de temps">
+      <label class="form-check-label" for="Plus assez de temps">Plus assez de temps</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Autre" id="AutreEncore">
+      <label class="form-check-label" for="AutreEncore">Autre</label>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <label class="form-label" for="Commentaire">Commentaire</label>
+    <textarea name="Commentaire" class="form-control" id="Commentaire"></textarea>
+  </div>
+  <div class="col-6">
+    <table class="table col-6">
+      <thead>
+        <tr>
+          <th></th>
+          <th width=100>Poids (Kg)</th>
+          <th width=100>Volume (L)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Plastique non recyclable</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsPlastiqueNonRecy]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumePlastiqueNonRecy]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Plastique recyclable</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsPlastiqueRecy]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumePlastiqueRecy]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Métal</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsMetal]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumeMetal]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Verre et Céramique</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsVerreEtCeramique]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumeVerreEtCeramique]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Textile</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsTextile]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumeTextile]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Papier et Carton</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsPapierEtCarton]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumePapierEtCarton]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Bois</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsBois]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumeBois]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Caoutchouc</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsCaoutchouc]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumeCaoutchouc]" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Autre</th>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[poidsAutre]" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="poidsVol[volumeAutre]" step="0.1">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="btn btn-primary" type="submit">Soumission</button>
+</form>
+<%- include ('footer') %>
