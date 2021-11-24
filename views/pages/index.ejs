@@ -1,64 +1,78 @@
 <%- include ('header') %>
-<form action="retour" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
+<form action="" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
   <h1>Formulaire</h1>
   <div class="row">
     <div class="col-xl-3 col-md-6">
-      <label for="lieu" class="form-label">Nom du lieu</label>
-      <img src="assets/images/logo question v2.png" alt="" data-container="body" data-toggle="popover" data-placement="right" data-content="text interne" height="20">
-      <input type="text" class="form-control" name="lieu" required>
+      <label for="lieu" class="form-label required">Nom du lieu</label>
+      <%- popHelp(help.lieu) %>
+      <input type="text" class="form-control" name="lieu">
     </div>
     <div class="col-xl-3 col-md-6">
       <label for="ville" class="form-label">Agglomération ou Commune</label>
+      <%- popHelp(help.ville) %>
       <input type="text" class="form-control" name="ville">
     </div>
     <div class="col-xl-3 col-md-6">
-      <label for="dateEvenement" class="form-label">Date</label>
+      <label for="dateEvenement" class="form-label required">Date</label>
+      <%- popHelp(help.dateEvenement) %>
       <input type="date" class="form-control" name="dateEvenement">
     </div>
     <div class="col-xl-3 col-md-6">
-      <label for="dureeEvenement" class="form-label">Durée de l'Evenement</label>
+      <label for="dureeEvenement" class="form-label required">Durée de l'Evenement</label>
+      <%- popHelp(help.dureeEvenement) %>
       <input type="time" class="form-control" name="dureeEvenement">
     </div>
   </div>
   <div class="row">
     <div class="col-lg-3">
-      <label for="nombreParticipantsWings" class="form-label">Nombre de membre Wings</label>
+      <label for="nombreParticipantsWings" class="form-label required">Nombre de membre Wings</label>
+      <%- popHelp(help.nombreParticipantsWings) %>
       <input type="number" class="form-control" name="nombreParticipantsWings">
-      <label for="nombreParticipantsExterne" class="form-label">Nombre de participants Externe</label>
+      <label for="nombreParticipantsExterne" class="form-label required">Nombre de participants Externe</label>
+      <%- popHelp(help.nombreParticipantsExterne) %>
       <input type="number" class="form-control" name="nombreParticipantsExterne">
     </div>
-    <div class="col-lg-9">
+    <div class="col-lg-3">
+      <label for="latitude" class="form-label required">Latitude</label>
+      <%- popHelp(help.latitude) %>
+      <input type="number" class="form-control" name="latitude" step="0.0000001">
+      <label for="longitude" class="form-label required">Longitude</label>
+      <%- popHelp(help.longitude) %>
+      <input type="number" class="form-control" name="longitude" step="0.0000001">
+    </div>
+    <div class="col-lg-6">
       <label for="crew" class="form-label">Crew de dépoll</label>
+      <%- popHelp(help.crew) %>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Kraken" value="Kraken">
+        <input class="form-check-input" type="checkbox" name="crew" id="Kraken" value="Kraken">
         <label class="form-check-label" for="Kraken">Kraken</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Etang de Berre" value="Etang de Berre">
+        <input class="form-check-input" type="checkbox" name="crew" id="Etang de Berre" value="Etang de Berre">
         <label class="form-check-label" for="Etang de Berre">Etang de Berre</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Amadeus" value="Amadeus">
+        <input class="form-check-input" type="checkbox" name="crew" id="Amadeus" value="Amadeus">
         <label class="form-check-label" for="Amadeus">l'Amadeus</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Antenne de Paris" value="Antenne de Paris">
+        <input class="form-check-input" type="checkbox" name="crew" id="Antenne de Paris" value="Antenne de Paris">
         <label class="form-check-label" for="Antenne de Paris">Antenne de Paris</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Antenne de Lyon" value="Antenne de Lyon">
+        <input class="form-check-input" type="checkbox" name="crew" id="Antenne de Lyon" value="Antenne de Lyon">
         <label class="form-check-label" for="Antenne de Lyon">Antenne de Lyon</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Antenne du Havre" value="Antenne du Havre">
+        <input class="form-check-input" type="checkbox" name="crew" id="Antenne du Havre" value="Antenne du Havre">
         <label class="form-check-label" for="Antenne du Havre">Antenne du Havre</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="Depoll Pirate" value="Depoll Pirate">
+        <input class="form-check-input" type="checkbox" name="crew" id="Depoll Pirate" value="Depoll Pirate">
         <label class="form-check-label" for="Depoll Pirate">Dépoll Pirate</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="crew" id="AutreCrew" value="Autre">
+        <input class="form-check-input" type="checkbox" name="crew" id="AutreCrew" value="Autre">
         <label class="form-check-label" for="AutreCrew">Autre</label>
       </div>
     </div>
@@ -66,6 +80,7 @@
   <div class="row">
     <div class="col-xl-3 col-md-6">
       <label for="autresStructures" class="form-label">Autres structures participantes</label>
+      <%- popHelp(help.autresStructures) %>
       <input type="text" class="form-control" name="autresStructures">
     </div>
   </div>
@@ -73,14 +88,17 @@
   <div class="row">
     <div class="col-lg-3">
       <label for="longueur" class="form-label">Longueur de la zone</label>
+      <%- popHelp(help.longueur) %>
       <input type="number" class="form-control" name="longueur" step="0.1">
     </div>
     <div class="col-lg-3">
-      <label for="surface" class="form-label">Surface de la zone</label>
+      <label for="surface" class="form-label required">Surface de la zone</label>
+      <%- popHelp(help.surface) %>
       <input type="number" class="form-control" name="surface" step="0.1">
     </div>
     <div class="col-lg-6">
-      <label for="typeLieu" class="form-label">Type de lieu</label>
+      <label for="typeLieu" class="form-label required">Type de lieu</label>
+      <%- popHelp(help.typeLieu) %>
       <select class="form-select" name="typeLieu">
         <optgroup label="littoral-Port-Zones humides">
           <option value="Rocher (naturel)"> Rocher (naturel) </option>
@@ -129,6 +147,7 @@
   <div class="row">
     <div class="col">
       <label for="typesDechet" class="form-label">Type(s) de déchets</label>
+      <%- popHelp(help.typesDechet) %>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="typesDechet" value="Echoués" id="Echoués">
         <label class="form-check-label" for="Echoués">Echoués</label>
@@ -156,6 +175,7 @@
     </div>
     <div class="col">
       <label for="activites" class="form-label">Activités à proximité</label>
+      <%- popHelp(help.activites) %>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="activites" value="Peche local" id="Peche local">
         <label class="form-check-label" for="Peche local">Pêche local</label>
@@ -207,6 +227,7 @@
     </div>
   </div>
   <label for="frequentation" class="form-label">Fréquentation humaine</label>
+  <%- popHelp(help.frequentation) %>
   <div class="form-check form-check-inline">
     <input class="form-check-input" type="radio" name="frequentation" id="Sauvage" value="Sauvage">
     <label class="form-check-label" for="Sauvage">Sauvage</label>
@@ -225,6 +246,7 @@
   </div>
   <h3>Etat du terrain après dépollution</h3>
   <label for="quantiteDechet" class="form-label">Quantité déchet restante</label>
+  <%- popHelp(help.quantiteDechet) %>
   <div class="form-check form-check-inline">
     <input class="form-check-input" type="radio" name="quantiteDechet" id="Plus de la moitie" value="Plus de la moitie">
     <label class="form-check-label" for="Plus de la moitie">Plus de la moitié</label>
@@ -243,25 +265,27 @@
   </div>
   <div class="col">
     <label for="pourquoiIlEnReste" class="form-label">S'il en reste, pourquoi ?</label>
+    <%- popHelp(help.pourquoiIlEnReste) %>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Inaccessibles/Bloques" id="Inaccessibles/Bloques">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste" value="Inaccessibles/Bloques" id="Inaccessibles/Bloques">
       <label class="form-check-label" for="Inaccessibles/Bloques">Inaccessibles/Bloqués</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Trop petits et nombreux" id="Trop petits et nombreux">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste" value="Trop petits et nombreux" id="Trop petits et nombreux">
       <label class="form-check-label" for="Trop petits et nombreux">Trop petits et nombreux</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Plus assez de temps" id="Plus assez de temps">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste" value="Plus assez de temps" id="Plus assez de temps">
       <label class="form-check-label" for="Plus assez de temps">Plus assez de temps</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste[]" value="Autre" id="AutreEncore">
+      <input class="form-check-input" type="checkbox" name="pourquoiIlEnReste" value="Autre" id="AutreEncore">
       <label class="form-check-label" for="AutreEncore">Autre</label>
     </div>
   </div>
   <div class="col-lg-6">
-    <label class="form-label" for="Commentaire">Commentaire</label>
+    <label for="Commentaire" class="form-label">Commentaire</label>
+    <%- popHelp(help.Commentaire) %>
     <textarea name="Commentaire" class="form-control" id="Commentaire"></textarea>
   </div>
   <div class="col-6">
@@ -269,90 +293,90 @@
       <thead>
         <tr>
           <th></th>
-          <th width=100>Poids (Kg)</th>
-          <th width=100>Volume (L)</th>
+          <th width=100>Poids (Kg) <%- popHelp(help.Poids) %></th>
+          <th width=100>Volume (L) <%- popHelp(help.Volume) %></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th>Plastique non recyclable</th>
+          <th>Plastique non recyclable <%- popHelp(help.PlastiqueNonRecy) %></th>
           <td>
-            <input type="number" class="form-control" name="poidsVol[poidsPlastiqueNonRecy]" step="0.001">
+            <input type="number" class="form-control" name="poidsPlastiqueNonRecy" step="0.001">
           </td>
           <td>
-            <input type="number" class="form-control" name="poidsVol[volumePlastiqueNonRecy]" step="0.1">
-          </td>
-        </tr>
-        <tr>
-          <th>Plastique recyclable</th>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[poidsPlastiqueRecy]" step="0.001">
-          </td>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[volumePlastiqueRecy]" step="0.1">
+            <input type="number" class="form-control" name="volumePlastiqueNonRecy" step="0.1">
           </td>
         </tr>
         <tr>
-          <th>Métal</th>
+          <th>Plastique recyclable <%- popHelp(help.PlastiqueRecy) %></th>
           <td>
-            <input type="number" class="form-control" name="poidsVol[poidsMetal]" step="0.001">
+            <input type="number" class="form-control" name="poidsPlastiqueRecy" step="0.001">
           </td>
           <td>
-            <input type="number" class="form-control" name="poidsVol[volumeMetal]" step="0.1">
-          </td>
-        </tr>
-        <tr>
-          <th>Verre et Céramique</th>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[poidsVerreEtCeramique]" step="0.001">
-          </td>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[volumeVerreEtCeramique]" step="0.1">
+            <input type="number" class="form-control" name="volumePlastiqueRecy" step="0.1">
           </td>
         </tr>
         <tr>
-          <th>Textile</th>
+          <th>Métal <%- popHelp(help.Metal) %></th>
           <td>
-            <input type="number" class="form-control" name="poidsVol[poidsTextile]" step="0.001">
+            <input type="number" class="form-control" name="poidsMetal" step="0.001">
           </td>
           <td>
-            <input type="number" class="form-control" name="poidsVol[volumeTextile]" step="0.1">
-          </td>
-        </tr>
-        <tr>
-          <th>Papier et Carton</th>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[poidsPapierEtCarton]" step="0.001">
-          </td>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[volumePapierEtCarton]" step="0.1">
+            <input type="number" class="form-control" name="volumeMetal" step="0.1">
           </td>
         </tr>
         <tr>
-          <th>Bois</th>
+          <th>Verre et Céramique <%- popHelp(help.VerreEtCeramique) %></th>
           <td>
-            <input type="number" class="form-control" name="poidsVol[poidsBois]" step="0.001">
+            <input type="number" class="form-control" name="poidsVerreEtCeramique" step="0.001">
           </td>
           <td>
-            <input type="number" class="form-control" name="poidsVol[volumeBois]" step="0.1">
-          </td>
-        </tr>
-        <tr>
-          <th>Caoutchouc</th>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[poidsCaoutchouc]" step="0.001">
-          </td>
-          <td>
-            <input type="number" class="form-control" name="poidsVol[volumeCaoutchouc]" step="0.1">
+            <input type="number" class="form-control" name="volumeVerreEtCeramique" step="0.1">
           </td>
         </tr>
         <tr>
-          <th>Autre</th>
+          <th>Textile <%- popHelp(help.Textile) %></th>
           <td>
-            <input type="number" class="form-control" name="poidsVol[poidsAutre]" step="0.001">
+            <input type="number" class="form-control" name="poidsTextile" step="0.001">
           </td>
           <td>
-            <input type="number" class="form-control" name="poidsVol[volumeAutre]" step="0.1">
+            <input type="number" class="form-control" name="volumeTextile" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Papier et Carton <%- popHelp(help.PapierEtCarton) %></th>
+          <td>
+            <input type="number" class="form-control" name="poidsPapierEtCarton" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="volumePapierEtCarton" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Bois <%- popHelp(help.Bois) %></th>
+          <td>
+            <input type="number" class="form-control" name="poidsBois" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="volumeBois" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Caoutchouc <%- popHelp(help.Caoutchouc) %></th>
+          <td>
+            <input type="number" class="form-control" name="poidsCaoutchouc" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="volumeCaoutchouc" step="0.1">
+          </td>
+        </tr>
+        <tr>
+          <th>Autre <%- popHelp(help.Autre) %></th>
+          <td>
+            <input type="number" class="form-control" name="poidsAutre" step="0.001">
+          </td>
+          <td>
+            <input type="number" class="form-control" name="volumeAutre" step="0.1">
           </td>
         </tr>
       </tbody>
