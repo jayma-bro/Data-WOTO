@@ -1,0 +1,9 @@
+// Rename this file to .env in your local root folder, then add parameters
+// .env file will be ignored in versioning
+// change port if needed
+PORT=
+// your database parameters
+DB_PREFIX=
+DB_USER=
+DB_PASS=
+DB_HOST=

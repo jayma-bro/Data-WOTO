@@ -1,3 +1,4 @@
+const dotenv = require('dotenv')
 let express = require('express')
 let bodyParser = require('body-parser')
 let mongoose = require('mongoose')
@@ -5,9 +6,11 @@ let Depoll = require('./models/depoll')
 let help = require('./views/json/help.json')
 let popHelp = require('./models/popHelp')
 
+dotenv.config()
+
 let app = express()
 
-mongoose.connect('mongodb+srv://rogue:turluberlu@warg.w1e1b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect(process.env.DB_PREFIX + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
