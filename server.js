@@ -1,89 +1,55 @@
-let express = require('express')
-let bodyParser = require('body-parser')
-let mongoose = require('mongoose')
-let Depoll = require('./models/depoll')
-let help = require('./views/json/help.json')
-let popHelp = require('./models/popHelp')
+const http = require('http')
+const app = require('./app')
 
+/**
+ *
+ * @param val
+ * @returns {boolean|number|*}
+ */
+const normalizePort = val => {
+  const port = parseInt(val, 10)
 
-mongoose.connect('mongodb+srv://rogue:turluberlu@warg.w1e1b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'))
+  if (isNaN(port)) {
+    return val
+  }
+  if (port >= 0) {
+    return port
+  }
+  return false
+}
 
-let app = express()
+const port = normalizePort(process.env.PORT || '3000')
+app.set('port', port)
 
+/**
+ *
+ * @param error
+ */
+const errorHandler = error => {
+  if (error.syscall !== 'listen') {
+    throw error
+  }
+  const address = server.address()
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port
+  if (error.code === 'EACCES') {
+    console.error(bind + ' requires elevated privileges.')
+    process.exit(1)
+  } else if (error.code === 'EADDRINUSE') {
+    console.error(bind + ' is already in use.')
+    process.exit(1)
+  } else {
+    throw error
+  }
+}
 
-// Moteur de template
-app.set('view engine', 'ejs')
+const server = http.createServer(app)
 
-// Middleware
-app.use('/assets', express.static('public'))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+server.on('error', errorHandler)
 
-
-// Routes
-app.get('/', (req, res) => {
-  res.render('pages/index', {help, popHelp})
+server.on('listening', () => {
+  const address = server.address()
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port
+  console.log('Listening on ' + bind)
 })
 
-app.post('/', (req, res) => {
-  console.log(req.body)
-  let dateEvenement = new Date(req.body.dateEvenement)
-  let createdTime = new Date(Date.now())
-  let dureeEvenement = parseInt(req.body.dureeEvenement.slice(0,2))*60 + parseInt(req.body.dureeEvenement.slice(3,5))
-  let crew = req.body.crew === undefined ? '' : req.body.crew.join(';')
-  let typesDechet = req.body.typesDechet === undefined ? '' : req.body.typesDechet.join(';')
-  let activites = req.body.activites === undefined ? '' : req.body.activites.join(';')
-  let pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? '' : req.body.pourquoiIlEnReste.join(';')
-  let depoll = new Depoll({
-    createdTime,
-    lieu: req.body.lieu,
-    ville: req.body.ville,
-    dateEvenement,
-    dureeEvenement,
-    nombreParticipantsWings: req.body.nombreParticipantsWings,
-    nombreParticipantsExterne: req.body.nombreParticipantsExterne,
-    crew,
-    autresStructures: req.body.autresStructures,
-    longueur: req.body.longueur,
-    surface: req.body.surface,
-    typeLieu: req.body.typeLieu,
-    typesDechet,
-    activites,
-    frequentation: req.body.frequentation,
-    quantiteDechet: req.body.quantiteDechet,
-    pourquoiIlEnReste,
-    Commentaire: req.body.Commentaire,
-    poidsPlastiqueNonRecy: req.body.poidsPlastiqueNonRecy,
-    volumePlastiqueNonRecy: req.body.volumePlastiqueNonRecy,
-    poidsPlastiqueRecy: req.body.poidsPlastiqueRecy,
-    volumePlastiqueRecy: req.body.volumePlastiqueRecy,
-    poidsMetal: req.body.poidsMetal,
-    volumeMetal: req.body.volumeMetal,
-    poidsVerreEtCeramique: req.body.poidsVerreEtCeramique,
-    volumeVerreEtCeramique: req.body.volumeVerreEtCeramique,
-    poidsTextile: req.body.poidsTextile,
-    volumeTextile: req.body.volumeTextile,
-    poidsPapierEtCarton: req.body.poidsPapierEtCarton,
-    volumePapierEtCarton: req.body.volumePapierEtCarton,
-    poidsBois: req.body.poidsBois,
-    volumeBois: req.body.volumeBois,
-    poidsCaoutchouc: req.body.poidsCaoutchouc,
-    volumeCaoutchouc: req.body.volumeCaoutchouc,
-    poidsAutre: req.body.poidsAutre,
-    volumeAutre: req.body.volumeAutre,
-  })
-  depoll.save()
-    .then(() => {
-      res.status(201)
-      res.render('pages/retour')
-    })
-    .catch(error => {
-      // res.status(400).render('pages/index', {help, popHelp})
-      res.status(400).json({error})
-    });
-})
-app.listen(8080)
+server.listen(port)
