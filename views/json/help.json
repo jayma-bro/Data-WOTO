@@ -17,7 +17,8 @@
   "frequentation": "frequentation",
   "quantiteDechet": "quantiteDechet",
   "pourquoiIlEnReste": "pourquoiIlEnReste",
-  "Commentaire": "Commentaire",
+  "commentaire": "commentaire",
+  "DechetIndicateur": "DechetIndicateur",
   "Poids": "Poids",
   "Volume": "Volume",
   "PlastiqueNonRecy": "PlastiqueNonRecy",
@@ -28,5 +29,14 @@
   "PapierEtCarton": "PapierEtCarton",
   "Bois": "Bois",
   "Caoutchouc": "Caoutchouc",
-  "Autre": "Autre"
+  "Autre": "Autre",
+  "nbDechetSpecifique": "nbDechetSpecifique",
+  "nomDS": "nomDS",
+  "volumeDS": "volumeDS",
+  "descDS": "descDS",
+  "volEstDS": "volEstDS",
+  "provenanceDS": "provenanceDS",
+  "commentaireDS": "commentaireDS",
+  "poidsDS": "poidsDS",
+  "nombreDS": "nombreDS"
 }

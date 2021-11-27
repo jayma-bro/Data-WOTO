@@ -1,0 +1,12 @@
+.required::after {
+  content: ' *';
+  color: red;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

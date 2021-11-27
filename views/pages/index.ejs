@@ -5,7 +5,7 @@
     <div class="col-xl-3 col-md-6">
       <label for="lieu" class="form-label required">Nom du lieu</label>
       <%- popHelp(help.lieu) %>
-      <input type="text" class="form-control" name="lieu">
+      <input type="text" class="form-control" name="lieu" required>
     </div>
     <div class="col-xl-3 col-md-6">
       <label for="ville" class="form-label">Agglomération ou Commune</label>
@@ -15,30 +15,30 @@
     <div class="col-xl-3 col-md-6">
       <label for="dateEvenement" class="form-label required">Date</label>
       <%- popHelp(help.dateEvenement) %>
-      <input type="date" class="form-control" name="dateEvenement">
+      <input type="date" class="form-control" name="dateEvenement" required>
     </div>
     <div class="col-xl-3 col-md-6">
       <label for="dureeEvenement" class="form-label required">Durée de l'Evenement</label>
       <%- popHelp(help.dureeEvenement) %>
-      <input type="time" class="form-control" name="dureeEvenement">
+      <input type="time" class="form-control" name="dureeEvenement" required>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-3">
       <label for="nombreParticipantsWings" class="form-label required">Nombre de membre Wings</label>
       <%- popHelp(help.nombreParticipantsWings) %>
-      <input type="number" class="form-control" name="nombreParticipantsWings">
+      <input type="number" class="form-control" name="nombreParticipantsWings" required>
       <label for="nombreParticipantsExterne" class="form-label required">Nombre de participants Externe</label>
       <%- popHelp(help.nombreParticipantsExterne) %>
-      <input type="number" class="form-control" name="nombreParticipantsExterne">
+      <input type="number" class="form-control" name="nombreParticipantsExterne" required>
     </div>
     <div class="col-lg-3">
       <label for="latitude" class="form-label required">Latitude</label>
       <%- popHelp(help.latitude) %>
-      <input type="number" class="form-control" name="latitude" step="0.0000001">
+      <input type="number" class="form-control" name="latitude" step="0.0000001" required>
       <label for="longitude" class="form-label required">Longitude</label>
       <%- popHelp(help.longitude) %>
-      <input type="number" class="form-control" name="longitude" step="0.0000001">
+      <input type="number" class="form-control" name="longitude" step="0.0000001" required>
     </div>
     <div class="col-lg-6">
       <label for="crew" class="form-label">Crew de dépoll</label>
@@ -94,12 +94,13 @@
     <div class="col-lg-3">
       <label for="surface" class="form-label required">Surface de la zone</label>
       <%- popHelp(help.surface) %>
-      <input type="number" class="form-control" name="surface" step="0.1">
+      <input type="number" class="form-control" name="surface" step="0.1" required>
     </div>
     <div class="col-lg-6">
       <label for="typeLieu" class="form-label required">Type de lieu</label>
       <%- popHelp(help.typeLieu) %>
-      <select class="form-select" name="typeLieu">
+      <select class="form-select" name="typeLieu" required>
+          <option value="none" selected disabled hidden>Selectionez une option</option>
         <optgroup label="littoral-Port-Zones humides">
           <option value="Rocher (naturel)"> Rocher (naturel) </option>
           <option value="Plage (sable, galets, gravillons)"> Plage (sable, galets, gravillons) </option>
@@ -284,12 +285,246 @@
     </div>
   </div>
   <div class="col-lg-6">
-    <label for="Commentaire" class="form-label">Commentaire</label>
-    <%- popHelp(help.Commentaire) %>
-    <textarea name="Commentaire" class="form-control" id="Commentaire"></textarea>
+    <label for="commentaire" class="form-label">Commentaire</label>
+    <%- popHelp(help.commentaire) %>
+    <textarea name="commentaire" class="form-control" id="commentaire"></textarea>
+  </div>
+  <h3>Caractérisation des Déchets</h3>
+  <div class="col-lg-6">
+    <label for="DechetIndicateur" class="form-label">Déchets indicateurs (ReMed)</label>
+    <%- popHelp(help.DechetIndicateur) %>
+    <select class="form-select" name="DechetIndicateur" id="indicateur">
+      <option value="Niveau0" selected> Aucun </option>
+      <option value="Niveau1"> Niveau 1 </option>
+      <option value="Niveau2"> Niveau 2 </option>
+      <option value="Niveau3"> Niveau 3 (pas encore implémenté)</option>
+    </select>
+  </div>
+  <div class="col-lg-6 hide" id="niv1">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th width=120> Quantité </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Bouteille en plastique</th>
+          <td>
+            <input type="number" class="form-control" name="bouteilleEnPlastique">
+          </td>
+        </tr>
+        <tr>
+          <th>Bouteille en verre</th>
+          <td>
+            <input type="number" class="form-control" name="bouteilleEnVerre">
+          </td>
+        </tr>
+        <tr>
+          <th>Canette en métal</th>
+          <td>
+            <input type="number" class="form-control" name="canetteEnMetal">
+          </td>
+        </tr>
+        <tr>
+          <th>Masque (chirurgical)</th>
+          <td>
+            <input type="number" class="form-control" name="masque">
+          </td>
+        </tr>
+        <tr>
+          <th>Megot</th>
+          <td>
+            <input type="number" class="form-control" name="megot">
+          </td>
+        </tr>
+        <tr>
+          <th>Pneu</th>
+          <td>
+            <input type="number" class="form-control" name="pneu">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-6 hide" id="niv2">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th width=120> Quantité </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Appareil ménager</th>
+          <td>
+            <input type="number" class="form-control" name="appareilMenager">
+          </td>
+        </tr>
+        <tr>
+          <th>Ballon de baudruche</th>
+          <td>
+            <input type="number" class="form-control" name="ballonDeBaudruche">
+          </td>
+        </tr>
+        <tr>
+          <th>Bâton de sucette</th>
+          <td>
+            <input type="number" class="form-control" name="batonDeSucette">
+          </td>
+        </tr>
+        <tr>
+          <th>Batterie</th>
+          <td>
+            <input type="number" class="form-control" name="batterie">
+          </td>
+        </tr>
+        <tr>
+          <th>Boîte d'appats</th>
+          <td>
+            <input type="number" class="form-control" name="boiteDAppats">
+          </td>
+        </tr>
+        <tr>
+          <th>Boîte de medicaments</th>
+          <td>
+            <input type="number" class="form-control" name="boiteDeMedicaments">
+          </td>
+        </tr>
+        <tr>
+          <th>Bouchon en plastique</th>
+          <td>
+            <input type="number" class="form-control" name="bouchonEnPlastique">
+          </td>
+        </tr>
+        <tr>
+          <th>Briquet</th>
+          <td>
+            <input type="number" class="form-control" name="briquet">
+          </td>
+        </tr>
+        <tr>
+          <th>Capsule</th>
+          <td>
+            <input type="number" class="form-control" name="capsule">
+          </td>
+        </tr>
+        <tr>
+          <th>Cartouche de chasse</th>
+          <td>
+            <input type="number" class="form-control" name="cartoucheDeChasse">
+          </td>
+        </tr>
+        <tr>
+          <th>Chaussure</th>
+          <td>
+            <input type="number" class="form-control" name="chaussure">
+          </td>
+        </tr>
+        <tr>
+          <th>Contenant alimentaire</th>
+          <td>
+            <input type="number" class="form-control" name="contenantAlimentaire">
+          </td>
+        </tr>
+        <tr>
+          <th>Cordages emmêlés</th>
+          <td>
+            <input type="number" class="form-control" name="cordagesEmmeles">
+          </td>
+        </tr>
+        <tr>
+          <th>Cordage et ficelle</th>
+          <td>
+            <input type="number" class="form-control" name="cordageEtFicelle">
+          </td>
+        </tr>
+        <tr>
+          <th>Coton-tige</th>
+          <td>
+            <input type="number" class="form-control" name="cotonTige">
+          </td>
+        </tr>
+        <tr>
+          <th>Filet (<50 cm)</th>
+          <td>
+            <input type="number" class="form-control" name="filetInf50cm">
+          </td>
+        </tr>
+        <tr>
+          <th>Filet (>50 cm)</th>
+          <td>
+            <input type="number" class="form-control" name="filetSup50cm">
+          </td>
+        </tr>
+        <tr>
+          <th>Gobelet</th>
+          <td>
+            <input type="number" class="form-control" name="gobelet">
+          </td>
+        </tr>
+        <tr>
+          <th>Jouet en plastique</th>
+          <td>
+            <input type="number" class="form-control" name="jouetEnPlastique">
+          </td>
+        </tr>
+        <tr>
+          <th>Matériel de pêche</th>
+          <td>
+            <input type="number" class="form-control" name="materielDePeche">
+          </td>
+        </tr>
+        <tr>
+          <th>Média filtrant</th>
+          <td>
+            <input type="number" class="form-control" name="mediaFiltrant">
+          </td>
+        </tr>
+        <tr>
+          <th>Mousse</th>
+          <td>
+            <input type="number" class="form-control" name="mousse">
+          </td>
+        </tr>
+        <tr>
+          <th>Paille en plastique</th>
+          <td>
+            <input type="number" class="form-control" name="pailleEnPlastique">
+          </td>
+        </tr>
+        <tr>
+          <th>Protection hygiénique</th>
+          <td>
+            <input type="number" class="form-control" name="protectionHygienique">
+          </td>
+        </tr>
+        <tr>
+          <th>Sac plastique</th>
+          <td>
+            <input type="number" class="form-control" name="sacPlastique">
+          </td>
+        </tr>
+        <tr>
+          <th>Vaisselle en plastique</th>
+          <td>
+            <input type="number" class="form-control" name="vaisselleEnPlastique">
+          </td>
+        </tr>
+        <tr>
+          <th>Vêtement</th>
+          <td>
+            <input type="number" class="form-control" name="vetement">
+          </td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
   </div>
   <div class="col-6">
-    <table class="table col-6">
+    <table class="table">
       <thead>
         <tr>
           <th></th>
@@ -381,6 +616,25 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="col-6">
+    <label for="nbDechetSpecifique" class="form-label">Nombre de déchets spécifiques</label>
+    <%- popHelp(help.nbDechetSpecifique) %>
+    <select class="form-select" name="nbDechetSpecifique" id="nbDechetSpecifique">
+      <option value="0" selected> 0 </option>
+      <option value="1"> 1 </option>
+      <option value="2"> 2 </option>
+      <option value="3"> 3 </option>
+      <option value="4"> 4 </option>
+      <option value="5"> 5 </option>
+      <option value="6"> 6 </option>
+      <option value="7"> 7 </option>
+      <option value="8"> 8 </option>
+      <option value="9"> 9 </option>
+      <option value="10"> 10 </option>
+    </select>
+  </div>
+  <div class="row" id="dechetSpecifique">
   </div>
   <button class="btn btn-primary" type="submit">Soumission</button>
 </form>

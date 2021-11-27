@@ -35,6 +35,28 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   console.log(req.body)
+  let volEstDSL = []
+  let provenanceDSL = []
+  for(var i = 1; i < parseInt(req.body.nbDechetSpecifique) + 1; i++) {
+    if (!(req.body['volEstDS'+i] === undefined)) {
+      volEstDSL[i-1] = req.body['volEstDS'+i]
+    } else {
+      volEstDSL[i-1] = ""
+    }
+    if (!(req.body['provenanceDSL'+i] === undefined)) {
+      provenanceDSL[i-1] = req.body['provenanceDSL'+i]
+    } else {
+      provenanceDSL[i-1] = ""
+    }
+  }
+  let volEstDS = volEstDSL.join(';')
+  let provenanceDS = provenanceDSL.join(';')
+  let nomDS = req.body.nomDS === undefined ? '' : req.body.nomDS.join(';')
+  let volumeDS = req.body.volumeDS === undefined ? '' : req.body.volumeDS.join(';')
+  let descDS = req.body.descDS === undefined ? '' : req.body.descDS.join(';')
+  let commentaireDS = req.body.commentaireDS === undefined ? '' : req.body.commentaireDS.join(';')
+  let poidsDS = req.body.poidsDS === undefined ? '' : req.body.poidsDS.join(';')
+  let nombreDS = req.body.nombreDS === undefined ? '' : req.body.nombreDS.join(';')
   let dateEvenement = new Date(req.body.dateEvenement)
   let createdTime = new Date(Date.now())
   let dureeEvenement = parseInt(req.body.dureeEvenement.slice(0,2))*60 + parseInt(req.body.dureeEvenement.slice(3,5))
@@ -60,7 +82,7 @@ app.post('/', (req, res) => {
     frequentation: req.body.frequentation,
     quantiteDechet: req.body.quantiteDechet,
     pourquoiIlEnReste,
-    Commentaire: req.body.Commentaire,
+    commentaire: req.body.commentaire,
     poidsPlastiqueNonRecy: req.body.poidsPlastiqueNonRecy,
     volumePlastiqueNonRecy: req.body.volumePlastiqueNonRecy,
     poidsPlastiqueRecy: req.body.poidsPlastiqueRecy,
@@ -79,6 +101,47 @@ app.post('/', (req, res) => {
     volumeCaoutchouc: req.body.volumeCaoutchouc,
     poidsAutre: req.body.poidsAutre,
     volumeAutre: req.body.volumeAutre,
+    bouteilleEnPlastique: req.body.bouteilleEnPlastique,
+    bouteilleEnVerre: req.body.bouteilleEnVerre,
+    canetteEnMetal: req.body.canetteEnMetal,
+    masque: req.body.masque,
+    megot: req.body.megot,
+    pneu: req.body.pneu,
+    appareilMenager: req.body.appareilMenager,
+    ballonDeBaudruche: req.body.ballonDeBaudruche,
+    batonDeSucette: req.body.batonDeSucette,
+    batterie: req.body.batterie,
+    boiteDAppats: req.body.boiteDAppats,
+    boiteDeMedicaments: req.body.boiteDeMedicaments,
+    bouchonEnPlastique: req.body.bouchonEnPlastique,
+    briquet: req.body.briquet,
+    capsule: req.body.capsule,
+    cartoucheDeChasse: req.body.cartoucheDeChasse,
+    chaussure: req.body.chaussure,
+    contenantAlimentaire: req.body.contenantAlimentaire,
+    cordagesEmmeles: req.body.cordagesEmmeles,
+    cordageEtFicelle: req.body.cordageEtFicelle,
+    cotonTige: req.body.cotonTige,
+    filetInf50cm: req.body.filetInf50cm,
+    filetSup50cm: req.body.filetSup50cm,
+    gobelet: req.body.gobelet,
+    jouetEnPlastique: req.body.jouetEnPlastique,
+    materielDePeche: req.body.materielDePeche,
+    mediaFiltrant: req.body.mediaFiltrant,
+    mousse: req.body.mousse,
+    pailleEnPlastique: req.body.pailleEnPlastique,
+    protectionHygienique: req.body.protectionHygienique,
+    sacPlastique: req.body.sacPlastique,
+    vaisselleEnPlastique: req.body.vaisselleEnPlastique,
+    vetement: req.body.vetement,
+    nomDS,
+    volumeDS,
+    descDS,
+    volEstDS,
+    provenanceDS,
+    commentaireDS,
+    poidsDS,
+    nombreDS
   })
   depoll.save()
     .then(() => {
