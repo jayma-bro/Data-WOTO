@@ -5,6 +5,12 @@ var dechetSpecifique = document.querySelector('#dechetSpecifique')
 var niv1 = document.querySelector('#niv1')
 var niv2 = document.querySelector('#niv2')
 var niv3 = document.querySelector('#niv3')
+var autreCrew = document.querySelector('#AutreCrew')
+var autreActivite = document.querySelector('#AutreActivite')
+var autreEncore = document.querySelector('#AutreEncore')
+var autreCrewInput = document.querySelector('#autreCrewInput')
+var autreActiviteInput = document.querySelector('#autreActiviteInput')
+var autreEncoreInput = document.querySelector('#autreEncoreInput')
 
 var dechSpeN = function(n) {
   var numDS = '<h5>Déchet spécifique '+ n +'</h5>' +
@@ -96,6 +102,30 @@ var nivIndicateur = function(e) {
   }
 }
 
+var showAutreCrew = function(e) {
+  if(e.explicitOriginalTarget.checked) {
+      autreCrewInput.className = "show"
+  } else {
+      autreCrewInput.className = "hide"
+  }
+}
+
+var showAutreActivite = function(e) {
+  if(e.explicitOriginalTarget.checked) {
+      autreActiviteInput.className = "show"
+  } else {
+      autreActiviteInput.className = "hide"
+  }
+}
+
+var showAutreEncore = function(e) {
+  if(e.explicitOriginalTarget.checked) {
+      autreEncoreInput.className = "show"
+  } else {
+      autreEncoreInput.className = "hide"
+  }
+}
+
 var showDS = function(e) {
   var cumDS = ""
   for(var i = 1; i < parseInt(e.target.value) + 1; i++) {
@@ -105,6 +135,8 @@ var showDS = function(e) {
   console.log(e.target.value)
 }
 
-
+autreCrew.addEventListener('change', showAutreCrew)
+autreActivite.addEventListener('change', showAutreActivite)
+autreEncore.addEventListener('change', showAutreEncore)
 indicateur.addEventListener('input', nivIndicateur)
 nbDS.addEventListener('input', showDS)

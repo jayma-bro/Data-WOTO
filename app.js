@@ -35,35 +35,58 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   console.log(req.body)
-  let volEstDSL = []
-  let provenanceDSL = []
-  for(var i = 1; i < parseInt(req.body.nbDechetSpecifique) + 1; i++) {
-    if (!(req.body['volEstDS'+i] === undefined)) {
-      volEstDSL[i-1] = req.body['volEstDS'+i]
-    } else {
-      volEstDSL[i-1] = ""
+  let volEstDS = null
+  let provenanceDS = null
+  let nomDS = null
+  let volumeDS = null
+  let descDS = null
+  let commentaireDS = null
+  let poidsDS = null
+  let nombreDS = null
+  if (parseInt(req.body.nbDechetSpecifique) > 1) {
+    let volEstDSL = []
+    let provenanceDSL = []
+    for(var i = 1; i < parseInt(req.body.nbDechetSpecifique) + 1; i++) {
+      if (!(req.body['volEstDS'+i] === undefined)) {
+        volEstDSL[i-1] = req.body['volEstDS'+i]
+      } else {
+        volEstDSL[i-1] = null
+      }
+      if (!(req.body['provenanceDS'+i] === undefined)) {
+        if (typeof(req.body['provenanceDS'+i]) == 'string') {
+          provenanceDSL[i-1] = req.body['provenanceDS'+i]
+        } else {
+          provenanceDSL[i-1] = req.body['provenanceDS'+i].join(',')
+        }
+      } else {
+        provenanceDSL[i-1] = null
+      }
     }
-    if (!(req.body['provenanceDSL'+i] === undefined)) {
-      provenanceDSL[i-1] = req.body['provenanceDSL'+i]
-    } else {
-      provenanceDSL[i-1] = ""
-    }
+    volEstDS = volEstDSL.join(';')
+    provenanceDS = provenanceDSL.join(';')
+    nomDS = req.body.nomDS.join(';')
+    volumeDS = req.body.volumeDS.join(';')
+    descDS = req.body.descDS.join(';')
+    commentaireDS = req.body.commentaireDS.join(';')
+    poidsDS = req.body.poidsDS.join(';')
+    nombreDS = req.body.nombreDS.join(';')
+  } else if (parseInt(req.body.nbDechetSpecifique) == 1) {
+    volEstDS = req.body.volEstDS1 === undefined ? null : req.body.volEstDS1
+    provenanceDS = req.body.provenanceDS1 === undefined ? null : req.body.provenanceDS1.join(',')
+    nomDS = req.body.nomDS === undefined ? null : req.body.nomDS
+    volumeDS = req.body.volumeDS === undefined ? null : req.body.volumeDS
+    descDS = req.body.descDS === undefined ? null : req.body.descDS
+    commentaireDS = req.body.commentaireDS === undefined ? '' : req.body.commentaireDS
+    poidsDS = req.body.poidsDS === undefined ? null : req.body.poidsDS
+    nombreDS = req.body.nombreDS === undefined ? null : req.body.nombreDS
   }
-  let volEstDS = volEstDSL.join(';')
-  let provenanceDS = provenanceDSL.join(';')
-  let nomDS = req.body.nomDS === undefined ? '' : req.body.nomDS.join(';')
-  let volumeDS = req.body.volumeDS === undefined ? '' : req.body.volumeDS.join(';')
-  let descDS = req.body.descDS === undefined ? '' : req.body.descDS.join(';')
-  let commentaireDS = req.body.commentaireDS === undefined ? '' : req.body.commentaireDS.join(';')
-  let poidsDS = req.body.poidsDS === undefined ? '' : req.body.poidsDS.join(';')
-  let nombreDS = req.body.nombreDS === undefined ? '' : req.body.nombreDS.join(';')
   let dateEvenement = new Date(req.body.dateEvenement)
   let createdTime = new Date(Date.now())
   let dureeEvenement = parseInt(req.body.dureeEvenement.slice(0,2))*60 + parseInt(req.body.dureeEvenement.slice(3,5))
-  let crew = req.body.crew === undefined ? '' : req.body.crew.join(';')
-  let typesDechet = req.body.typesDechet === undefined ? '' : req.body.typesDechet.join(';')
-  let activites = req.body.activites === undefined ? '' : req.body.activites.join(';')
-  let pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? '' : req.body.pourquoiIlEnReste.join(';')
+  let crew = req.body.crew === undefined ? null : (typeof(req.body.crew) == 'string' ? req.body.crew : req.body.crew.join(';'))
+  let typesDechet = req.body.typesDechet === undefined ? null : (typeof(req.body.typesDechet) == 'string' ? req.body.typesDechet : req.body.typesDechet.join(';'))
+  let activites = req.body.activites === undefined ? null : (typeof(req.body.activites) == 'string' ? req.body.activites : req.body.activites.join(';'))
+  let pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? null : (typeof(req.body.pourquoiIlEnReste) == 'string' ? req.body.pourquoiIlEnReste : req.body.pourquoiIlEnReste.join(';'))
   let depoll = new Depoll({
     createdTime,
     lieu: req.body.lieu,

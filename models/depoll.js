@@ -71,13 +71,13 @@ const depollSchema = mongoose.Schema({
   vaisselleEnPlastique: Number,
   vetement: Number,
   nomDS: String,
-  volumeDS: Number,
+  volumeDS: String,
   descDS: String,
   volEstDS: String,
   provenanceDS: String,
   commentaireDS: String,
-  poidsDS: Number,
-  nombreDS: Number
+  poidsDS: String,
+  nombreDS: String
 });
 
 module.exports = mongoose.model('Depoll', depollSchema);
