@@ -10,3 +10,9 @@
 .hide {
   display: none;
 }
+
+#map {
+  height: 50vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

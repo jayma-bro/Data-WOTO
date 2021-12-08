@@ -132,7 +132,6 @@ var showDS = function(e) {
     cumDS += dechSpeN(i)
   }
   dechetSpecifique.innerHTML = cumDS
-  console.log(e.target.value)
 }
 
 autreCrew.addEventListener('change', showAutreCrew)

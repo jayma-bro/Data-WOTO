@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 
 const depollSchema = mongoose.Schema({
   createdTime: { type: Date, required: true },
+  relecture: { type: Boolean, required: true},
   lieu: { type: String, required: true },
   ville: { type: String},
   dateEvenement: { type: Date, required: true },

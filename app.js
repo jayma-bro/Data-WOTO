@@ -34,7 +34,6 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  console.log(req.body)
   let volEstDS = null
   let provenanceDS = null
   let nomDS = null
@@ -89,6 +88,7 @@ app.post('/', (req, res) => {
   let pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? null : (typeof(req.body.pourquoiIlEnReste) == 'string' ? req.body.pourquoiIlEnReste : req.body.pourquoiIlEnReste.join(';'))
   let depoll = new Depoll({
     createdTime,
+    relecture: false,
     lieu: req.body.lieu,
     ville: req.body.ville,
     dateEvenement,
