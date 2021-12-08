@@ -46,20 +46,8 @@ app.post('/', (req, res) => {
     let volEstDSL = []
     let provenanceDSL = []
     for(var i = 1; i < parseInt(req.body.nbDechetSpecifique) + 1; i++) {
-      if (!(req.body['volEstDS'+i] === undefined)) {
-        volEstDSL[i-1] = req.body['volEstDS'+i]
-      } else {
-        volEstDSL[i-1] = null
-      }
-      if (!(req.body['provenanceDS'+i] === undefined)) {
-        if (typeof(req.body['provenanceDS'+i]) == 'string') {
-          provenanceDSL[i-1] = req.body['provenanceDS'+i]
-        } else {
-          provenanceDSL[i-1] = req.body['provenanceDS'+i].join(',')
-        }
-      } else {
-        provenanceDSL[i-1] = null
-      }
+      volEstDSL[i-1] = req.body['volEstDS'+i] === undefined ? null : req.body['volEstDS'+i]
+      provenanceDSL[i-1] = req.body['provenanceDS'+i] === undefined ? null : (typeof(req.body['provenanceDS'+i]) == 'string' ? req.body['provenanceDS'+i] : req.body['provenanceDS'+i].join(','))
     }
     volEstDS = volEstDSL.join(';')
     provenanceDS = provenanceDSL.join(';')
@@ -71,7 +59,7 @@ app.post('/', (req, res) => {
     nombreDS = req.body.nombreDS.join(';')
   } else if (parseInt(req.body.nbDechetSpecifique) == 1) {
     volEstDS = req.body.volEstDS1 === undefined ? null : req.body.volEstDS1
-    provenanceDS = req.body.provenanceDS1 === undefined ? null : req.body.provenanceDS1.join(',')
+    provenanceDS = req.body.provenanceDS1 === undefined ? null : (typeof(req.body.provenanceDS1) == 'string' ? req.body.provenanceDS1 : req.body.provenanceDS1.join(';'))
     nomDS = req.body.nomDS === undefined ? null : req.body.nomDS
     volumeDS = req.body.volumeDS === undefined ? null : req.body.volumeDS
     descDS = req.body.descDS === undefined ? null : req.body.descDS
@@ -175,6 +163,12 @@ app.post('/', (req, res) => {
       // res.status(400).render('pages/index', {help, popHelp})
       res.status(400).json({error})
     });
+})
+
+app.get('/api/stat-general', (req, res) => {
+  Depoll.find()
+  .then(depoll => res.status(200).json(depoll))
+  .catch(error => res.status(400).json({ error }));
 })
 
 module.exports = app

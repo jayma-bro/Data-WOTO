@@ -9,7 +9,7 @@ class LeafletMap {
   async load (element) {
     return new Promise((resolve, reject) => {
       $script('https://unpkg.com/leaflet@1.7.1/dist/leaflet.js', () => {
-        this.map = L.map(element).setView([51.505, -0.09], 13)
+        this.map = L.map(element).setView([46.783, 2.667], 5)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
         }).addTo(this.map);
