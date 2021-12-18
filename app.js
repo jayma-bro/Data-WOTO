@@ -26,7 +26,12 @@ app.set('view engine', 'ejs')
 app.use('/assets', express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 
 // Routes
 app.get('/', (req, res) => {
@@ -167,7 +172,16 @@ app.post('/', (req, res) => {
 
 app.get('/api/stat-general', (req, res) => {
   Depoll.find()
-  .then(depoll => res.status(200).json(depoll))
+  .then(depolls => {
+    let render = {'poidsTotal':0, 'volumeTotal':0, 'surfaceTotal':0}
+    for (let depoll of depolls) {
+      render.poidsTotal += depoll.poidsPlastiqueNonRecy + depoll.poidsPlastiqueRecy + depoll.poidsMetal + depoll.poidsVerreEtCeramique + depoll.poidsTextile + depoll.poidsPapierEtCarton + depoll.poidsBois + depoll.poidsCaoutchouc + depoll.poidsAutre
+      render.volumeTotal += depoll.volumePlastiqueNonRecy + depoll.volumePlastiqueRecy + depoll.volumeMetal + depoll.volumeVerreEtCeramique + depoll.volumeTextile + depoll.volumePapierEtCarton + depoll.volumeBois + depoll.volumeCaoutchouc + depoll.volumeAutre
+      render.surfaceTotal += depoll.surface
+    }
+    render.surfaceTotal = Math.round(render.surfaceTotal)
+    return res.status(200).json(render)
+  })
   .catch(error => res.status(400).json({ error }));
 })
 
