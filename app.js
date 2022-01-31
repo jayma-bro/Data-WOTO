@@ -5,6 +5,7 @@ let Depoll = require('./models/depoll')
 let help = require('./views/json/help.json')
 let popHelp = require('./models/popHelp')
 const dotenv = require('dotenv')
+const path = require('path')
 
 let app = express()
 
@@ -34,11 +35,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.get('/', (req, res) => {
+app.get('/form', (req, res) => {
   res.render('pages/index', {help, popHelp})
 })
 
-app.post('/', (req, res) => {
+app.post('/form', (req, res) => {
   let volEstDS = null
   let provenanceDS = null
   let nomDS = null
@@ -183,6 +184,11 @@ app.get('/api/stat-general', (req, res) => {
     return res.status(200).json(render)
   })
   .catch(error => res.status(400).json({ error }));
+})
+
+app.use(express.static(path.join(__dirname, './dist')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './dist'))
 })
 
 module.exports = app
