@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
+import 'leaflet/dist/leaflet.css'
 
 Vue.use(VueResource)
 

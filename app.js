@@ -35,11 +35,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.get('/form', (req, res) => {
+app.get('/formold', (req, res) => {
   res.render('pages/index', {help, popHelp})
 })
 
-app.post('/form', (req, res) => {
+app.post('/formold', (req, res) => {
   let volEstDS = null
   let provenanceDS = null
   let nomDS = null
