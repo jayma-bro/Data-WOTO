@@ -11,7 +11,7 @@ let app = express()
 
 dotenv.config()
 
-mongoose.connect(process.env.DB_PREFIX + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST,
+mongoose.connect(process.env.DB_PREFIX + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + '/' + process.env.DB_COLLEC + '?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -39,7 +39,7 @@ app.get('/formold', (req, res) => {
   res.render('pages/index', {help, popHelp})
 })
 
-app.post('/formold', (req, res) => {
+app.post('/api/form', (req, res) => {
   let volEstDS = null
   let provenanceDS = null
   let nomDS = null
@@ -48,14 +48,13 @@ app.post('/formold', (req, res) => {
   let commentaireDS = null
   let poidsDS = null
   let nombreDS = null
-  if (parseInt(req.body.nbDechetSpecifique) > 1) {
+  if (parseInt(req.body.nbDechetSpecifique) > 0) {
     let volEstDSL = []
     let provenanceDSL = []
-    for(var i = 1; i < parseInt(req.body.nbDechetSpecifique) + 1; i++) {
-      volEstDSL[i-1] = req.body['volEstDS'+i] === undefined ? null : req.body['volEstDS'+i]
-      provenanceDSL[i-1] = req.body['provenanceDS'+i] === undefined ? null : (typeof(req.body['provenanceDS'+i]) == 'string' ? req.body['provenanceDS'+i] : req.body['provenanceDS'+i].join(','))
+    for(let i = 0; i < parseInt(req.body.nbDechetSpecifique); i++) {
+      provenanceDSL[i] = req.body.provenanceDS[i].join(',')
     }
-    volEstDS = volEstDSL.join(';')
+    volEstDS = req.body.volEstDS.join(';')
     provenanceDS = provenanceDSL.join(';')
     nomDS = req.body.nomDS.join(';')
     volumeDS = req.body.volumeDS.join(';')
@@ -63,15 +62,6 @@ app.post('/formold', (req, res) => {
     commentaireDS = req.body.commentaireDS.join(';')
     poidsDS = req.body.poidsDS.join(';')
     nombreDS = req.body.nombreDS.join(';')
-  } else if (parseInt(req.body.nbDechetSpecifique) == 1) {
-    volEstDS = req.body.volEstDS1 === undefined ? null : req.body.volEstDS1
-    provenanceDS = req.body.provenanceDS1 === undefined ? null : (typeof(req.body.provenanceDS1) == 'string' ? req.body.provenanceDS1 : req.body.provenanceDS1.join(';'))
-    nomDS = req.body.nomDS === undefined ? null : req.body.nomDS
-    volumeDS = req.body.volumeDS === undefined ? null : req.body.volumeDS
-    descDS = req.body.descDS === undefined ? null : req.body.descDS
-    commentaireDS = req.body.commentaireDS === undefined ? '' : req.body.commentaireDS
-    poidsDS = req.body.poidsDS === undefined ? null : req.body.poidsDS
-    nombreDS = req.body.nombreDS === undefined ? null : req.body.nombreDS
   }
   let dateEvenement = new Date(req.body.dateEvenement)
   let createdTime = new Date(Date.now())

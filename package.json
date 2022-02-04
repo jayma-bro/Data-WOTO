@@ -1,16 +1,16 @@
 {
-  "name": "formulaire",
+  "name": "Data-WOTO",
   "version": "1.0.0",
-  "description": "",
+  "description": "the Data-WOTO website source currently on https://data-woto.herokuapp.com/",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server",
     "start": "node server",
     "dev:client": "npm run dev --prefix ./client",
-    "build:client": "npm run build --prefix ./client"
+    "build": "npm run build --prefix ./client"
   },
-  "author": "Jayma Brochier",
+  "author": "Jayma Brochier <jayma.brochier@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",

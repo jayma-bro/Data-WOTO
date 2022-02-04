@@ -1,0 +1,202 @@
+{
+  "lieu": {
+    "name": "lieu",
+    "req": true,
+    "label": "Nom du lieu",
+    "help": "Le nom qui convient le mieux au lieu"
+  }, "ville": {
+    "name": "ville",
+    "req": false,
+    "label": "Agglomération ou Commune",
+    "help": "Le nom de la ville, village ou de l'aglomération où a eu lieu l'evenement"
+  }, "dateEvenement": {
+    "name": "dateEvenement",
+    "req": true,
+    "label": "Date",
+    "help": "La date de l'evenement",
+    "type": "date"
+  }, "dureeEvenement": {
+    "name": "dureeEvenement",
+    "req": true,
+    "label": "Durée de l'Evenement",
+    "help": "Entre le début de la collecte et la fin de la caractérisation \n (note : dans le cas d'une carac. précise et tres longue, ne pas la prendre en compte dans le decompte)",
+    "type": "time"
+  }, "nombreParticipantsWings": {
+    "name": "nombreParticipantsWings",
+    "req": true,
+    "label": "Nombre de membre Wings",
+    "help": "nombreParticipantsWings",
+    "type": "number"
+  }, "nombreParticipantsExterne": {
+    "name": "nombreParticipantsExterne",
+    "req": true,
+    "label": "Nombre de participants Externe",
+    "help": "nombreParticipantsExterne",
+    "type": "number"
+  }, "latitude": {
+    "name": "latitude",
+    "req": true,
+    "label": "latitude",
+    "help": "latitude",
+    "type": "number",
+    "step": "0.0000001"
+  }, "longitude": {
+    "name": "longitude",
+    "req": true,
+    "label": "longitude",
+    "help": "longitude",
+    "type": "number",
+    "step": "0.0000001"
+  }, "crew": {
+    "name": "crew",
+    "req": true,
+    "label": "Crew de dépoll",
+    "help": "crew faut le réviser"
+  }, "autresStructures": {
+    "name": "autresStructures",
+    "req": false,
+    "label": "Autres structures participantes",
+    "help": "autresStructures"
+  }, "longueur": {
+    "name": "longueur",
+    "req": false,
+    "label": "Longueur de la zone",
+    "help": "longueur",
+    "type": "number",
+    "step": "0.1"
+  }, "surface": {
+    "name": "surface",
+    "req": true,
+    "label": "Surface de la zone",
+    "help": "surface",
+    "type": "number",
+    "step": "0.1"
+  }, "typeLieu": {
+    "name": "typeLieu",
+    "req": true,
+    "label": "Type de lieu",
+    "help": "typeLieu",
+    "type": "select",
+    "groups": ["littoral-Port-Zones humides", "Estuaire", "Mer-Océan", "Lacs-Cours d'eau-Marais-Zones humides", "Zone urbaine", "Zone rurale", "Montagne"],
+    "values": {
+      "littoral-Port-Zones humides": ["Rocher (naturel)", "Plage (sable, galets, gravillons)", "Port", "Ouvrages côtiers (digues, enrochements, ...)"],
+      "Estuaire": ["Berges", "Port", "Ouvrages (digues, ...)", "Plage", "Lit"],
+      "Mer-Océan": ["Mer-Océan"],
+      "Lacs-Cours d'eau-Marais-Zones humides": ["Plan d'eau - lit", "Plage (sable, galets, gravillons)", "Berges", "Port - barrage - écluse"],
+      "Zone urbaine": ["Voie de chemin de fer", "Infrastructure routières (Routes, rues, avn, blvd, place ...)", "Parcs urbains - Jardins publics"],
+      "Zone rurale": ["Voie de chemin de fer", "Forêt - bois", "Champs - pairies - landes - garrigues - maquis", "Chemin de randonnée - vtt - equestre", "Autre espaces naturels"],
+      "Montagne": ["Forêt - bois", "Chemin de randonnée - vtt - equestre", "Piste de ski", "Station de ski", "Autre espaces naturels"]
+    }
+  }, "typesDechet": {
+    "name": "typesDechet",
+    "req": false,
+    "label": "Type(s) de déchets",
+    "help": "typesDechet",
+    "type": "checkbox",
+    "value": ["Echoués", "Présents au sol", "Enfouis", "Flottants", "Sur les fonds", "Indifférenciés"]
+  }, "activites": {
+    "name": "activites",
+    "req": false,
+    "label": "Activités à proximité",
+    "help": "activites",
+    "type": "checkbox",
+    "value": ["Pêche local", "Pêche industriel (chalutier...)", "Activités Commerciales", "Tourisme", "Activités portuaires", "Plaisance", "Activités industrielles", "Industrie portuaire", "Activités nautiques (Plongée ...)", "Conchyliculture", "Restauration/Bar", "Autre activité"]
+  }, "frequentation": {
+    "name": "frequentation",
+    "req": false,
+    "label": "Fréquentation humaine",
+    "help": "frequentation",
+    "type": "radio",
+    "value": ["Sauvage", "Peu Fréquentée", "Fréquentée", "Très Fréquentée"]
+  }, "quantiteDechet": {
+    "name": "quantiteDechet",
+    "req": false,
+    "label": "Quantité déchet restante",
+    "help": "quantiteDechet",
+    "type": "radio",
+    "value": ["Plus de la moitié", "Beaucoup", "Peu", "Presque rien"]
+  }, "pourquoiIlEnReste": {
+    "name": "pourquoiIlEnReste",
+    "req": false,
+    "label": "S'il en reste, pourquoi ?",
+    "help": "pourquoiIlEnReste",
+    "type": "checkbox",
+    "value": ["Inaccessibles/Bloqués", "Trop petits et nombreux", "Plus assez de temps", "Autre raison"]
+  }, "commentaire": {
+    "name": "commentaire",
+    "req": false,
+    "label": "Commentaire",
+    "help": "commentaire",
+    "type": "textarea"
+  }, "DechetIndicateur": {
+    "name": "DechetIndicateur",
+    "req": false,
+    "label": "Déchets indicateurs (ReMed)",
+    "help": "DechetIndicateur",
+    "type": "select",
+    "valueSel": ["Aucun", "Niveau 1", "Niveau 2"],
+    "value1": [["bouteilleEnPlastique", "Bouteille en plastique"], ["bouteilleEnVerre", "Bouteille en verre"], ["canetteEnMetal", "Canette en métal"], ["masque", "Masque (chirurgical)"], ["megot", "Megot"], ["pneu", "Pneu"]],
+    "value2": [["appareilMenager", "Appareil ménager"], ["ballonDeBaudruche", "Ballon de baudruche"], ["batonDeSucette", "Bâton de sucette"], ["batterie", "Batterie"], ["boiteDAppats", "Boîte d'appats"], ["boiteDeMedicaments", "Boîte de medicaments"], ["bouchonEnPlastique", "Bouchon en plastique"], ["briquet", "Briquet"], ["capsule", "Capsule"], ["cartoucheDeChasse", "Cartouche de chasse"], ["chaussure", "Chaussure"], ["contenantAlimentaire", "Contenant alimentaire"],
+    ["cordagesEmmeles", "Cordages emmêlés"], ["cordageEtFicelle", "Cordage et ficelle"], ["cotonTige", "Coton-tige"], ["filetInf50cm", "Filet (<50 cm)"], ["filetSup50cm", "Filet (>50 cm)"], ["gobelet", "Gobelet"], ["jouetEnPlastique", "Jouet en plastique"], ["materielDePeche", "Matériel de pêche"], ["mediaFiltrant", "Média filtrant"], ["mousse", "Mousse"], ["pailleEnPlastique", "Paille en plastique"], ["protectionHygienique", "Protection hygiénique"], ["sacPlastique", "Sac plastique"], ["vaisselleEnPlastique", "Vaisselle en plastique"], ["vetement", "Vêtement"]]
+  }, "DechetQuantitatif": {
+    "value": [{"name": "PlastiqueNonRecy", "help": "PlastiqueNonRecy", "label": "Plastique non recyclable"}, {"name": "PlastiqueRecy", "help": "PlastiqueRecy", "label": "Plastique recyclable"}, {"name": "Metal", "help": "Metal", "label": "Métal"}, {"name": "VerreEtCeramique", "help": "VerreEtCeramique", "label": "Verre et Céramique"}, {"name": "Textile", "help": "Textile", "label": "Textile"}, {"name": "PapierEtCarton", "help": "PapierEtCarton", "label": "Papier et Carton"},
+      {"name": "Bois", "help": "Bois", "label": "Bois"}, {"name": "Caoutchouc", "help": "Caoutchouc", "label": "Caoutchouc"}, {"name": "Autre", "help": "Autre", "label": "Autre"}]
+  }, "nbDechetSpecifique": {
+    "name": "nbDechetSpecifique",
+    "req": false,
+    "label": "Nombre de déchets spécifiques",
+    "help": "nbDechetSpecifique",
+    "type": "select",
+    "maxValue": 10
+  }, "DechetSpecifique": {
+    "nomDS": {
+      "name": "nomDS",
+      "req": true,
+      "label": "Nom du Dechet",
+      "help": "nomDS"
+    }, "volumeDS": {
+      "name": "volumeDS",
+      "req": true,
+      "label": "Volume du Dechet",
+      "help": "volumeDS"
+    }, "descDS": {
+      "name": "descDS",
+      "req": false,
+      "label": "Description du Dechet",
+      "help": "descDS"
+    }, "volEstDS": {
+      "name": "volEstDS",
+      "req": true,
+      "label": "Volume Estimé",
+      "help": "volEstDS",
+      "type": "radio",
+      "value": ["A l’œil", "Estimation des sac", "Précisément"]
+    }, "provenanceDS": {
+      "name": "provenanceDS",
+      "req": false,
+      "label": "Provenance principal du déchet",
+      "help": "provenanceDS",
+      "type": "checkbox",
+      "value": ["Posé au sol", "De la mer", "Crue de rivière", "Autre Provenance"]
+    }, "commentaireDS": {
+      "name": "commentaireDS",
+      "req": false,
+      "label": "Commentaire",
+      "help": "commentaireDS",
+      "type": "textarea"
+    }, "poidsDS": {
+      "name": "poidsDS",
+      "req": false,
+      "label": "Poids",
+      "help": "poidsDS",
+      "type": "number",
+      "step": 0.0001
+    }, "nombreDS": {
+      "name": "nombreDS",
+      "req": false,
+      "label": "Nombre d'objet",
+      "help": "nombreDS",
+      "type": "number"
+    }
+  }
+}
