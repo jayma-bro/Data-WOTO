@@ -2,8 +2,6 @@ let express = require('express')
 let bodyParser = require('body-parser')
 let mongoose = require('mongoose')
 let Depoll = require('./models/depoll')
-let help = require('./views/json/help.json')
-let popHelp = require('./models/popHelp')
 const dotenv = require('dotenv')
 const path = require('path')
 
@@ -20,25 +18,16 @@ mongoose.connect(process.env.DB_PREFIX + process.env.DB_USER + ':' + process.env
   .catch(() => console.log('Connexion à MongoDB échouée !'))
 
 
-// Moteur de template
-app.set('view engine', 'ejs')
-
 // Middleware
-app.use('/assets', express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
 
 // Routes
-app.get('/formold', (req, res) => {
-  res.render('pages/index', {help, popHelp})
-})
-
 app.post('/api/form', (req, res) => {
   let volEstDS = null
   let provenanceDS = null
@@ -162,6 +151,7 @@ app.post('/api/form', (req, res) => {
 })
 
 app.get('/api/stat-general', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   Depoll.find()
   .then(depolls => {
     let render = {'poidsTotal':0, 'volumeTotal':0, 'surfaceTotal':0}
