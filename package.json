@@ -1,6 +1,10 @@
 {
   "name": "Data-WOTO",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "description": "the Data-WOTO website source currently on https://data-woto.herokuapp.com/",
   "main": "index.js",
   "scripts": {
