@@ -51,7 +51,6 @@
         </div>
         <div class="col-lg-6">
           <label for="crew" class="form-label">Crew de dépoll</label>
-          <pop-help :content="help.crew"></pop-help>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="crew" id="Kraken" value="Kraken" v-model="sub.crew">
             <label class="form-check-label" for="Kraken">Kraken</label>
@@ -118,7 +117,7 @@
       <div class="row">
         <div class="col-lg-6">
           <label for="commentaire" class="form-label">Commentaire</label>
-          <pop-help :content="help.commentaire"></pop-help>
+          <pop-help :content="formInfo.commentaire.help"></pop-help>
           <textarea name="commentaire" class="form-control" id="commentaire" v-model.lazy="sub.commentaire"></textarea>
         </div>
         <h3>Caractérisation des Déchets</h3>
@@ -210,7 +209,6 @@
 import PopHelp from './PopHelp.vue'
 import InputType from './InputType.vue'
 import DechetSpecifique from './DechetSpecifique.vue'
-import help from '@/assets/json/help.json'
 import formInfo from '@/assets/json/formInfo.json'
 import { latLng, icon } from "leaflet"
 import { LMap, LTileLayer, LMarker, LTooltip } from 'vue2-leaflet'
@@ -227,7 +225,6 @@ export default {
     LTooltip
   }, data () {
     return {
-      help,
       formInfo,
       position: {},
       mapAtt: {
@@ -350,7 +347,7 @@ export default {
     }, range(size, startAt = 0) {
     return [...Array(size).keys()].map(i => i + startAt);
     }, submission() {
-      this.$http.post('/api/form', this.sub).then(
+      this.$http.post('api/form', this.sub).then(
         (response) => {
           this.$router.push({ name: 'FilledForm' })
         }, (response) => {

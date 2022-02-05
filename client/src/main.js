@@ -7,6 +7,7 @@ import router from './router'
 import 'leaflet/dist/leaflet.css'
 
 Vue.use(VueResource)
+Vue.http.options.root = process.env.NODE_ROOT
 
 Vue.config.productionTip = false
 
