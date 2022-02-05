@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build_local": "node build/build.js"
+    "build:local": "node build/build.js"
   },
   "dependencies": {
     "leaflet": "^1.7.1",
