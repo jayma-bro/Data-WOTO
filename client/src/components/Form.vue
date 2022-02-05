@@ -53,6 +53,7 @@
       <div class="row bigblock d-flex justify-content-between">
         <div class="col-xl-3 col-md-6">
           <h5>{{ formInfo.crew.label }}</h5>
+          <pop-help :content="formInfo.crew.help"></pop-help>
           <div class="">
             <label for="crewType">Type</label>
             <div class="form-check" v-for="val of formInfo.crew.crewType">

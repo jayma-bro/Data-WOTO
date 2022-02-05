@@ -51,7 +51,7 @@
     "name": "crew",
     "req": true,
     "label": "Crew de dépoll",
-    "help": "crew faut le réviser",
+    "help": "sélectionnez le type de crew, puis son nom dans la liste (pensez à valider la sélection), s'il n'y est pas vous pouvez le rajouter ! bien sûr, vous pouvez en sélectionner plusieurs",
     "crewType": [{"name": "Antenne local", "crewValue":"antenneLocal"}, {"name": "Missions", "crewValue":"missions"}, {"name": "Labels", "crewValue":"labels"}]
   }, "autresStructures": {
     "name": "autresStructures",
