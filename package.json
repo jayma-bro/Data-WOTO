@@ -8,7 +8,7 @@
     "dev": "nodemon server",
     "start": "node server",
     "dev:client": "npm run dev --prefix ./client",
-    "build": "npm run build --prefix ./client"
+    "build:client": "npm run build:local --prefix ./client"
   },
   "author": "Jayma Brochier <jayma.brochier@gmail.com>",
   "license": "ISC",
