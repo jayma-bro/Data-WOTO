@@ -1,6 +1,6 @@
 <template>
   <div class="d-inline">
-    <img src="@/assets/img/logo question.png" alt=""height="20" @click="pop">
+    <img src="@/assets/img/logo question.png" alt="" height="20" @click="pop">
     <div class="popcontent d-inline" v-if="show">
       {{ content }}
     </div>

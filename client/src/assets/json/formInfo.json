@@ -51,7 +51,8 @@
     "name": "crew",
     "req": true,
     "label": "Crew de dépoll",
-    "help": "crew faut le réviser"
+    "help": "crew faut le réviser",
+    "crewType": [{"name": "Antenne local", "crewValue":"antenneLocal"}, {"name": "Missions", "crewValue":"missions"}, {"name": "Labels", "crewValue":"labels"}]
   }, "autresStructures": {
     "name": "autresStructures",
     "req": false,

@@ -49,43 +49,57 @@
           <label for="pays" class="form-label">Pays</label>
           <input type="text" class="form-control" name="pays" id="pays" v-model="sub.pays" disabled>
         </div>
-        <div class="col-lg-6">
-          <label for="crew" class="form-label">Crew de dépoll</label>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Kraken" value="Kraken" v-model="sub.crew">
-            <label class="form-check-label" for="Kraken">Kraken</label>
+      </div>
+      <div class="row bigblock d-flex justify-content-between">
+        <div class="col-xl-3 col-md-6">
+          <h5>{{ formInfo.crew.label }}</h5>
+          <div class="">
+            <label for="crewType">Type</label>
+            <div class="form-check" v-for="val of formInfo.crew.crewType">
+              <input class="form-check-input" type="radio" name="crewType" :id="val.crewValue" :value="val.crewValue" v-model="crewType" @click="resetCrewName">
+              <label class="form-check-label" :for="val.crewValue">{{ val.name }}</label>
+            </div>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Etang de Berre" value="Etang de Berre" v-model="sub.crew">
-            <label class="form-check-label" for="Etang de Berre">Etang de Berre</label>
+          <div class="">
+            <label for="crewName">Nom</label>
+            <select class="form-select" name="crewName" id="crewName" v-model="crewName">
+              <option value="none" selected disabled hidden>Aucun</option>
+              <option :value="crew" v-for="crew of crewList[crewType]">{{ crew }}</option>
+            </select>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Amadeus" value="Amadeus" v-model="sub.crew">
-            <label class="form-check-label" for="Amadeus">l'Amadeus</label>
+          <button type="button" class="btn btn-primary" name="crewAdd" @click="crewAdd">Valider</button>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <button type="button" class="btn btn-success" name="newCrew" v-if="!newCrew" @click="crewFormDisplay">Nouveau Crew</button>
+          <div class="" v-else>
+            <div class="">
+              <label for="crewTypeNew">Type</label>
+              <div class="form-check" v-for="val of formInfo.crew.crewType">
+                <input class="form-check-input" type="radio" name="crewTypeNew" :id="val.crewValue + 'New'" :value="val.crewValue" v-model="createdCrew.crewType">
+                <label class="form-check-label" :for="val.crewValue + 'New'">{{ val.name }}</label>
+              </div>
+            </div>
+            <div class="">
+              <label for="crewNameNew">Nom</label>
+              <input type="text" class="form-control" name="crewNameNew" v-model.lazy="createdCrew.crewName">
+            </div>
+            <button type="button" class="btn btn-success" name="createCrew" @click="createCrew">Valider</button>
+            <button type="button" class="btn btn-warning" name="newCrew" @click="crewFormDisplay">Annuler</button>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Antenne de Paris" value="Antenne de Paris" v-model="sub.crew">
-            <label class="form-check-label" for="Antenne de Paris">Antenne de Paris</label>
+          <div class="alert alert-success" v-if="crewCreateSuccess">
+            <img class="position-absolute top-0 end-0" src="@/assets/img/ui-close.svg" alt="" height="15" @click="close('crewCreateSuccess')">
+            le nouveau crew a bien été enregistré
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Antenne de Lyon" value="Antenne de Lyon" v-model="sub.crew">
-            <label class="form-check-label" for="Antenne de Lyon">Antenne de Lyon</label>
+          <div class="alert alert-danger" v-if="crewCreateError">
+            <img class="position-absolute top-0 end-0" src="@/assets/img/ui-close.svg" alt="" height="15" @click="close('crewCreateError')">
+            le nouveau crew n'a pas pu être enregistré
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Antenne du Havre" value="Antenne du Havre" v-model="sub.crew">
-            <label class="form-check-label" for="Antenne du Havre">Antenne du Havre</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="crew" id="Depoll Pirate" value="Depoll Pirate" v-model="sub.crew">
-            <label class="form-check-label" for="Depoll Pirate">Dépoll Pirate</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="autre" id="AutreCrew">
-            <label class="form-check-label" for="AutreCrew">Autre</label>
-          </div>
-          <div class="hide" id="autreCrewInput">
-            <input type="text" class="form-control" name="crew">
-          </div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-around">
+        <div class="crewItem col-2" v-for="crewInd of range(nbCrew)">
+          <p><em>{{ formInfo.crew.crewType.find(elem => elem.crewValue == sub.crewType[crewInd]).name }}</em> <br> <strong>{{ sub.crewName[crewInd] }}</strong></p>
+          <button type="button" class="btn btn-warning" name="newCrew" @click="removeCrew(crewInd)">Retirer</button>
         </div>
       </div>
       <div class="row">
@@ -245,6 +259,22 @@ export default {
       },
       DechetIndicateur: '',
       nbDechetSpecifique: 0,
+      crewType: '',
+      crewName: '',
+      nbCrew: 0,
+      crewList: {
+        antenneLocal: [],
+        missions: [],
+        labels: []
+      },
+      createdCrew: {
+        crewName: '',
+        crewType: ''
+      },
+      crewCreateSuccess: false,
+      crewCreateError: false,
+      newCrew: false,
+      dis: 'disabled',
       sub: {
         lieu: '',
         ville: '',
@@ -255,7 +285,8 @@ export default {
         latitude: '',
         longitude: '',
         pays: '',
-        crew: [],
+        crewName: [],
+        crewType: [],
         autresStructures: '',
         longueur: '',
         surface: '',
@@ -313,6 +344,14 @@ export default {
         ",",
         "<br/>")}`;
     }
+  }, mounted () {
+    this.$http.get('api/crew').then((res) => {
+      for (var crew of res.data) {
+        this.crewList[crew.crewType].push(crew.crewName)
+      }
+    }, (res) => {
+      console.log(res)
+    })
   }, methods: {
     async getAddress() {
       this.mapAtt.loading = true;
@@ -354,6 +393,41 @@ export default {
           window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
         }
       )
+    }, createCrew() {
+      this.$http.post('api/crew', this.createdCrew).then(
+        () => {
+          this.crewCreateSuccess = true
+          this.createdCrew = {crewName: '', crewType: ''}
+          this.crewFormDisplay()
+          this.crewList = {antenneLocal: [], missions: [], labels: []}
+          this.$http.get('api/crew').then((res) => {
+            for (var crew of res.data) {
+              this.crewList[crew.crewType].push(crew.crewName)
+            }
+          }, (res) => {
+            console.log(res)
+          })
+        }, (error) => {
+          this.crewCreateError = true
+        }
+      )
+    }, crewFormDisplay() {
+      this.newCrew = !this.newCrew
+      this.dis = ''
+    }, close(valClose) {
+      this[valClose] = false
+    }, resetCrewName() {
+      this.crewName = ''
+    }, crewAdd() {
+      this.sub.crewName.unshift(this.crewName)
+      this.sub.crewType.unshift(this.crewType)
+      this.crewName = ''
+      this.crewType = ''
+      this.nbCrew++
+    }, removeCrew(crewInd) {
+      this.sub.crewName.splice(crewInd, 1)
+      this.sub.crewType.splice(crewInd, 1)
+      this.nbCrew--
     }
   }
 }
@@ -381,5 +455,21 @@ export default {
 
   .leaflet-tooltip {
     left: 15px;
+  }
+
+  .crewItem {
+    border: solid;
+    border-radius: 1rem;
+    border-width: thin;
+    background-color: rgb(228, 228, 228);
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .bigblock {
+    border: solid;
+    border-radius: 1rem;
+    border-width: thin;
+    padding: 15px;
   }
 </style>
