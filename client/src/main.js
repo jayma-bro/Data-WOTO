@@ -7,14 +7,11 @@ import router from './router'
 import 'leaflet/dist/leaflet.css'
 
 Vue.use(VueResource)
-Vue.http.options.root = process.env.NODE_ROOT
+Vue.http.options.root = process.env.VUE_APP_ROOT
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
-})
+  render: h => h(App)
+}).$mount('#app')

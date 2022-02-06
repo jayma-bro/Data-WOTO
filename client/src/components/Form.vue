@@ -56,7 +56,7 @@
           <pop-help :content="formInfo.crew.help"></pop-help>
           <div class="">
             <label for="crewType">Type</label>
-            <div class="form-check" v-for="val of formInfo.crew.crewType">
+            <div class="form-check" v-for="val of formInfo.crew.crewType" :key="val.id">
               <input class="form-check-input" type="radio" name="crewType" :id="val.crewValue" :value="val.crewValue" v-model="crewType" @click="resetCrewName">
               <label class="form-check-label" :for="val.crewValue">{{ val.name }}</label>
             </div>
@@ -65,7 +65,7 @@
             <label for="crewName">Nom</label>
             <select class="form-select" name="crewName" id="crewName" v-model="crewName">
               <option value="none" selected disabled hidden>Aucun</option>
-              <option :value="crew" v-for="crew of crewList[crewType]">{{ crew }}</option>
+              <option :value="crew" v-for="crew of crewList[crewType]"  :key="crew.id">{{ crew }}</option>
             </select>
           </div>
           <button type="button" class="btn btn-primary" name="crewAdd" @click="crewAdd">Valider</button>
@@ -75,7 +75,7 @@
           <div class="" v-else>
             <div class="">
               <label for="crewTypeNew">Type</label>
-              <div class="form-check" v-for="val of formInfo.crew.crewType">
+              <div class="form-check" v-for="val of formInfo.crew.crewType"  :key="val.id">
                 <input class="form-check-input" type="radio" name="crewTypeNew" :id="val.crewValue + 'New'" :value="val.crewValue" v-model="createdCrew.crewType">
                 <label class="form-check-label" :for="val.crewValue + 'New'">{{ val.name }}</label>
               </div>
@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="row d-flex justify-content-around">
-        <div class="crewItem col-2" v-for="crewInd of range(nbCrew)">
+        <div class="crewItem col-2" v-for="crewInd of range(nbCrew)"  :key="crewInd.id">
           <p><em>{{ formInfo.crew.crewType.find(elem => elem.crewValue == sub.crewType[crewInd]).name }}</em> <br> <strong>{{ sub.crewName[crewInd] }}</strong></p>
           <button type="button" class="btn btn-warning" name="newCrew" @click="removeCrew(crewInd)">Retirer</button>
         </div>
@@ -115,8 +115,8 @@
           <pop-help :content="formInfo.typeLieu.help"></pop-help>
           <select class="form-select" name="typeLieu" v-model="sub.typeLieu" required>
               <option value="none" selected disabled hidden>Selectionez une option</option>
-            <optgroup :label="group" v-for="group in formInfo.typeLieu.groups">
-              <option :value="value" v-for="value in formInfo.typeLieu.values[group]"> {{ value }} </option>
+            <optgroup :label="group" v-for="group in formInfo.typeLieu.groups"  :key="group.id">
+              <option :value="value" v-for="value in formInfo.typeLieu.values[group]"  :key="value.id"> {{ value }} </option>
             </optgroup>
           </select>
         </div>
@@ -140,7 +140,7 @@
           <label :for="formInfo.DechetIndicateur.name" class="form-label">{{ formInfo.DechetIndicateur.label }}</label>
           <pop-help :content="formInfo.DechetIndicateur.help"></pop-help>
           <select class="form-select" :name="formInfo.DechetIndicateur.name" id="indicateur" v-model="DechetIndicateur">
-            <option :value="sel" selected v-for="sel in formInfo.DechetIndicateur.valueSel"> {{ sel }} </option>
+            <option :value="sel" selected v-for="sel in formInfo.DechetIndicateur.valueSel"  :key="sel.id"> {{ sel }} </option>
           </select>
         </div>
         <div class="col-lg-6" v-if="DechetIndicateur == 'Niveau 1' || DechetIndicateur == 'Niveau 2'">
@@ -152,7 +152,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="niv1 in formInfo.DechetIndicateur.value1">
+              <tr v-for="niv1 in formInfo.DechetIndicateur.value1" :key="niv1.id">
                 <th>{{ niv1[1] }}</th>
                 <td>
                   <input type="number" class="form-control" :name="niv1[0]" v-model.lazy="sub.ValeurIndicateur.niv1[niv1[0]]">
@@ -170,7 +170,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="niv2 in formInfo.DechetIndicateur.value2">
+              <tr v-for="niv2 in formInfo.DechetIndicateur.value2" :key="niv2.id">
                 <th>{{ niv2[1] }}</th>
                 <td>
                   <input type="number" class="form-control" :name="niv2[0]" v-model.lazy="sub.ValeurIndicateur.niv2[niv2[0]]">
@@ -189,7 +189,7 @@
               <th width=100>Volume (L) </th>
             </thead>
             <tbody>
-              <tr v-for="material in formInfo.DechetQuantitatif.value">
+              <tr v-for="material in formInfo.DechetQuantitatif.value" :key="material.id">
                 <th>{{ material.label }} <pop-help :content="material.help"></pop-help></th>
                 <td>
                   <input type="number" class="form-control" :name="'poids' + material.name" v-model.lazy="sub.ValeurQuantitatif.poids[material.name]" step="0.001">
@@ -208,11 +208,11 @@
           <pop-help :content="formInfo.nbDechetSpecifique.help"></pop-help>
           <select class="form-select" :name="formInfo.nbDechetSpecifique.name" :id="formInfo.nbDechetSpecifique.name" v-model="nbDechetSpecifique">
             <option :value="0" selected>Aucun</option>
-            <option :value="nb" v-for="nb in range(formInfo.nbDechetSpecifique.maxValue, 1)">{{ nb }}</option>
+            <option :value="nb" v-for="nb in range(formInfo.nbDechetSpecifique.maxValue, 1)" :key="nb.id">{{ nb }}</option>
           </select>
         </div>
       </div>
-      <div v-for="index in range(nbDechetSpecifique)">
+      <div v-for="index in range(nbDechetSpecifique)" :key="index.id">
         <dechet-specifique :num="index + 1" :content="formInfo.DechetSpecifique" @update="upValue"></dechet-specifique>
       </div>
       <button class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
@@ -371,10 +371,9 @@ export default {
         }
       } catch (e) {
         console.error("Reverse Geocode Error->", e);
-      } finally {
-        this.mapAtt.loading = false;
-        return address;
       }
+      this.mapAtt.loading = false
+      return address
     }, onMapClick(value) {
       // place the marker on the clicked spot
       this.position = value.latlng;
@@ -388,9 +387,9 @@ export default {
     return [...Array(size).keys()].map(i => i + startAt);
     }, submission() {
       this.$http.post('api/form', this.sub).then(
-        (response) => {
+        () => {
           this.$router.push({ name: 'FilledForm' })
-        }, (response) => {
+        }, () => {
           window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
         }
       )
@@ -409,6 +408,7 @@ export default {
             console.log(res)
           })
         }, (error) => {
+          console.log(error)
           this.crewCreateError = true
         }
       )

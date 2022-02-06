@@ -3,7 +3,7 @@
     <label :for="target + DS" class="form-label" :class="{required: req}">{{ label }}</label>
     <pop-help :content="help" v-if="content"></pop-help>
     <input :type="type" class="form-control" :name="target + DS" v-model.lazy="value" :step="step ? step : ''" v-if="type != 'radio' && type != 'checkbox'">
-    <div class="form-check" v-else v-for="val in values">
+    <div class="form-check" v-else v-for="val in values" :key="val">
       <input class="form-check-input" :type="type" :name="target + DS" :id="val + DS" :value="val" v-model="value">
       <label class="form-check-label" :for="val + DS">{{ val }}</label>
     </div>
