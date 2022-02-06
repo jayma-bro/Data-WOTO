@@ -18,6 +18,8 @@ router.post('/', (req, res) => {
     for(let i = 0; i < parseInt(req.body.nbDechetSpecifique); i++) {
       provenanceDSL[i] = req.body.provenanceDS[i].join(',')
     }
+    crewName = req.body.crewName.join(';')
+    crewType = req.body.crewType.join(';')
     volEstDS = req.body.volEstDS.join(';')
     provenanceDS = provenanceDSL.join(';')
     nomDS = req.body.nomDS.join(';')
@@ -43,7 +45,8 @@ router.post('/', (req, res) => {
     dureeEvenement,
     nombreParticipantsWings: req.body.nombreParticipantsWings,
     nombreParticipantsExterne: req.body.nombreParticipantsExterne,
-    crew,
+    crewName,
+    crewType,
     autresStructures: req.body.autresStructures,
     longueur: req.body.longueur,
     surface: req.body.surface,
