@@ -13,7 +13,7 @@
     "start": "node server",
     "dev:client": "npm run dev --prefix ./client",
     "build": "npm run build --prefix ./client",
-    "heroku-prebuild": "npm install --prefix ./client"
+    "heroku-prebuild": "npm install --production=false --prefix ./client"
   },
   "author": "Jayma Brochier <jayma.brochier@gmail.com>",
   "license": "ISC",
