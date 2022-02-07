@@ -2,7 +2,7 @@
   <div class="hello">
     <img src="../assets/img/logo favicon.png">
     <router-link :to="{ name: 'Form'}">Le Formulaire</router-link><br>
-    <router-link :to="{ name: 'Home'}">visualisation des données</router-link>
+    <router-link :to="{ name: 'DataView'}">visualisation des données</router-link>
   </div>
 </template>
 
