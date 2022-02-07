@@ -1,42 +1,45 @@
 <template>
   <div class="">
-    <div class="row">
-      <h2>info général</h2>
-      <h4>Surface total : {{stats.surfaceTotal}}m²</h4>
-      <div class="col-6">
-        <h6>Poids total par materiaux</h6>
-        <ul>
-          <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + val}}</li>
-        </ul>
-        <h4>Poids total : {{stats.poidsTotal}}Kg</h4>
-      </div>
-      <div class="col-6">
-        <h6>Volume total par materiaux</h6>
-        <ul>
-          <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + val}}</li>
-        </ul>
-        <h4>Volume total : {{stats.volumeTotal}}L</h4>
-      </div>
-    </div>
-    <h1>les dépolls enregistré</h1>
-    <div class="row">
-      <div class="col-6" style="padding: 0px;" v-for="depoll of depolls" :key="depoll.id">
-        <div class="depoll">
-          <h3>{{ depoll.lieu + ' : '+ depoll.ville }}</h3>
-          <h5> <em v-for="(crewId, crewIndex) of depoll.crewName" :key='crewId.id'>{{ depoll.crewType[crewIndex] + ' : '+ crewId }} <br></em></h5>
-          <h6>{{ depoll.dateEvenement.toLocaleDateString("fr-FR", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) }}</h6>
-          <p>pendant {{ Math.floor(depoll.dureeEvenement/60) }}h et {{ depoll.dureeEvenement%60 }} minutes <br>
-            par {{ depoll.nombreParticipantsWings }} wings et {{ depoll.nombreParticipantsExterne }} participant externe et la participation de<br>
-            {{ depoll.autresStructures }}
-          </p>
+    <fade-loader v-if='chargement' class="position-absolute top-50 start-50"></fade-loader>
+    <div class="" v-else>
+      <div class="row">
+        <h2>info général</h2>
+        <h4>Surface total : {{stats.surfaceTotal}}m²</h4>
+        <div class="col-6">
+          <h6>Poids total par materiaux</h6>
           <ul>
-            <li>Surface : {{depoll.surface}}m²</li>
-            <li>Poids : {{depoll.poidsTotal}}Kg</li>
-            <li>Volume : {{depoll.volumeTotal}}L</li>
+            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + val}}</li>
           </ul>
-          <p><strong>commentaire : </strong><br>
-            {{ depoll.commentaire }}
-          </p>
+          <h4>Poids total : {{stats.poidsTotal}}Kg</h4>
+        </div>
+        <div class="col-6">
+          <h6>Volume total par materiaux</h6>
+          <ul>
+            <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + val}}</li>
+          </ul>
+          <h4>Volume total : {{stats.volumeTotal}}L</h4>
+        </div>
+      </div>
+      <h1>les dépolls enregistré</h1>
+      <div class="row">
+        <div class="col-6" style="padding: 0px;" v-for="depoll of depolls" :key="depoll.id">
+          <div class="depoll">
+            <h3>{{ depoll.lieu + ' : '+ depoll.ville }}</h3>
+            <h5> <em v-for="(crewId, crewIndex) of depoll.crewName" :key='crewId.id'>{{ depoll.crewType[crewIndex] + ' : '+ crewId }} <br></em></h5>
+            <h6>{{ depoll.dateEvenement.toLocaleDateString("fr-FR", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) }}</h6>
+            <p>pendant {{ Math.floor(depoll.dureeEvenement/60) }}h et {{ depoll.dureeEvenement%60 }} minutes <br>
+              par {{ depoll.nombreParticipantsWings }} wings et {{ depoll.nombreParticipantsExterne }} participant externe et la participation de<br>
+              {{ depoll.autresStructures }}
+            </p>
+            <ul>
+              <li>Surface : {{depoll.surface}}m²</li>
+              <li>Poids : {{depoll.poidsTotal}}Kg</li>
+              <li>Volume : {{depoll.volumeTotal}}L</li>
+            </ul>
+            <p><strong>commentaire : </strong><br>
+              {{ depoll.commentaire }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -44,14 +47,20 @@
 </template>
 
 <script>
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
+
 export default {
   name: 'DataView',
+  components: {
+    FadeLoader
+  },
   data () {
     return {
       depolls: {},
-      stats: {}
+      stats: {},
+      chargement: true
     }
-  }, created () {
+  }, mounted () {
     this.$http.get('api/form').then((res) => {
       let depolls = res.data
       let stats = {
@@ -108,6 +117,7 @@ export default {
       stats.volumeTotal = Math.round(stats.volumeTotal)
       this.stats = stats
       this.depolls = depolls
+      this.chargement = false
     })
   }
 }
