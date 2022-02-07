@@ -20,6 +20,30 @@
           <h4>Volume total : {{stats.volumeTotal}}L</h4>
         </div>
       </div>
+      <div class="" id="map" style="">
+        <l-map
+          ref="myMap"
+          :zoom="mapAtt.zoom"
+          :center="mapAtt.center"
+          :options="mapAtt.mapOptions"
+          style="height: 100%">
+          <l-tile-layer
+            :url="mapAtt.url"
+            :attribution="mapAtt.attribution"/>
+          <l-control-fullscreen position="topleft"
+            :options="{ title: { 'false': 'Go big!', 'true': 'Be regular' } }"/>
+          <v-marker-cluster
+            ref="cluster">
+            <l-marker
+              visible
+              v-for="mark in marker"
+              :key="mark.id"
+              :icon="mapAtt.icon"
+              :lat-lng="mark.location">
+            </l-marker>
+          </v-marker-cluster>
+        </l-map>
+      </div>
       <h1>les dépolls enregistré</h1>
       <div class="row">
         <div class="col-6" style="padding: 0px;" v-for="depoll of depolls" :key="depoll.id">
@@ -48,21 +72,45 @@
 
 <script>
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
+import LControlFullscreen from 'vue2-leaflet-fullscreen'
+import { latLng, icon} from "leaflet"
+import { LMap, LTileLayer, LMarker} from 'vue2-leaflet'
+import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
 
 export default {
   name: 'DataView',
   components: {
-    FadeLoader
+    FadeLoader,
+    LControlFullscreen,
+    LMap,
+    LMarker,
+    LTileLayer,
+    'v-marker-cluster': Vue2LeafletMarkerCluster
   },
   data () {
     return {
       depolls: {},
       stats: {},
-      chargement: true
+      chargement: true,
+      marker: [],
+      mapAtt: {
+        zoom: 5,
+        center: latLng(46.783, 2.667),
+        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+        mapOptions: { zoomSnap: 0.5 },
+        icon: icon({
+          iconUrl: require("leaflet/dist/images/marker-icon.png"),
+          shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+          iconSize: [25, 41],
+          iconAnchor: [12, 41]
+        })
+      }
     }
   }, mounted () {
     this.$http.get('api/form').then((res) => {
       let depolls = res.data
+      let marker = []
       let stats = {
         poidsTotal:0,
         volumeTotal:0,
@@ -94,6 +142,7 @@ export default {
         depolls[depoll].crewName = res.data[depoll].crewName.split(";")
         depolls[depoll].crewType = res.data[depoll].crewType.split(";")
         depolls[depoll].dateEvenement = new Date(res.data[depoll].dateEvenement)
+        marker.push({name:res.data[depoll].lieu, location:[res.data[depoll].latitude, res.data[depoll].longitude]})
         depolls[depoll].poidsTotal = 0
         depolls[depoll].volumeTotal = 0
         for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
@@ -117,6 +166,7 @@ export default {
       stats.volumeTotal = Math.round(stats.volumeTotal)
       this.stats = stats
       this.depolls = depolls
+      this.marker = marker
       this.chargement = false
     })
   }
@@ -124,6 +174,8 @@ export default {
 </script>
 
 <style>
+  @import "~leaflet.markercluster/dist/MarkerCluster.css";
+  @import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
   .depoll {
     border: solid;
     border-radius: 1rem;
@@ -131,5 +183,24 @@ export default {
     background-color: rgb(228, 228, 228);
     margin: 8px;
     padding: 10px;
+  }
+
+  #map {
+    height: 60vh;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .cluster-text {
+    margin:12px;
+    width:40px;
+    height:40px;
+    border-radius:100%;
+    background-color: #FEBF34;
+    color:#fff;
+    text-align:center;
+    font-size:14px;
+    overflow:hidden;
+    line-height:40px;
   }
 </style>
