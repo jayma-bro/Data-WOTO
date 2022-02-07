@@ -20,8 +20,6 @@ router.post('/', (req, res) => {
     for(let i = 0; i < parseInt(req.body.nbDechetSpecifique); i++) {
       provenanceDSL[i] = req.body.provenanceDS[i].join(',')
     }
-    crewName = req.body.crewName.join(';')
-    crewType = req.body.crewType.join(';')
     volEstDS = req.body.volEstDS.join(';')
     provenanceDS = provenanceDSL.join(';')
     nomDS = req.body.nomDS.join(';')
@@ -31,6 +29,8 @@ router.post('/', (req, res) => {
     poidsDS = req.body.poidsDS.join(';')
     nombreDS = req.body.nombreDS.join(';')
   }
+  crewName = req.body.crewName.join(';')
+  crewType = req.body.crewType.join(';')
   let dateEvenement = new Date(req.body.dateEvenement)
   let createdTime = new Date(Date.now())
   let dureeEvenement = parseInt(req.body.dureeEvenement.slice(0,2))*60 + parseInt(req.body.dureeEvenement.slice(3,5))
@@ -120,9 +120,8 @@ router.post('/', (req, res) => {
     nombreDS
   })
   depoll.save()
-    .then(() => {
-      res.status(201)
-      res.render('pages/retour')
+    .then(response => {
+      res.status(201).json({"message": "bien enregistré"})
     })
     .catch(error => {
       res.status(400).json({error, depoll})
