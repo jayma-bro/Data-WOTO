@@ -5,6 +5,8 @@ const Depoll = require('../models/depoll')
 
 router.post('/', (req, res) => {
   let volEstDS = null
+  let crewName = null
+  let crewType = null
   let provenanceDS = null
   let nomDS = null
   let volumeDS = null
@@ -57,57 +59,57 @@ router.post('/', (req, res) => {
     quantiteDechet: req.body.quantiteDechet,
     pourquoiIlEnReste,
     commentaire: req.body.commentaire,
-    poidsPlastiqueNonRecy: req.body.poidsPlastiqueNonRecy,
-    volumePlastiqueNonRecy: req.body.volumePlastiqueNonRecy,
-    poidsPlastiqueRecy: req.body.poidsPlastiqueRecy,
-    volumePlastiqueRecy: req.body.volumePlastiqueRecy,
-    poidsMetal: req.body.poidsMetal,
-    volumeMetal: req.body.volumeMetal,
-    poidsVerreEtCeramique: req.body.poidsVerreEtCeramique,
-    volumeVerreEtCeramique: req.body.volumeVerreEtCeramique,
-    poidsTextile: req.body.poidsTextile,
-    volumeTextile: req.body.volumeTextile,
-    poidsPapierEtCarton: req.body.poidsPapierEtCarton,
-    volumePapierEtCarton: req.body.volumePapierEtCarton,
-    poidsBois: req.body.poidsBois,
-    volumeBois: req.body.volumeBois,
-    poidsCaoutchouc: req.body.poidsCaoutchouc,
-    volumeCaoutchouc: req.body.volumeCaoutchouc,
-    poidsAutre: req.body.poidsAutre,
-    volumeAutre: req.body.volumeAutre,
-    bouteilleEnPlastique: req.body.bouteilleEnPlastique,
-    bouteilleEnVerre: req.body.bouteilleEnVerre,
-    canetteEnMetal: req.body.canetteEnMetal,
-    masque: req.body.masque,
-    megot: req.body.megot,
-    pneu: req.body.pneu,
-    appareilMenager: req.body.appareilMenager,
-    ballonDeBaudruche: req.body.ballonDeBaudruche,
-    batonDeSucette: req.body.batonDeSucette,
-    batterie: req.body.batterie,
-    boiteDAppats: req.body.boiteDAppats,
-    boiteDeMedicaments: req.body.boiteDeMedicaments,
-    bouchonEnPlastique: req.body.bouchonEnPlastique,
-    briquet: req.body.briquet,
-    capsule: req.body.capsule,
-    cartoucheDeChasse: req.body.cartoucheDeChasse,
-    chaussure: req.body.chaussure,
-    contenantAlimentaire: req.body.contenantAlimentaire,
-    cordagesEmmeles: req.body.cordagesEmmeles,
-    cordageEtFicelle: req.body.cordageEtFicelle,
-    cotonTige: req.body.cotonTige,
-    filetInf50cm: req.body.filetInf50cm,
-    filetSup50cm: req.body.filetSup50cm,
-    gobelet: req.body.gobelet,
-    jouetEnPlastique: req.body.jouetEnPlastique,
-    materielDePeche: req.body.materielDePeche,
-    mediaFiltrant: req.body.mediaFiltrant,
-    mousse: req.body.mousse,
-    pailleEnPlastique: req.body.pailleEnPlastique,
-    protectionHygienique: req.body.protectionHygienique,
-    sacPlastique: req.body.sacPlastique,
-    vaisselleEnPlastique: req.body.vaisselleEnPlastique,
-    vetement: req.body.vetement,
+    poidsPlastiqueNonRecy: req.body.ValeurQuantitatif.poids.PlastiqueNonRecy,
+    volumePlastiqueNonRecy: req.body.ValeurQuantitatif.volume.PlastiqueNonRecy,
+    poidsPlastiqueRecy: req.body.ValeurQuantitatif.poids.PlastiqueRecy,
+    volumePlastiqueRecy: req.body.ValeurQuantitatif.volume.PlastiqueRecy,
+    poidsMetal: req.body.ValeurQuantitatif.poids.Metal,
+    volumeMetal: req.body.ValeurQuantitatif.volume.Metal,
+    poidsVerreEtCeramique: req.body.ValeurQuantitatif.poids.VerreEtCeramique,
+    volumeVerreEtCeramique: req.body.ValeurQuantitatif.volume.VerreEtCeramique,
+    poidsTextile: req.body.ValeurQuantitatif.poids.Textile,
+    volumeTextile: req.body.ValeurQuantitatif.volume.Textile,
+    poidsPapierEtCarton: req.body.ValeurQuantitatif.poids.PapierEtCarton,
+    volumePapierEtCarton: req.body.ValeurQuantitatif.volume.PapierEtCarton,
+    poidsBois: req.body.ValeurQuantitatif.poids.Bois,
+    volumeBois: req.body.ValeurQuantitatif.volume.Bois,
+    poidsCaoutchouc: req.body.ValeurQuantitatif.poids.Caoutchouc,
+    volumeCaoutchouc: req.body.ValeurQuantitatif.volume.Caoutchouc,
+    poidsAutre: req.body.ValeurQuantitatif.poids.Autre,
+    volumeAutre: req.body.ValeurQuantitatif.volume.Autre,
+    bouteilleEnPlastique: req.body.ValeurIndicateur.niv1.bouteilleEnPlastique,
+    bouteilleEnVerre: req.body.ValeurIndicateur.niv1.bouteilleEnVerre,
+    canetteEnMetal: req.body.ValeurIndicateur.niv1.canetteEnMetal,
+    masque: req.body.ValeurIndicateur.niv1.masque,
+    megot: req.body.ValeurIndicateur.niv1.megot,
+    pneu: req.body.ValeurIndicateur.niv1.pneu,
+    appareilMenager: req.body.ValeurIndicateur.niv2.appareilMenager,
+    ballonDeBaudruche: req.body.ValeurIndicateur.niv2.ballonDeBaudruche,
+    batonDeSucette: req.body.ValeurIndicateur.niv2.batonDeSucette,
+    batterie: req.body.ValeurIndicateur.niv2.batterie,
+    boiteDAppats: req.body.ValeurIndicateur.niv2.boiteDAppats,
+    boiteDeMedicaments: req.body.ValeurIndicateur.niv2.boiteDeMedicaments,
+    bouchonEnPlastique: req.body.ValeurIndicateur.niv2.bouchonEnPlastique,
+    briquet: req.body.ValeurIndicateur.niv2.briquet,
+    capsule: req.body.ValeurIndicateur.niv2.capsule,
+    cartoucheDeChasse: req.body.ValeurIndicateur.niv2.cartoucheDeChasse,
+    chaussure: req.body.ValeurIndicateur.niv2.chaussure,
+    contenantAlimentaire: req.body.ValeurIndicateur.niv2.contenantAlimentaire,
+    cordagesEmmeles: req.body.ValeurIndicateur.niv2.cordagesEmmeles,
+    cordageEtFicelle: req.body.ValeurIndicateur.niv2.cordageEtFicelle,
+    cotonTige: req.body.ValeurIndicateur.niv2.cotonTige,
+    filetInf50cm: req.body.ValeurIndicateur.niv2.filetInf50cm,
+    filetSup50cm: req.body.ValeurIndicateur.niv2.filetSup50cm,
+    gobelet: req.body.ValeurIndicateur.niv2.gobelet,
+    jouetEnPlastique: req.body.ValeurIndicateur.niv2.jouetEnPlastique,
+    materielDePeche: req.body.ValeurIndicateur.niv2.materielDePeche,
+    mediaFiltrant: req.body.ValeurIndicateur.niv2.mediaFiltrant,
+    mousse: req.body.ValeurIndicateur.niv2.mousse,
+    pailleEnPlastique: req.body.ValeurIndicateur.niv2.pailleEnPlastique,
+    protectionHygienique: req.body.ValeurIndicateur.niv2.protectionHygienique,
+    sacPlastique: req.body.ValeurIndicateur.niv2.sacPlastique,
+    vaisselleEnPlastique: req.body.ValeurIndicateur.niv2.vaisselleEnPlastique,
+    vetement: req.body.ValeurIndicateur.niv2.vetement,
     nomDS,
     volumeDS,
     descDS,
@@ -123,9 +125,17 @@ router.post('/', (req, res) => {
       res.render('pages/retour')
     })
     .catch(error => {
-      // res.status(400).render('pages/index', {help, popHelp})
-      res.status(400).json({error})
+      res.status(400).json({error, depoll})
     });
+})
+
+router.get('/', (req, res) => {
+  Depoll.find()
+  .then(depolls => {
+    let render = depolls
+    return res.status(200).json(render)
+  })
+  .catch(error => res.status(400).json({ error }));
 })
 
 module.exports = router

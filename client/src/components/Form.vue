@@ -82,7 +82,7 @@
             </div>
             <div class="">
               <label for="crewNameNew">Nom</label>
-              <input type="text" class="form-control" name="crewNameNew" v-model.lazy="createdCrew.crewName">
+              <input type="text" class="form-control" name="crewNameNew" v-model="createdCrew.crewName">
             </div>
             <button type="button" class="btn btn-success" name="createCrew" @click="createCrew">Valider</button>
             <button type="button" class="btn btn-warning" name="newCrew" @click="crewFormDisplay">Annuler</button>
@@ -133,7 +133,7 @@
         <div class="col-lg-6">
           <label for="commentaire" class="form-label">Commentaire</label>
           <pop-help :content="formInfo.commentaire.help"></pop-help>
-          <textarea name="commentaire" class="form-control" id="commentaire" v-model.lazy="sub.commentaire"></textarea>
+          <textarea name="commentaire" class="form-control" id="commentaire" v-model="sub.commentaire"></textarea>
         </div>
         <h3>Caractérisation des Déchets</h3>
         <div class="col-lg-6">
@@ -155,7 +155,7 @@
               <tr v-for="niv1 in formInfo.DechetIndicateur.value1" :key="niv1.id">
                 <th>{{ niv1[1] }}</th>
                 <td>
-                  <input type="number" class="form-control" :name="niv1[0]" v-model.lazy="sub.ValeurIndicateur.niv1[niv1[0]]">
+                  <input type="number" class="form-control" :name="niv1[0]" v-model="sub.ValeurIndicateur.niv1[niv1[0]]">
                 </td>
               </tr>
             </tbody>
@@ -173,7 +173,7 @@
               <tr v-for="niv2 in formInfo.DechetIndicateur.value2" :key="niv2.id">
                 <th>{{ niv2[1] }}</th>
                 <td>
-                  <input type="number" class="form-control" :name="niv2[0]" v-model.lazy="sub.ValeurIndicateur.niv2[niv2[0]]">
+                  <input type="number" class="form-control" :name="niv2[0]" v-model="sub.ValeurIndicateur.niv2[niv2[0]]">
                 </td>
               </tr>
             </tbody>
@@ -192,10 +192,10 @@
               <tr v-for="material in formInfo.DechetQuantitatif.value" :key="material.id">
                 <th>{{ material.label }} <pop-help :content="material.help"></pop-help></th>
                 <td>
-                  <input type="number" class="form-control" :name="'poids' + material.name" v-model.lazy="sub.ValeurQuantitatif.poids[material.name]" step="0.001">
+                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.ValeurQuantitatif.poids[material.name]" step="0.001">
                 </td>
                 <td>
-                  <input type="number" class="form-control" :name="'volume' + material.name" v-model.lazy="sub.ValeurQuantitatif.volume[material.name]" step="0.1">
+                  <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.ValeurQuantitatif.volume[material.name]" step="0.1">
                 </td>
               </tr>
             </tbody>
@@ -336,14 +336,29 @@ export default {
           }
         }
       }
+    }, DechetIndicateur: {
+      handler(value) {
+        if (value == "Aucun") {
+          for (let niv1 of formInfo.DechetIndicateur.value1) {
+            this.sub.ValeurIndicateur.niv1[niv1[0]] = null
+          }
+          for (let niv2 of formInfo.DechetIndicateur.value2) {
+            this.sub.ValeurIndicateur.niv2[niv2[0]] = null
+          }
+        } else if (value == "Niveau 1") {
+          for (let niv2 of formInfo.DechetIndicateur.value2) {
+            this.sub.ValeurIndicateur.niv2[niv2[0]] = null
+          }
+        }
+      }
     }
   }, computed: {
     tooltipContent() {
-      if (this.mapAtt.dragging) return "...";
-      if (this.mapAtt.loading) return "Loading...";
+      if (this.mapAtt.dragging) return "..."
+      if (this.mapAtt.loading) return "Loading..."
       return `<strong>${this.mapAtt.address.replace(
         ",",
-        "<br/>")}`;
+        "<br/>")}`
     }
   }, mounted () {
     this.$http.get('api/crew').then((res) => {
@@ -353,30 +368,42 @@ export default {
     }, (res) => {
       console.log(res)
     })
+    for (let niv1 of formInfo.DechetIndicateur.value1) {
+      this.sub.ValeurIndicateur.niv1[niv1[0]] = null
+    }
+    for (let niv2 of formInfo.DechetIndicateur.value2) {
+      this.sub.ValeurIndicateur.niv2[niv2[0]] = null
+    }
+    for (let material of formInfo.DechetQuantitatif.value) {
+      this.sub.ValeurQuantitatif.poids[material.name] = null
+      this.sub.ValeurQuantitatif.volume[material.name] = null
+    }
   }, methods: {
     async getAddress() {
-      this.mapAtt.loading = true;
-      var address = "adressage impossible";
+      this.mapAtt.loading = true
+      let address = "adressage impossible"
+      let pays = ""
       try {
         const { lat, lng } = this.position;
         const result = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
         );
         if (result.status === 200) {
-          const body = await result.json();
+          const body = await result.json()
           if (body.display_name != undefined) {
             address = body.display_name
-            this.sub.pays = body.address.country
+            pays = body.address.country
           }
         }
       } catch (e) {
-        console.error("Reverse Geocode Error->", e);
+        console.error("Reverse Geocode Error->", e)
       }
       this.mapAtt.loading = false
+      this.sub.pays = pays
       return address
     }, onMapClick(value) {
       // place the marker on the clicked spot
-      this.position = value.latlng;
+      this.position = value.latlng
     }, upValue(value, target, dechSpe = false) {
       if (dechSpe) {
         this.sub[target][dechSpe - 1] = value

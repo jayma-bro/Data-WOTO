@@ -1,6 +1,11 @@
 <template>
-  <div class="">
-    felicitation pour remplir le formulaire
+  <div class="d-flex justify-content-around">
+    <div class="">
+      <div class="alert alert-success" style="margin-top: 30vh;">
+        felicitation pour remplir le formulaire
+      </div>
+      <router-link :to="{ name: 'Home'}">page d'aceuil</router-link>
+    </div>
   </div>
 </template>
 
