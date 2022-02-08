@@ -8,14 +8,14 @@
         <div class="col-6">
           <h6>Poids total par materiaux</h6>
           <ul>
-            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + val}}</li>
+            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + Math.round(val)}}</li>
           </ul>
           <h4>Poids total : {{stats.poidsTotal}}Kg</h4>
         </div>
         <div class="col-6">
           <h6>Volume total par materiaux</h6>
           <ul>
-            <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + val}}</li>
+            <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + Math.round(val)}}</li>
           </ul>
           <h4>Volume total : {{stats.volumeTotal}}L</h4>
         </div>
@@ -35,11 +35,16 @@
           <v-marker-cluster
             ref="cluster">
             <l-marker
-              visible
-              v-for="mark in marker"
-              :key="mark.id"
+              v-for="depoll in depolls"
+              :key="depoll.id"
               :icon="mapAtt.icon"
-              :lat-lng="mark.location">
+              :lat-lng="depoll.location">
+              <l-popup class="popup" :options="{offset: offset}">{{ depoll.lieu }} <br>
+                {{ depoll.dateEvenement.toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: '2-digit'}) }} <br>
+                Surface {{Math.round(depoll.surface)}}m² <br>
+                Poids {{Math.round(depoll.poidsTotal)}}Kg <br>
+                Volume {{Math.round(depoll.volumeTotal)}}L
+              </l-popup>
             </l-marker>
           </v-marker-cluster>
         </l-map>
@@ -82,8 +87,8 @@
 <script>
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 import LControlFullscreen from 'vue2-leaflet-fullscreen'
-import { latLng, icon} from "leaflet"
-import { LMap, LTileLayer, LMarker} from 'vue2-leaflet'
+import L from "leaflet"
+import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
 import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
 
 export default {
@@ -94,6 +99,7 @@ export default {
     LMap,
     LMarker,
     LTileLayer,
+    LPopup,
     'v-marker-cluster': Vue2LeafletMarkerCluster
   },
   data () {
@@ -101,14 +107,14 @@ export default {
       depolls: {},
       stats: {},
       chargement: true,
-      marker: [],
+      offset: L.point(0, -25),
       mapAtt: {
         zoom: 5,
-        center: latLng(46.783, 2.667),
+        center: L.latLng(46.783, 2.667),
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
         mapOptions: { zoomSnap: 0.5 },
-        icon: icon({
+        icon: L.icon({
           iconUrl: require("leaflet/dist/images/marker-icon.png"),
           shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
           iconSize: [25, 41],
@@ -118,8 +124,8 @@ export default {
     }
   }, mounted () {
     this.$http.get('api/form').then((res) => {
-      let depolls = res.data
-      let marker = []
+      let rowDepolls = res.data
+      let depolls = []
       let stats = {
         poidsTotal:0,
         volumeTotal:0,
@@ -147,25 +153,36 @@ export default {
           Autre :0
         }
       }
-      for (let depoll in res.data) {
-        depolls[depoll].crewName = res.data[depoll].crewName.split(";")
-        depolls[depoll].crewType = res.data[depoll].crewType.split(";")
-        depolls[depoll].dateEvenement = new Date(res.data[depoll].dateEvenement)
-        marker.push({name:res.data[depoll].lieu, location:[res.data[depoll].latitude, res.data[depoll].longitude]})
-        depolls[depoll].poidsTotal = 0
-        depolls[depoll].volumeTotal = 0
-        for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
-         for (let type of ['poids', 'volume']) {
-           if (res.data[depoll][type + material] !== null) {
-             stats[type][material] += res.data[depoll][type + material]
-             depolls[depoll][type + 'Total'] += res.data[depoll][type + material]
-           }
-         }
-       }
-       if (res.data[depoll].surface !== null) {
-        stats.surfaceTotal += res.data[depoll].surface
-       }
+      for (let depoll in rowDepolls) {
+        rowDepolls[depoll].dateEvenement = new Date(rowDepolls[depoll].dateEvenement)
+        if (rowDepolls[depoll].dateEvenement.getUTCFullYear() == 2022) {
+          depolls.push({})
+          depolls[depoll].lieu = rowDepolls[depoll].lieu
+          depolls[depoll].ville = rowDepolls[depoll].ville
+          depolls[depoll].crewName = rowDepolls[depoll].crewName.split(";")
+          depolls[depoll].crewType = rowDepolls[depoll].crewType.split(";")
+          depolls[depoll].dateEvenement = rowDepolls[depoll].dateEvenement
+          depolls[depoll].dureeEvenement = rowDepolls[depoll].dureeEvenement
+          depolls[depoll].nombreParticipantsWings = rowDepolls[depoll].nombreParticipantsWings
+          depolls[depoll].nombreParticipantsExterne = rowDepolls[depoll].nombreParticipantsExterne
+          depolls[depoll].surface = rowDepolls[depoll].surface
+          depolls[depoll].location = [rowDepolls[depoll].latitude, rowDepolls[depoll].longitude]
+          depolls[depoll].poidsTotal = 0
+          depolls[depoll].volumeTotal = 0
+          for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
+            for (let type of ['poids', 'volume']) {
+              if (rowDepolls[depoll][type + material] !== null) {
+                stats[type][material] += rowDepolls[depoll][type + material]
+                depolls[depoll][type + 'Total'] += rowDepolls[depoll][type + material]
+              }
+            }
+          }
+          if (rowDepolls[depoll].surface !== null) {
+            stats.surfaceTotal += rowDepolls[depoll].surface
+          }
+        }
       }
+      depolls.sort((a,b) => b.dateEvenement - a.dateEvenement)
       for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
         stats.poidsTotal += stats.poids[material]
         stats.volumeTotal += stats.volume[material]
@@ -175,7 +192,6 @@ export default {
       stats.volumeTotal = Math.round(stats.volumeTotal)
       this.stats = stats
       this.depolls = depolls
-      this.marker = marker
       this.chargement = false
     })
   }
@@ -211,5 +227,9 @@ export default {
     font-size:14px;
     overflow:hidden;
     line-height:40px;
+  }
+
+  .leaflet-popup {
+    bottom: 20px;
   }
 </style>
