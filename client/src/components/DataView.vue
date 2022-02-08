@@ -165,6 +165,7 @@ export default {
           depolls[depoll].dureeEvenement = rowDepolls[depoll].dureeEvenement
           depolls[depoll].nombreParticipantsWings = rowDepolls[depoll].nombreParticipantsWings
           depolls[depoll].nombreParticipantsExterne = rowDepolls[depoll].nombreParticipantsExterne
+          depolls[depoll].autresStructures = rowDepolls[depoll].autresStructures
           depolls[depoll].surface = rowDepolls[depoll].surface
           depolls[depoll].location = [rowDepolls[depoll].latitude, rowDepolls[depoll].longitude]
           depolls[depoll].poidsTotal = 0
