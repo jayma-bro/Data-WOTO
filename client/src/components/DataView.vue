@@ -46,25 +46,34 @@
       </div>
       <h1>les dépolls enregistré</h1>
       <div class="row">
-        <div class="col-6" style="padding: 0px;" v-for="depoll of depolls" :key="depoll.id">
-          <div class="depoll">
-            <h3>{{ depoll.lieu + ' : '+ depoll.ville }}</h3>
-            <h5> <em v-for="(crewId, crewIndex) of depoll.crewName" :key='crewId.id'>{{ depoll.crewType[crewIndex] + ' : '+ crewId }} <br></em></h5>
-            <h6>{{ depoll.dateEvenement.toLocaleDateString("fr-FR", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) }}</h6>
-            <p>pendant {{ Math.floor(depoll.dureeEvenement/60) }}h et {{ depoll.dureeEvenement%60 }} minutes <br>
-              par {{ depoll.nombreParticipantsWings }} wings et {{ depoll.nombreParticipantsExterne }} participant externe et la participation de<br>
-              {{ depoll.autresStructures }}
-            </p>
-            <ul>
-              <li>Surface : {{depoll.surface}}m²</li>
-              <li>Poids : {{depoll.poidsTotal}}Kg</li>
-              <li>Volume : {{depoll.volumeTotal}}L</li>
-            </ul>
-            <p><strong>commentaire : </strong><br>
-              {{ depoll.commentaire }}
-            </p>
-          </div>
-        </div>
+        <table class="col-12 table table-striped table-bordered">
+          <thead>
+            <th>Lieu</th>
+            <th>Ville</th>
+            <th>Crew</th>
+            <th>Date</th>
+            <th>Durée</th>
+            <th>Participant</th>
+            <th>Structures Externe</th>
+            <th>Surface</th>
+            <th>Poids</th>
+            <th>Volume</th>
+          </thead>
+          <tbody>
+            <tr  v-for="depoll of depolls" :key="depoll.id">
+              <th>{{ depoll.lieu }}</th>
+              <td>{{ depoll.ville }}</td>
+              <td><span v-for="(crewId, crewIndex) of depoll.crewName" :key='crewId.id'>{{ depoll.crewType[crewIndex] + ' : '+ crewId }}<br></span></td>
+              <td>{{ depoll.dateEvenement.toLocaleDateString("fr-FR", { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'}) }}</td>
+              <td>{{ Math.floor(depoll.dureeEvenement/60) }}h{{ depoll.dureeEvenement%60 }}</td>
+              <td>{{ depoll.nombreParticipantsWings }} Wings, {{ depoll.nombreParticipantsExterne }} Externe</td>
+              <td>{{ depoll.autresStructures }}</td>
+              <td>{{Math.round(depoll.surface)}}m²</td>
+              <td>{{Math.round(depoll.poidsTotal)}}Kg</td>
+              <td>{{Math.round(depoll.volumeTotal)}}L</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
