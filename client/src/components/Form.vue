@@ -439,6 +439,11 @@ export default {
           this.crewCreateError = true
         }
       )
+      this.sub.crewName.unshift(this.createdCrew.crewName)
+      this.sub.crewType.unshift(this.createdCrew.crewType)
+      this.createdCrew.crewName = ''
+      this.createdCrew.crewType = ''
+      this.nbCrew++
     }, crewFormDisplay() {
       this.newCrew = !this.newCrew
       this.dis = ''

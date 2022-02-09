@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Depoll = require('../models/depoll')
 
-
 router.post('/', (req, res) => {
   let volEstDS = null
   let crewName = null
@@ -15,10 +14,9 @@ router.post('/', (req, res) => {
   let poidsDS = null
   let nombreDS = null
   if (parseInt(req.body.nbDechetSpecifique) > 0) {
-    let volEstDSL = []
-    let provenanceDSL = []
-    for(let i = 0; i < parseInt(req.body.nbDechetSpecifique); i++) {
-      provenanceDSL[i] = req.body.provenanceDS[i].join(',')
+    const provenanceDSL = []
+    for (let i = 0; i < parseInt(req.body.nbDechetSpecifique); i++) {
+      provenanceDSL.push(req.body.provenanceDS[i].join(','))
     }
     volEstDS = req.body.volEstDS.join(';')
     provenanceDS = provenanceDSL.join(';')
@@ -31,14 +29,13 @@ router.post('/', (req, res) => {
   }
   crewName = req.body.crewName.join(';')
   crewType = req.body.crewType.join(';')
-  let dateEvenement = new Date(req.body.dateEvenement)
-  let createdTime = new Date(Date.now())
-  let dureeEvenement = parseInt(req.body.dureeEvenement.slice(0,2))*60 + parseInt(req.body.dureeEvenement.slice(3,5))
-  let crew = req.body.crew === undefined ? null : (typeof(req.body.crew) == 'string' ? req.body.crew : req.body.crew.join(';'))
-  let typesDechet = req.body.typesDechet === undefined ? null : (typeof(req.body.typesDechet) == 'string' ? req.body.typesDechet : req.body.typesDechet.join(';'))
-  let activites = req.body.activites === undefined ? null : (typeof(req.body.activites) == 'string' ? req.body.activites : req.body.activites.join(';'))
-  let pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? null : (typeof(req.body.pourquoiIlEnReste) == 'string' ? req.body.pourquoiIlEnReste : req.body.pourquoiIlEnReste.join(';'))
-  let depoll = new Depoll({
+  const dateEvenement = new Date(req.body.dateEvenement)
+  const createdTime = new Date(Date.now())
+  const dureeEvenement = parseInt(req.body.dureeEvenement.slice(0, 2)) * 60 + parseInt(req.body.dureeEvenement.slice(3, 5))
+  const typesDechet = req.body.typesDechet === undefined ? null : (typeof (req.body.typesDechet) === 'string' ? req.body.typesDechet : req.body.typesDechet.join(';'))
+  const activites = req.body.activites === undefined ? null : (typeof (req.body.activites) === 'string' ? req.body.activites : req.body.activites.join(';'))
+  const pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? null : (typeof (req.body.pourquoiIlEnReste) === 'string' ? req.body.pourquoiIlEnReste : req.body.pourquoiIlEnReste.join(';'))
+  const depoll = new Depoll({
     createdTime,
     relecture: false,
     lieu: req.body.lieu,
@@ -124,20 +121,20 @@ router.post('/', (req, res) => {
   })
   depoll.save()
     .then(response => {
-      res.status(201).json({"message": "bien enregistré"})
+      res.status(201).json({ message: 'bien enregistré' })
     })
     .catch(error => {
-      res.status(400).json({error, depoll})
-    });
+      res.status(400).json({ error, depoll })
+    })
 })
 
 router.get('/', (req, res) => {
   Depoll.find()
-  .then(depolls => {
-    let render = depolls
-    return res.status(200).json(render)
-  })
-  .catch(error => res.status(400).json({ error }));
+    .then(depolls => {
+      const render = depolls
+      return res.status(200).json(render)
+    })
+    .catch(error => res.status(400).json({ error }))
 })
 
 module.exports = router

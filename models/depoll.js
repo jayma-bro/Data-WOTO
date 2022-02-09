@@ -1,10 +1,10 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const depollSchema = mongoose.Schema({
   createdTime: { type: Date, required: true },
-  relecture: { type: Boolean, required: true},
+  relecture: { type: Boolean, required: true },
   lieu: { type: String, required: true },
-  ville: { type: String},
+  ville: { type: String },
   dateEvenement: { type: Date, required: true },
   dureeEvenement: { type: Number, required: true },
   latitude: { type: Number, required: true },
@@ -83,6 +83,6 @@ const depollSchema = mongoose.Schema({
   commentaireDS: String,
   poidsDS: String,
   nombreDS: String
-});
+})
 
-module.exports = mongoose.model('Depoll', depollSchema);
+module.exports = mongoose.model('Depoll', depollSchema)
