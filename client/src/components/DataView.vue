@@ -153,34 +153,37 @@ export default {
           Autre :0
         }
       }
+      let depoll_index = 0
       for (let depoll in rowDepolls) {
         rowDepolls[depoll].dateEvenement = new Date(rowDepolls[depoll].dateEvenement)
         if (rowDepolls[depoll].dateEvenement.getUTCFullYear() == 2022) {
-          depolls.push({})
-          depolls[depoll].lieu = rowDepolls[depoll].lieu
-          depolls[depoll].ville = rowDepolls[depoll].ville
-          depolls[depoll].crewName = rowDepolls[depoll].crewName.split(";")
-          depolls[depoll].crewType = rowDepolls[depoll].crewType.split(";")
-          depolls[depoll].dateEvenement = rowDepolls[depoll].dateEvenement
-          depolls[depoll].dureeEvenement = rowDepolls[depoll].dureeEvenement
-          depolls[depoll].nombreParticipantsWings = rowDepolls[depoll].nombreParticipantsWings
-          depolls[depoll].nombreParticipantsExterne = rowDepolls[depoll].nombreParticipantsExterne
-          depolls[depoll].autresStructures = rowDepolls[depoll].autresStructures
-          depolls[depoll].surface = rowDepolls[depoll].surface
-          depolls[depoll].location = [rowDepolls[depoll].latitude, rowDepolls[depoll].longitude]
-          depolls[depoll].poidsTotal = 0
-          depolls[depoll].volumeTotal = 0
+          depolls.push({
+            lieu: rowDepolls[depoll].lieu,
+            ville: rowDepolls[depoll].ville,
+            crewName: rowDepolls[depoll].crewName.split(";"),
+            crewType: rowDepolls[depoll].crewType.split(";"),
+            dateEvenement: rowDepolls[depoll].dateEvenement,
+            dureeEvenement: rowDepolls[depoll].dureeEvenement,
+            nombreParticipantsWings: rowDepolls[depoll].nombreParticipantsWings,
+            nombreParticipantsExterne: rowDepolls[depoll].nombreParticipantsExterne,
+            autresStructures: rowDepolls[depoll].autresStructures,
+            surface: rowDepolls[depoll].surface,
+            location: [rowDepolls[depoll].latitude, rowDepolls[depoll].longitude],
+            poidsTotal: 0,
+            volumeTotal: 0
+          })
           for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
             for (let type of ['poids', 'volume']) {
               if (rowDepolls[depoll][type + material] !== null) {
                 stats[type][material] += rowDepolls[depoll][type + material]
-                depolls[depoll][type + 'Total'] += rowDepolls[depoll][type + material]
+                depolls[depoll_index][type + 'Total'] += rowDepolls[depoll][type + material]
               }
             }
           }
           if (rowDepolls[depoll].surface !== null) {
             stats.surfaceTotal += rowDepolls[depoll].surface
           }
+          depoll_index ++
         }
       }
       depolls.sort((a,b) => b.dateEvenement - a.dateEvenement)
