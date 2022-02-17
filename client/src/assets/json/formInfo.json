@@ -132,10 +132,10 @@
   }, "DechetIndicateur": {
     "name": "DechetIndicateur",
     "req": false,
-    "label": "Déchets indicateurs (ReMed)",
+    "label": "Déchets indicateurs",
     "help": "DechetIndicateur",
     "type": "select",
-    "valueSel": ["Aucun", "Niveau 1", "Niveau 2"],
+    "valueSel": [{"label": "Aucun", "value": "aucun"}, {"label": "Niveau 2 (ReMed/Zéro Déchet Sauvage)", "value": "reMed2"}, {"label": "Niveau 3 (ReMed/Zéro Déchet Sauvage)", "value": "reMed3"}],
     "value1": [["bouteilleEnPlastique", "Bouteille en plastique"], ["bouteilleEnVerre", "Bouteille en verre"], ["canetteEnMetal", "Canette en métal"], ["masque", "Masque (chirurgical)"], ["megot", "Megot"], ["pneu", "Pneu"]],
     "value2": [["appareilMenager", "Appareil ménager"], ["ballonDeBaudruche", "Ballon de baudruche"], ["batonDeSucette", "Bâton de sucette"], ["batterie", "Batterie"], ["boiteDAppats", "Boîte d'appats"], ["boiteDeMedicaments", "Boîte de medicaments"], ["bouchonEnPlastique", "Bouchon en plastique"], ["briquet", "Briquet"], ["capsule", "Capsule"], ["cartoucheDeChasse", "Cartouche de chasse"], ["chaussure", "Chaussure"], ["contenantAlimentaire", "Contenant alimentaire"],
     ["cordagesEmmeles", "Cordages emmêlés"], ["cordageEtFicelle", "Cordage et ficelle"], ["cotonTige", "Coton-tige"], ["filetInf50cm", "Filet (<50 cm)"], ["filetSup50cm", "Filet (>50 cm)"], ["gobelet", "Gobelet"], ["jouetEnPlastique", "Jouet en plastique"], ["materielDePeche", "Matériel de pêche"], ["mediaFiltrant", "Média filtrant"], ["mousse", "Mousse"], ["pailleEnPlastique", "Paille en plastique"], ["protectionHygienique", "Protection hygiénique"], ["sacPlastique", "Sac plastique"], ["vaisselleEnPlastique", "Vaisselle en plastique"], ["vetement", "Vêtement"]]

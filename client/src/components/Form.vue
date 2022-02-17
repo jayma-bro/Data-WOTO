@@ -140,10 +140,10 @@
           <label :for="formInfo.DechetIndicateur.name" class="form-label">{{ formInfo.DechetIndicateur.label }}</label>
           <pop-help :content="formInfo.DechetIndicateur.help"></pop-help>
           <select class="form-select" :name="formInfo.DechetIndicateur.name" id="indicateur" v-model="DechetIndicateur">
-            <option :value="sel" selected v-for="sel in formInfo.DechetIndicateur.valueSel"  :key="sel.id"> {{ sel }} </option>
+            <option :value="sel.value" selected v-for="sel in formInfo.DechetIndicateur.valueSel"  :key="sel.id"> {{ sel.label }} </option>
           </select>
         </div>
-        <div class="col-lg-6" v-if="DechetIndicateur == 'Niveau 1' || DechetIndicateur == 'Niveau 2'">
+        <div class="col-lg-6" v-if="DechetIndicateur == 'reMed2' || DechetIndicateur == 'reMed3'">
           <table class="table">
             <thead>
               <tr>
@@ -161,7 +161,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-lg-6" v-if="DechetIndicateur == 'Niveau 2'">
+        <div class="col-lg-6" v-if="DechetIndicateur == 'reMed3'">
           <table class="table">
             <thead>
               <tr>
