@@ -23,7 +23,7 @@ export default new Router({
       name: 'FilledForm',
       component: FilledForm
     }, {
-      path: '/data_view',
+      path: '/data_view/:year',
       name: 'DataView',
       component: DataView
     }
