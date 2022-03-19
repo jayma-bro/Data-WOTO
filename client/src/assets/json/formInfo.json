@@ -51,8 +51,8 @@
     "name": "crew",
     "req": true,
     "label": "Crew de dépoll",
-    "help": "sélectionnez le type de crew, puis son nom dans la liste (pensez à valider la sélection), s'il n'y est pas vous pouvez le rajouter ! bien sûr, vous pouvez en sélectionner plusieurs",
-    "crewType": [{"name": "Antenne local", "crewValue":"antenneLocal"}, {"name": "Missions", "crewValue":"missions"}, {"name": "Labels", "crewValue":"labels"}]
+    "help": "sélectionnez le type de crew, puis son nom dans la liste (pensez à valider la sélection), s'il n'y est pas vous pouvez le rajouter ! Dépoll Pirate correspond à toute dépollutions qui ne rentre pas dans les autre cas de figure bien sûr, vous pouvez en sélectionner plusieurs",
+    "crewType": [{"name": "Antenne local", "crewValue":"antenneLocal"}, {"name": "Missions", "crewValue":"missions"}, {"name": "Labels", "crewValue":"labels"}, {"name": "Dépoll Pirate", "crewValue":"depollPirate"}]
   }, "autresStructures": {
     "name": "autresStructures",
     "req": false,
