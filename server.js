@@ -6,7 +6,7 @@ const app = require('./app')
  * @param val
  * @returns {boolean|number|*}
  */
-const normalizePort = val => {
+const normalizePort = (val) => {
   const port = parseInt(val, 10)
 
   if (isNaN(port)) {
@@ -25,7 +25,7 @@ app.set('port', port)
  *
  * @param error
  */
-const errorHandler = error => {
+const errorHandler = (error) => {
   if (error.syscall !== 'listen') {
     throw error
   }

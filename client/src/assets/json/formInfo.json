@@ -65,7 +65,7 @@
     "name": "autresStructures",
     "req": false,
     "label": "Autres structures participantes",
-    "help": "autresStructures"
+    "help": "Séparez les si plusieurs d'une virgule ','"
   },
   "longueur": {
     "name": "longueur",

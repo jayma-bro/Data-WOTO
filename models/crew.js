@@ -1,9 +1,21 @@
 const mongoose = require('mongoose')
 
 const crewSchema = mongoose.Schema({
-  createdTime: { type: Date, required: true },
-  crewType: { type: String, required: true },
-  crewName: { type: String, required: true }
+  createdTime: {
+    type: Date,
+    immutable: true,
+    default: () => Date.now(),
+    required: true,
+  },
+  crewTypeId: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: 'CrewType',
+  },
+  crewName: {
+    type: String,
+    required: true,
+  },
 })
 
-module.exports = mongoose.model('Crew', crewSchema)
+module.exports = mongoose.model('Crew', crewSchema, 'crew')

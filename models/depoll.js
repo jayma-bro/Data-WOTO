@@ -1,8 +1,18 @@
 const mongoose = require('mongoose')
 
 const depollSchema = mongoose.Schema({
-  createdTime: { type: Date, required: true },
-  relecture: { type: Boolean, required: true },
+  createdAt: {
+    type: Date,
+    immutable: true,
+    required: true,
+    default: () => Date.now(),
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+    default: () => Date.now(),
+  },
+  relecture: { type: Boolean, required: true, default: false },
   lieu: { type: String, required: true },
   ville: { type: String },
   dateEvenement: { type: Date, required: true },
@@ -12,17 +22,22 @@ const depollSchema = mongoose.Schema({
   pays: String,
   nombreParticipantsWings: Number,
   nombreParticipantsExterne: Number,
-  crewName: { type: String, required: true },
-  crewType: { type: String, required: true },
-  autresStructures: String,
+  crewId: [
+    {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Crew',
+    },
+  ],
+  autresStructures: [String],
   longueur: Number,
-  surface: Number,
-  typeLieu: String,
-  typesDechet: String,
-  activites: String,
+  surface: { type: Number, required: true },
+  typeLieu: { type: String, required: true },
+  typesDechet: [String],
+  activites: [String],
   frequentation: String,
   quantiteDechet: String,
-  pourquoiIlEnReste: String,
+  pourquoiIlEnReste: [String],
   commentaire: String,
   poidsPlastiqueNonRecy: Number,
   volumePlastiqueNonRecy: Number,
@@ -75,14 +90,17 @@ const depollSchema = mongoose.Schema({
   sacPlastique: Number,
   vaisselleEnPlastique: Number,
   vetement: Number,
-  nomDS: String,
-  volumeDS: String,
-  descDS: String,
-  volEstDS: String,
-  provenanceDS: String,
-  commentaireDS: String,
-  poidsDS: String,
-  nombreDS: String
+  dechetSpecifique: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'DechetSpecifique',
+    },
+  ],
 })
 
-module.exports = mongoose.model('Depoll', depollSchema)
+depollSchema.pre('save', function (next) {
+  this.updatedAt = Date.now()
+  next()
+})
+
+module.exports = mongoose.model('Depoll', depollSchema, 'depoll')

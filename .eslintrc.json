@@ -13,6 +13,11 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": [
+            "error",
+            {},
+            {"usePrettierrc": true}
+        ],
+        "no-unused-vars": "warn"
     }
 }

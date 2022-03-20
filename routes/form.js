@@ -1,140 +1,130 @@
 const express = require('express')
 const router = express.Router()
 const Depoll = require('../models/depoll')
+const DechetSpecifique = require('../models/dechetSpecifique')
 
 router.post('/', (req, res) => {
-  let volEstDS = null
-  let crewName = null
-  let crewType = null
-  let provenanceDS = null
-  let nomDS = null
-  let volumeDS = null
-  let descDS = null
-  let commentaireDS = null
-  let poidsDS = null
-  let nombreDS = null
-  if (parseInt(req.body.nbDechetSpecifique) > 0) {
-    const provenanceDSL = []
-    for (let i = 0; i < parseInt(req.body.nbDechetSpecifique); i++) {
-      provenanceDSL.push(req.body.provenanceDS[i].join(','))
-    }
-    volEstDS = req.body.volEstDS.join(';')
-    provenanceDS = provenanceDSL.join(';')
-    nomDS = req.body.nomDS.join(';')
-    volumeDS = req.body.volumeDS.join(';')
-    descDS = req.body.descDS.join(';')
-    commentaireDS = req.body.commentaireDS.join(';')
-    poidsDS = req.body.poidsDS.join(';')
-    nombreDS = req.body.nombreDS.join(';')
-  }
-  crewName = req.body.crewName.join(';')
-  crewType = req.body.crewType.join(';')
   const dateEvenement = new Date(req.body.dateEvenement)
-  const createdTime = new Date(Date.now())
-  const dureeEvenement = parseInt(req.body.dureeEvenement.slice(0, 2)) * 60 + parseInt(req.body.dureeEvenement.slice(3, 5))
-  const typesDechet = req.body.typesDechet === undefined ? null : (typeof (req.body.typesDechet) === 'string' ? req.body.typesDechet : req.body.typesDechet.join(';'))
-  const activites = req.body.activites === undefined ? null : (typeof (req.body.activites) === 'string' ? req.body.activites : req.body.activites.join(';'))
-  const pourquoiIlEnReste = req.body.pourquoiIlEnReste === undefined ? null : (typeof (req.body.pourquoiIlEnReste) === 'string' ? req.body.pourquoiIlEnReste : req.body.pourquoiIlEnReste.join(';'))
-  const depoll = new Depoll({
-    createdTime,
-    relecture: false,
-    lieu: req.body.lieu,
-    ville: req.body.ville,
-    dateEvenement,
-    dureeEvenement,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    pays: req.body.pays,
-    nombreParticipantsWings: req.body.nombreParticipantsWings,
-    nombreParticipantsExterne: req.body.nombreParticipantsExterne,
-    crewName,
-    crewType,
-    autresStructures: req.body.autresStructures,
-    longueur: req.body.longueur,
-    surface: req.body.surface,
-    typeLieu: req.body.typeLieu,
-    typesDechet,
-    activites,
-    frequentation: req.body.frequentation,
-    quantiteDechet: req.body.quantiteDechet,
-    pourquoiIlEnReste,
-    commentaire: req.body.commentaire,
-    poidsPlastiqueNonRecy: req.body.ValeurQuantitatif.poids.PlastiqueNonRecy,
-    volumePlastiqueNonRecy: req.body.ValeurQuantitatif.volume.PlastiqueNonRecy,
-    poidsPlastiqueRecy: req.body.ValeurQuantitatif.poids.PlastiqueRecy,
-    volumePlastiqueRecy: req.body.ValeurQuantitatif.volume.PlastiqueRecy,
-    poidsMetal: req.body.ValeurQuantitatif.poids.Metal,
-    volumeMetal: req.body.ValeurQuantitatif.volume.Metal,
-    poidsVerreEtCeramique: req.body.ValeurQuantitatif.poids.VerreEtCeramique,
-    volumeVerreEtCeramique: req.body.ValeurQuantitatif.volume.VerreEtCeramique,
-    poidsTextile: req.body.ValeurQuantitatif.poids.Textile,
-    volumeTextile: req.body.ValeurQuantitatif.volume.Textile,
-    poidsPapierEtCarton: req.body.ValeurQuantitatif.poids.PapierEtCarton,
-    volumePapierEtCarton: req.body.ValeurQuantitatif.volume.PapierEtCarton,
-    poidsBois: req.body.ValeurQuantitatif.poids.Bois,
-    volumeBois: req.body.ValeurQuantitatif.volume.Bois,
-    poidsCaoutchouc: req.body.ValeurQuantitatif.poids.Caoutchouc,
-    volumeCaoutchouc: req.body.ValeurQuantitatif.volume.Caoutchouc,
-    poidsAutre: req.body.ValeurQuantitatif.poids.Autre,
-    volumeAutre: req.body.ValeurQuantitatif.volume.Autre,
-    bouteilleEnPlastique: req.body.ValeurIndicateur.niv1.bouteilleEnPlastique,
-    bouteilleEnVerre: req.body.ValeurIndicateur.niv1.bouteilleEnVerre,
-    canetteEnMetal: req.body.ValeurIndicateur.niv1.canetteEnMetal,
-    masque: req.body.ValeurIndicateur.niv1.masque,
-    megot: req.body.ValeurIndicateur.niv1.megot,
-    pneu: req.body.ValeurIndicateur.niv1.pneu,
-    appareilMenager: req.body.ValeurIndicateur.niv2.appareilMenager,
-    ballonDeBaudruche: req.body.ValeurIndicateur.niv2.ballonDeBaudruche,
-    batonDeSucette: req.body.ValeurIndicateur.niv2.batonDeSucette,
-    batterie: req.body.ValeurIndicateur.niv2.batterie,
-    boiteDAppats: req.body.ValeurIndicateur.niv2.boiteDAppats,
-    boiteDeMedicaments: req.body.ValeurIndicateur.niv2.boiteDeMedicaments,
-    bouchonEnPlastique: req.body.ValeurIndicateur.niv2.bouchonEnPlastique,
-    briquet: req.body.ValeurIndicateur.niv2.briquet,
-    capsule: req.body.ValeurIndicateur.niv2.capsule,
-    cartoucheDeChasse: req.body.ValeurIndicateur.niv2.cartoucheDeChasse,
-    chaussure: req.body.ValeurIndicateur.niv2.chaussure,
-    contenantAlimentaire: req.body.ValeurIndicateur.niv2.contenantAlimentaire,
-    cordagesEmmeles: req.body.ValeurIndicateur.niv2.cordagesEmmeles,
-    cordageEtFicelle: req.body.ValeurIndicateur.niv2.cordageEtFicelle,
-    cotonTige: req.body.ValeurIndicateur.niv2.cotonTige,
-    filetInf50cm: req.body.ValeurIndicateur.niv2.filetInf50cm,
-    filetSup50cm: req.body.ValeurIndicateur.niv2.filetSup50cm,
-    gobelet: req.body.ValeurIndicateur.niv2.gobelet,
-    jouetEnPlastique: req.body.ValeurIndicateur.niv2.jouetEnPlastique,
-    materielDePeche: req.body.ValeurIndicateur.niv2.materielDePeche,
-    mediaFiltrant: req.body.ValeurIndicateur.niv2.mediaFiltrant,
-    mousse: req.body.ValeurIndicateur.niv2.mousse,
-    pailleEnPlastique: req.body.ValeurIndicateur.niv2.pailleEnPlastique,
-    protectionHygienique: req.body.ValeurIndicateur.niv2.protectionHygienique,
-    sacPlastique: req.body.ValeurIndicateur.niv2.sacPlastique,
-    vaisselleEnPlastique: req.body.ValeurIndicateur.niv2.vaisselleEnPlastique,
-    vetement: req.body.ValeurIndicateur.niv2.vetement,
-    nomDS,
-    volumeDS,
-    descDS,
-    volEstDS,
-    provenanceDS,
-    commentaireDS,
-    poidsDS,
-    nombreDS
-  })
-  depoll.save()
-    .then(response => {
+  const dureeEvenement =
+    parseInt(req.body.dureeEvenement.slice(0, 2)) * 60 +
+    parseInt(req.body.dureeEvenement.slice(3, 5))
+  run()
+  async function run() {
+    try {
+      const dechetSpecifique = []
+      for (const dsIter of req.body.dechetSpecifique) {
+        const dechetS = new DechetSpecifique({
+          nom: dsIter.nomDS,
+          volume: dsIter.volumeDS,
+          desc: dsIter.descDS,
+          volEst: dsIter.volEstDS,
+          provenance: dsIter.provenanceDS,
+          commentaire: dsIter.commentaireDS,
+          poids: dsIter.poidsDS,
+          nombre: dsIter.nombreDS,
+        })
+        await dechetS.save()
+        dechetSpecifique.push(dechetS._id)
+      }
+
+      const depoll = new Depoll({
+        lieu: req.body.lieu,
+        ville: req.body.ville,
+        dateEvenement,
+        dureeEvenement,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
+        pays: req.body.pays,
+        nombreParticipantsWings: req.body.nombreParticipantsWings,
+        nombreParticipantsExterne: req.body.nombreParticipantsExterne,
+        crewId: req.body.crewId,
+        autresStructures: req.body.autresStructures.split(','),
+        longueur: req.body.longueur,
+        surface: req.body.surface,
+        typeLieu: req.body.typeLieu,
+        typesDechet: req.body.typesDechet,
+        activites: req.body.activites,
+        frequentation: req.body.frequentation,
+        quantiteDechet: req.body.quantiteDechet,
+        pourquoiIlEnReste: req.body.pourquoiIlEnReste,
+        commentaire: req.body.commentaire,
+        poidsPlastiqueNonRecy:
+          req.body.valeurQuantitatif.poids.PlastiqueNonRecy,
+        volumePlastiqueNonRecy:
+          req.body.valeurQuantitatif.volume.PlastiqueNonRecy,
+        poidsPlastiqueRecy: req.body.valeurQuantitatif.poids.PlastiqueRecy,
+        volumePlastiqueRecy: req.body.valeurQuantitatif.volume.PlastiqueRecy,
+        poidsMetal: req.body.valeurQuantitatif.poids.Metal,
+        volumeMetal: req.body.valeurQuantitatif.volume.Metal,
+        poidsVerreEtCeramique:
+          req.body.valeurQuantitatif.poids.VerreEtCeramique,
+        volumeVerreEtCeramique:
+          req.body.valeurQuantitatif.volume.VerreEtCeramique,
+        poidsTextile: req.body.valeurQuantitatif.poids.Textile,
+        volumeTextile: req.body.valeurQuantitatif.volume.Textile,
+        poidsPapierEtCarton: req.body.valeurQuantitatif.poids.PapierEtCarton,
+        volumePapierEtCarton: req.body.valeurQuantitatif.volume.PapierEtCarton,
+        poidsBois: req.body.valeurQuantitatif.poids.Bois,
+        volumeBois: req.body.valeurQuantitatif.volume.Bois,
+        poidsCaoutchouc: req.body.valeurQuantitatif.poids.Caoutchouc,
+        volumeCaoutchouc: req.body.valeurQuantitatif.volume.Caoutchouc,
+        poidsAutre: req.body.valeurQuantitatif.poids.Autre,
+        volumeAutre: req.body.valeurQuantitatif.volume.Autre,
+        bouteilleEnPlastique:
+          req.body.valeurIndicateur.niv1.bouteilleEnPlastique,
+        bouteilleEnVerre: req.body.valeurIndicateur.niv1.bouteilleEnVerre,
+        canetteEnMetal: req.body.valeurIndicateur.niv1.canetteEnMetal,
+        masque: req.body.valeurIndicateur.niv1.masque,
+        megot: req.body.valeurIndicateur.niv1.megot,
+        pneu: req.body.valeurIndicateur.niv1.pneu,
+        appareilMenager: req.body.valeurIndicateur.niv2.appareilMenager,
+        ballonDeBaudruche: req.body.valeurIndicateur.niv2.ballonDeBaudruche,
+        batonDeSucette: req.body.valeurIndicateur.niv2.batonDeSucette,
+        batterie: req.body.valeurIndicateur.niv2.batterie,
+        boiteDAppats: req.body.valeurIndicateur.niv2.boiteDAppats,
+        boiteDeMedicaments: req.body.valeurIndicateur.niv2.boiteDeMedicaments,
+        bouchonEnPlastique: req.body.valeurIndicateur.niv2.bouchonEnPlastique,
+        briquet: req.body.valeurIndicateur.niv2.briquet,
+        capsule: req.body.valeurIndicateur.niv2.capsule,
+        cartoucheDeChasse: req.body.valeurIndicateur.niv2.cartoucheDeChasse,
+        chaussure: req.body.valeurIndicateur.niv2.chaussure,
+        contenantAlimentaire:
+          req.body.valeurIndicateur.niv2.contenantAlimentaire,
+        cordagesEmmeles: req.body.valeurIndicateur.niv2.cordagesEmmeles,
+        cordageEtFicelle: req.body.valeurIndicateur.niv2.cordageEtFicelle,
+        cotonTige: req.body.valeurIndicateur.niv2.cotonTige,
+        filetInf50cm: req.body.valeurIndicateur.niv2.filetInf50cm,
+        filetSup50cm: req.body.valeurIndicateur.niv2.filetSup50cm,
+        gobelet: req.body.valeurIndicateur.niv2.gobelet,
+        jouetEnPlastique: req.body.valeurIndicateur.niv2.jouetEnPlastique,
+        materielDePeche: req.body.valeurIndicateur.niv2.materielDePeche,
+        mediaFiltrant: req.body.valeurIndicateur.niv2.mediaFiltrant,
+        mousse: req.body.valeurIndicateur.niv2.mousse,
+        pailleEnPlastique: req.body.valeurIndicateur.niv2.pailleEnPlastique,
+        protectionHygienique:
+          req.body.valeurIndicateur.niv2.protectionHygienique,
+        sacPlastique: req.body.valeurIndicateur.niv2.sacPlastique,
+        vaisselleEnPlastique:
+          req.body.valeurIndicateur.niv2.vaisselleEnPlastique,
+        vetement: req.body.valeurIndicateur.niv2.vetement,
+        dechetSpecifique,
+      })
+      await depoll.save()
       res.status(201).json({ message: 'bien enregistré' })
-    })
-    .catch(error => {
-      res.status(400).json({ error, depoll })
-    })
+    } catch (error) {
+      console.log('error:', error)
+      res.status(400).json({ error: error.message })
+    }
+  }
 })
 
 router.get('/', (req, res) => {
   Depoll.find()
-    .then(depolls => {
+    .then((depolls) => {
       const render = depolls
       return res.status(200).json(render)
     })
-    .catch(error => res.status(400).json({ error }))
+    .catch((error) => res.status(400).json({ error }))
 })
 
 module.exports = router
