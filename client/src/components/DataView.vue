@@ -3,7 +3,7 @@
     <fade-loader v-if='chargement' class="position-absolute top-50 start-50"></fade-loader>
     <div class="" v-else>
       <div class="row">
-        <h2>info général</h2>
+        <h2>info général {{ $route.params.year }} </h2>
         <h4>Surface total : {{stats.surfaceTotal}}m²</h4>
         <div class="col-6">
           <h6>Poids total par materiaux</h6>
@@ -156,7 +156,7 @@ export default {
       let depoll_index = 0
       for (let depoll in rowDepolls) {
         rowDepolls[depoll].dateEvenement = new Date(rowDepolls[depoll].dateEvenement)
-        if (rowDepolls[depoll].dateEvenement.getUTCFullYear() == 2022) {
+        if (rowDepolls[depoll].dateEvenement.getUTCFullYear() == this.$route.params.year) {
           depolls.push({
             lieu: rowDepolls[depoll].lieu,
             ville: rowDepolls[depoll].ville,
