@@ -56,16 +56,16 @@
           <pop-help :content="formInfo.crew.help"></pop-help>
           <div class="">
             <label for="crewType">Type</label>
-            <div class="form-check" v-for="val of formInfo.crew.crewType" :key="val.id">
-              <input class="form-check-input" type="radio" name="crewType" :id="val.crewValue" :value="val.crewValue" v-model="crewType" @click="resetCrewName">
-              <label class="form-check-label" :for="val.crewValue">{{ val.name }}</label>
+            <div class="form-check" v-for="val of crewTypeList" :key="val.id">
+              <input class="form-check-input" type="radio" name="crewType" :id="val.value" :value="val.value" v-model="crewType" @click="resetCrewName">
+              <label class="form-check-label" :for="val.value">{{ val.name }}</label>
             </div>
           </div>
           <div class="">
             <label for="crewName">Nom</label>
-            <select class="form-select" name="crewName" id="crewName" v-model="crewName">
+            <select class="form-select" name="crewName" id="crewName" v-model="crew">
               <option value="none" selected disabled hidden>Aucun</option>
-              <option :value="crew" v-for="crew of crewList[crewType]"  :key="crew.id">{{ crew }}</option>
+              <option :value="crew" v-for="crew of crewList[crewType]"  :key="crew.id">{{ crew.name }}</option>
             </select>
           </div>
           <button type="button" class="btn btn-primary" name="crewAdd" @click="crewAdd">Valider</button>
@@ -75,9 +75,9 @@
           <div class="" v-else>
             <div class="">
               <label for="crewTypeNew">Type</label>
-              <div class="form-check" v-for="val of formInfo.crew.crewType"  :key="val.id">
-                <input class="form-check-input" type="radio" name="crewTypeNew" :id="val.crewValue + 'New'" :value="val.crewValue" v-model="createdCrew.crewType">
-                <label class="form-check-label" :for="val.crewValue + 'New'">{{ val.name }}</label>
+              <div class="form-check" v-for="val of crewTypeList"  :key="val.id">
+                <input class="form-check-input" type="radio" name="crewTypeNew" :id="val.value + 'New'" :value="val._id" v-model="createdCrew.crewTypeId">
+                <label class="form-check-label" :for="val.value + 'New'">{{ val.name }}</label>
               </div>
             </div>
             <div class="">
@@ -98,9 +98,9 @@
         </div>
       </div>
       <div class="row d-flex justify-content-around">
-        <div class="crewItem col-2" v-for="crewInd of range(nbCrew)"  :key="crewInd.id">
-          <p><em>{{ formInfo.crew.crewType.find(elem => elem.crewValue == sub.crewType[crewInd]).name }}</em> <br> <strong>{{ sub.crewName[crewInd] }}</strong></p>
-          <button type="button" class="btn btn-warning" name="newCrew" @click="removeCrew(crewInd)">Retirer</button>
+        <div class="crewItem col-2" v-for="crew of crewPickList"  :key="crew.id">
+          <p><em>{{ crew.type }}</em> <br> <strong>{{ crew.name }}</strong></p>
+          <button type="button" class="btn btn-warning" name="newCrew" @click="removeCrew(crew)">Retirer</button>
         </div>
       </div>
       <div class="row">
@@ -137,13 +137,13 @@
         </div>
         <h3>Caractérisation des Déchets</h3>
         <div class="col-lg-6">
-          <label :for="formInfo.DechetIndicateur.name" class="form-label">{{ formInfo.DechetIndicateur.label }}</label>
-          <pop-help :content="formInfo.DechetIndicateur.help"></pop-help>
-          <select class="form-select" :name="formInfo.DechetIndicateur.name" id="indicateur" v-model="DechetIndicateur">
-            <option :value="sel.value" selected v-for="sel in formInfo.DechetIndicateur.valueSel"  :key="sel.id"> {{ sel.label }} </option>
+          <label :for="formInfo.dechetIndicateur.name" class="form-label">{{ formInfo.dechetIndicateur.label }}</label>
+          <pop-help :content="formInfo.dechetIndicateur.help"></pop-help>
+          <select class="form-select" :name="formInfo.dechetIndicateur.name" id="indicateur" v-model="dechetIndicateur">
+            <option :value="sel.value" selected v-for="sel in formInfo.dechetIndicateur.valueSel"  :key="sel.id"> {{ sel.label }} </option>
           </select>
         </div>
-        <div class="col-lg-6" v-if="DechetIndicateur == 'reMed2' || DechetIndicateur == 'reMed3'">
+        <div class="col-lg-6" v-if="dechetIndicateur == 'reMed2' || dechetIndicateur == 'reMed3'">
           <table class="table">
             <thead>
               <tr>
@@ -152,16 +152,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="niv1 in formInfo.DechetIndicateur.value1" :key="niv1.id">
+              <tr v-for="niv1 in formInfo.dechetIndicateur.value1" :key="niv1.id">
                 <th>{{ niv1[1] }}</th>
                 <td>
-                  <input type="number" class="form-control" :name="niv1[0]" v-model="sub.ValeurIndicateur.niv1[niv1[0]]">
+                  <input type="number" class="form-control" :name="niv1[0]" v-model="sub.valeurIndicateur.niv1[niv1[0]]">
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="col-lg-6" v-if="DechetIndicateur == 'reMed3'">
+        <div class="col-lg-6" v-if="dechetIndicateur == 'reMed3'">
           <table class="table">
             <thead>
               <tr>
@@ -170,10 +170,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="niv2 in formInfo.DechetIndicateur.value2" :key="niv2.id">
+              <tr v-for="niv2 in formInfo.dechetIndicateur.value2" :key="niv2.id">
                 <th>{{ niv2[1] }}</th>
                 <td>
-                  <input type="number" class="form-control" :name="niv2[0]" v-model="sub.ValeurIndicateur.niv2[niv2[0]]">
+                  <input type="number" class="form-control" :name="niv2[0]" v-model="sub.valeurIndicateur.niv2[niv2[0]]">
                 </td>
               </tr>
             </tbody>
@@ -189,20 +189,20 @@
               <th width=100>Volume (L) </th>
             </thead>
             <tbody>
-              <tr v-for="material in formInfo.DechetQuantitatif.value" :key="material.id">
+              <tr v-for="material in formInfo.dechetQuantitatif.value" :key="material.id">
                 <th>{{ material.label }} <pop-help :content="material.help"></pop-help></th>
                 <td>
-                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.ValeurQuantitatif.poids[material.name]" step="0.001">
+                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids[material.name]" step="0.001">
                 </td>
                 <td>
-                  <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.ValeurQuantitatif.volume[material.name]" step="0.1">
+                  <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.valeurQuantitatif.volume[material.name]" step="0.1">
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-6">
           <label :for="formInfo.nbDechetSpecifique.name" class="form-label">{{ formInfo.nbDechetSpecifique.label }}</label>
           <pop-help :content="formInfo.nbDechetSpecifique.help"></pop-help>
@@ -213,8 +213,27 @@
         </div>
       </div>
       <div v-for="index in range(nbDechetSpecifique)" :key="index.id">
-        <dechet-specifique :num="index + 1" :content="formInfo.DechetSpecifique" @update="upValue"></dechet-specifique>
+        <dechet-specifique :num="index + 1" :content="formInfo.dechetSpecifique" @update="upValue"></dechet-specifique>
+      </div> -->
+      <h3>Déchets Spécifiques</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="ifDS" id="ifDS" v-model="ifDS">
+        <label class="form-check-label" for="ifDS"> enregistrer des déchets spécifique ?</label>
+        <pop-help :content="formInfo.nbDechetSpecifique.help"></pop-help>
       </div>
+      <div class="row" v-if="ifDS">
+        <dechet-specifique :content="formInfo.dechetSpecifique" @update="upValue" @dsadd="dsAdd"></dechet-specifique>
+        <div class="col-6 d_specifique" v-for="dsItem in sub.dechetSpecifique" :key="dsItem.id">
+          <strong>{{ dsItem.nomDS }}</strong> avec un volume de {{ dsItem.volumeDS }}<br>
+          <em>{{ dsItem.descDS }}</em><br>
+          <p>{{ dsItem.volEstDS }} {{ dsItem.provenanceDS }}</p><br>
+          {{ dsItem.commentaireDS }}<br>
+          {{ dsItem.poidsDS }}
+          <button type="button" class="btn btn-warning" name="newCrew" @click="removeDS(dsItem.nomDS)">Retirer</button>
+        </div>
+      </div>
+      
+      
       <button class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
     </form>
   </div>
@@ -258,19 +277,26 @@ export default {
         mapOptions: { zoomSnap: 0.5 },
         dragging: false
       },
-      DechetIndicateur: '',
-      nbDechetSpecifique: 0,
+      dechetIndicateur: '',
+      ifDS: false,
       crewType: '',
-      crewName: '',
-      nbCrew: 0,
-      crewList: {
-        antenneLocal: [],
-        missions: [],
-        labels: []
-      },
+      crew: {},
+      crewTypeList: [],
+      crewList: {},
+      crewPickList: [],
       createdCrew: {
         crewName: '',
-        crewType: ''
+        crewTypeId: ''
+      },
+      ds: {
+        nomDS: '',
+        volumeDS: '',
+        descDS: '',
+        volEstDS: '',
+        provenanceDS: [],
+        commentaireDS: '',
+        poidsDS: '',
+        nombreDS: '',
       },
       crewCreateSuccess: false,
       crewCreateError: false,
@@ -286,8 +312,7 @@ export default {
         latitude: '',
         longitude: '',
         pays: '',
-        crewName: [],
-        crewType: [],
+        crewId: [],
         autresStructures: '',
         longueur: '',
         surface: '',
@@ -298,17 +323,9 @@ export default {
         quantiteDechet: '',
         pourquoiIlEnReste: [],
         commentaire: '',
-        ValeurIndicateur: {niv1: {}, niv2: {}},
-        ValeurQuantitatif: {poids: {}, volume: {}},
-        nbDechetSpecifique: 0,
-        nomDS: [],
-        volumeDS: [],
-        descDS: [],
-        volEstDS: [],
-        provenanceDS: [],
-        commentaireDS: [],
-        poidsDS: [],
-        nombreDS: [],
+        valeurIndicateur: {niv1: {}, niv2: {}},
+        valeurQuantitatif: {poids: {}, volume: {}},
+        dechetSpecifique: [],
       },
     }
   }, watch: {
@@ -336,18 +353,18 @@ export default {
           }
         }
       }
-    }, DechetIndicateur: {
+    }, dechetIndicateur: {
       handler(value) {
         if (value == "Aucun") {
-          for (let niv1 of formInfo.DechetIndicateur.value1) {
-            this.sub.ValeurIndicateur.niv1[niv1[0]] = null
+          for (let niv1 of formInfo.dechetIndicateur.value1) {
+            this.sub.valeurIndicateur.niv1[niv1[0]] = null
           }
-          for (let niv2 of formInfo.DechetIndicateur.value2) {
-            this.sub.ValeurIndicateur.niv2[niv2[0]] = null
+          for (let niv2 of formInfo.dechetIndicateur.value2) {
+            this.sub.valeurIndicateur.niv2[niv2[0]] = null
           }
         } else if (value == "Niveau 1") {
-          for (let niv2 of formInfo.DechetIndicateur.value2) {
-            this.sub.ValeurIndicateur.niv2[niv2[0]] = null
+          for (let niv2 of formInfo.dechetIndicateur.value2) {
+            this.sub.valeurIndicateur.niv2[niv2[0]] = null
           }
         }
       }
@@ -362,21 +379,27 @@ export default {
     }
   }, mounted () {
     this.$http.get('api/crew').then((res) => {
-      for (var crew of res.data) {
-        this.crewList[crew.crewType].push(crew.crewName)
+      this.crewTypeList = res.data.crewType
+      const crewList = {}
+      for (let crewType of res.data.crewType) {
+        crewList[crewType.value] = []
       }
+      for (let crew of res.data.crew) {
+        crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
+      }
+      this.crewList = crewList
     }, (res) => {
       console.log(res)
     })
-    for (let niv1 of formInfo.DechetIndicateur.value1) {
-      this.sub.ValeurIndicateur.niv1[niv1[0]] = null
+    for (let niv1 of formInfo.dechetIndicateur.value1) {
+      this.sub.valeurIndicateur.niv1[niv1[0]] = null
     }
-    for (let niv2 of formInfo.DechetIndicateur.value2) {
-      this.sub.ValeurIndicateur.niv2[niv2[0]] = null
+    for (let niv2 of formInfo.dechetIndicateur.value2) {
+      this.sub.valeurIndicateur.niv2[niv2[0]] = null
     }
-    for (let material of formInfo.DechetQuantitatif.value) {
-      this.sub.ValeurQuantitatif.poids[material.name] = null
-      this.sub.ValeurQuantitatif.volume[material.name] = null
+    for (let material of formInfo.dechetQuantitatif.value) {
+      this.sub.valeurQuantitatif.poids[material.name] = null
+      this.sub.valeurQuantitatif.volume[material.name] = null
     }
   }, methods: {
     async getAddress() {
@@ -406,7 +429,7 @@ export default {
       this.position = value.latlng
     }, upValue(value, target, dechSpe = false) {
       if (dechSpe) {
-        this.sub[target][dechSpe - 1] = value
+        this.ds[target] = value
       } else {
         this.sub[target] = value
       }
@@ -422,15 +445,22 @@ export default {
       )
     }, createCrew() {
       this.$http.post('api/crew', this.createdCrew).then(
-        () => {
+        (res) => {
+          const index = this.crewTypeList.findIndex((value) => value._id == res.body.crew.crewTypeId)
+          this.crew = { name: res.body.crew.crewName, type: this.crewTypeList[index].name, _id: res.body.crew._id}
+          
+          this.crewAdd()
           this.crewCreateSuccess = true
-          this.createdCrew = {crewName: '', crewType: ''}
           this.crewFormDisplay()
-          this.crewList = {antenneLocal: [], missions: [], labels: []}
           this.$http.get('api/crew').then((res) => {
-            for (var crew of res.data) {
-              this.crewList[crew.crewType].push(crew.crewName)
-            }
+          const crewList = {}
+          for (let crewType of res.data.crewType) {
+            crewList[crewType.value] = []
+          }
+          for (let crew of res.data.crew) {
+            crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
+          }
+          this.crewList = crewList
           }, (res) => {
             console.log(res)
           })
@@ -439,28 +469,42 @@ export default {
           this.crewCreateError = true
         }
       )
-      this.sub.crewName.unshift(this.createdCrew.crewName)
-      this.sub.crewType.unshift(this.createdCrew.crewType)
-      this.createdCrew.crewName = ''
-      this.createdCrew.crewType = ''
-      this.nbCrew++
+      this.createdCrew = {crewName: '', crewTypeId: ''}
     }, crewFormDisplay() {
       this.newCrew = !this.newCrew
       this.dis = ''
     }, close(valClose) {
       this[valClose] = false
     }, resetCrewName() {
-      this.crewName = ''
+      this.crew = {}
     }, crewAdd() {
-      this.sub.crewName.unshift(this.crewName)
-      this.sub.crewType.unshift(this.crewType)
-      this.crewName = ''
+      this.sub.crewId.unshift(this.crew._id)
+      this.crewPickList.unshift(this.crew)
+      this.crew = {}
       this.crewType = ''
-      this.nbCrew++
-    }, removeCrew(crewInd) {
-      this.sub.crewName.splice(crewInd, 1)
-      this.sub.crewType.splice(crewInd, 1)
-      this.nbCrew--
+    }, removeCrew(crew) {
+      const index = this.crewPickList.indexOf(crew)
+      if (index !== -1) {
+        this.sub.crewId.splice(index, 1)
+        this.crewPickList.splice(index, 1)
+      }
+    }, removeDS(nomDS) {
+      const index = this.sub.dechetSpecifique.findIndex((value) => value.nomDS == nomDS)
+      if (index !== -1) {
+        this.sub.dechetSpecifique.splice(index, 1)
+      }
+    }, dsAdd() {
+      this.sub.dechetSpecifique.unshift(this.ds)
+      this.ds = {
+        nomDS: '',
+        volumeDS: '',
+        descDS: '',
+        volEstDS: '',
+        provenanceDS: [],
+        commentaireDS: '',
+        poidsDS: '',
+        nombreDS: '',
+      }
     }
   }
 }
@@ -504,5 +548,14 @@ export default {
     border-radius: 1rem;
     border-width: thin;
     padding: 15px;
+  }
+
+  .d_specifique {
+    border: solid;
+    border-radius: 1rem;
+    border-width: thin;
+    background-color: rgb(228, 228, 228);
+    margin: 20px 0;
+    padding: 20px;
   }
 </style>
