@@ -4,6 +4,8 @@ import Home from '@/components/Home'
 import Form from '@/components/Form'
 import FilledForm from '@/components/FilledForm'
 import DataView from '@/components/DataView'
+import LieuForm from '@/components/LieuForm'
+import Test from '@/components/Test3'
 
 Vue.use(Router)
 
@@ -26,6 +28,14 @@ export default new Router({
       path: '/data_view/:year',
       name: 'DataView',
       component: DataView
+    }, {
+      path: '/lieu-form',
+      name: 'LieuForm',
+      component: LieuForm
+    }, {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
   ]
 })

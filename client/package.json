@@ -3,20 +3,26 @@
   "version": "1.0.0",
   "description": "The Vue.js client of Data-WOTO",
   "author": "Jayma <jayma.brochier@gmail.com>",
-  "private": false,  "scripts": {
+  "private": false,
+  "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "^2.11.4",
+    "@turf/turf": "^6.5.0",
     "core-js": "^3.6.5",
     "Data-WOTO": "file:..",
     "leaflet": "^1.7.1",
+    "leaflet-draw": "^1.0.4",
     "vue": "^2.6.11",
     "vue-resource": "^1.5.3",
     "vue-router": "^3.2.0",
     "vue-spinner": "^1.0.4",
     "vue2-leaflet": "^2.7.1",
+    "vue2-leaflet-draw-toolbar": "^0.1.1",
+    "vue2-leaflet-editable": "^0.5.0",
     "vue2-leaflet-fullscreen": "^1.0.1",
     "vue2-leaflet-markercluster": "^3.1.0"
   },

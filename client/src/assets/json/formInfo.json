@@ -39,6 +39,13 @@
     "help": "nombreParticipantsExterne",
     "type": "number"
   },
+  "carte": {
+    "value": {
+      "marker": { "name": "Position", "text": "Positionez le Marker au lieu de la dépoll"},
+      "polyline": { "name": "Longeur", "text": "Mesurez la longeur du terrain"},
+      "polygon": { "name": "Surface", "text": "Déssinez la surface dépollué"}
+    }
+  },
   "latitude": {
     "name": "latitude",
     "req": true,
@@ -305,7 +312,7 @@
       "label": "Volume du Dechet",
       "help": "volumeDS",
       "type": "number",
-      "step": 0.0001
+      "step": 0.001
     },
     "descDS": {
       "name": "descDS",
@@ -347,7 +354,7 @@
       "label": "Poids",
       "help": "poidsDS",
       "type": "number",
-      "step": 0.0001
+      "step": 0.001
     },
     "nombreDS": {
       "name": "nombreDS",

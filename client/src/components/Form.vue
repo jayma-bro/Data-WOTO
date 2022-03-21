@@ -3,12 +3,8 @@
     <form  action="" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
       <h1>Formulaire</h1>
       <div class="row">
-        <input-type :content="formInfo.lieu" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
-        <input-type :content="formInfo.ville" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
         <input-type :content="formInfo.dateEvenement" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
         <input-type :content="formInfo.dureeEvenement" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
-      </div>
-      <div class="row">
         <div class="col-lg-3">
           <input-type :content="formInfo.nombreParticipantsWings" @update="upValue"></input-type>
         </div>
@@ -17,37 +13,19 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-9" id="map" style="">
-          <l-map
-            ref="myMap"
-            @click="onMapClick"
-            :zoom="mapAtt.zoom"
-            :center="mapAtt.center"
-            :options="mapAtt.mapOptions"
-            style="height: 100%">
-            <l-tile-layer
-              :url="mapAtt.url"
-              :attribution="mapAtt.attribution"/>
-            <l-marker
-              v-if="position.lat && position.lng"
-              visible
-              draggable
-              :icon="mapAtt.icon"
-              :lat-lng.sync="position"
-              @dragstart="dragging = true"
-              @dragend="dragging = false"
-              >
-              <l-tooltip :content="tooltipContent" :options="{ direction: 'right', permanent: true }" />
-            </l-marker>
-          </l-map>
-        </div>
+        <map-view  class="col-md-9" id="mapSpace" @update="updateLieu">
+        </map-view>
+        <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <div class="col-md-3">
-          <label for="latitude" class="form-label required">Latitude</label>
-          <input type="text" class="form-control" name="latitude" id="latitude" step="0.0000001" v-model="sub.latitude" required disabled>
-          <label for="longitude" class="form-label required">Longitude</label>
-          <input type="text" class="form-control" name="longitude" id="longitude" step="0.0000001" v-model="sub.longitude" required disabled>
-          <label for="pays" class="form-label">Pays</label>
-          <input type="text" class="form-control" name="pays" id="pays" v-model="sub.pays" disabled>
+          <p>
+          <strong>Nom</strong> : {{ lieu.lieu }} <br>
+          <strong>Type</strong> : {{ lieu.typeLieu }} <br>
+          <strong>Lat</strong> : {{ lieu.localisation[0] }} <br>
+          <strong>Lng</strong> : {{ lieu.localisation[1] }} <br>
+          <strong>Pays</strong> : {{ lieu.pays }} <br>
+          <strong>Longueur</strong> : {{ lieu.longueur }}m <br>
+          <strong>Surface</strong> : {{ lieu.surface }}m² <br>
+          </p>
         </div>
       </div>
       <div class="row bigblock d-flex justify-content-between">
@@ -106,21 +84,6 @@
       <div class="row">
         <input-type :content="formInfo.autresStructures" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
       </div>
-      <h3>Info sur le lieu</h3>
-      <div class="row">
-        <input-type :content="formInfo.longueur" baseclass="col-lg-3" @update="upValue"></input-type>
-        <input-type :content="formInfo.surface" baseclass="col-lg-3" @update="upValue"></input-type>
-        <div class="col-lg-6">
-          <label :for="formInfo.typeLieu.name" class="form-label" :class="{required: formInfo.typeLieu.req}">{{ formInfo.typeLieu.label }}</label>
-          <pop-help :content="formInfo.typeLieu.help"></pop-help>
-          <select class="form-select" name="typeLieu" v-model="sub.typeLieu" required>
-              <option value="none" selected disabled hidden>Selectionez une option</option>
-            <optgroup :label="group" v-for="group in formInfo.typeLieu.groups"  :key="group.id">
-              <option :value="value" v-for="value in formInfo.typeLieu.values[group]"  :key="value.id"> {{ value }} </option>
-            </optgroup>
-          </select>
-        </div>
-      </div>
       <div class="row">
         <input-type :content="formInfo.typesDechet" baseclass="col" @update="upValue"></input-type>
         <input-type :content="formInfo.activites" baseclass="col" @update="upValue"></input-type>
@@ -155,7 +118,7 @@
               <tr v-for="niv1 in formInfo.dechetIndicateur.value1" :key="niv1.id">
                 <th>{{ niv1[1] }}</th>
                 <td>
-                  <input type="number" class="form-control" :name="niv1[0]" v-model="sub.valeurIndicateur.niv1[niv1[0]]">
+                  <input type="number" class="form-control" :name="niv1[0]" v-model="sub.dechetIndicateur[niv1[0]]">
                 </td>
               </tr>
             </tbody>
@@ -173,7 +136,7 @@
               <tr v-for="niv2 in formInfo.dechetIndicateur.value2" :key="niv2.id">
                 <th>{{ niv2[1] }}</th>
                 <td>
-                  <input type="number" class="form-control" :name="niv2[0]" v-model="sub.valeurIndicateur.niv2[niv2[0]]">
+                  <input type="number" class="form-control" :name="niv2[0]" v-model="sub.dechetIndicateur[niv2[0]]">
                 </td>
               </tr>
             </tbody>
@@ -192,29 +155,16 @@
               <tr v-for="material in formInfo.dechetQuantitatif.value" :key="material.id">
                 <th>{{ material.label }} <pop-help :content="material.help"></pop-help></th>
                 <td>
-                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids[material.name]" step="0.001">
+                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids['poids'+material.name]" step="0.001">
                 </td>
                 <td>
-                  <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.valeurQuantitatif.volume[material.name]" step="0.1">
+                  <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.valeurQuantitatif.volume['volume'+material.name]" step="0.1">
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-6">
-          <label :for="formInfo.nbDechetSpecifique.name" class="form-label">{{ formInfo.nbDechetSpecifique.label }}</label>
-          <pop-help :content="formInfo.nbDechetSpecifique.help"></pop-help>
-          <select class="form-select" :name="formInfo.nbDechetSpecifique.name" :id="formInfo.nbDechetSpecifique.name" v-model="nbDechetSpecifique">
-            <option :value="0" selected>Aucun</option>
-            <option :value="nb" v-for="nb in range(formInfo.nbDechetSpecifique.maxValue, 1)" :key="nb.id">{{ nb }}</option>
-          </select>
-        </div>
-      </div>
-      <div v-for="index in range(nbDechetSpecifique)" :key="index.id">
-        <dechet-specifique :num="index + 1" :content="formInfo.dechetSpecifique" @update="upValue"></dechet-specifique>
-      </div> -->
       <h3>Déchets Spécifiques</h3>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="ifDS" id="ifDS" v-model="ifDS">
@@ -232,151 +182,108 @@
           <button type="button" class="btn btn-warning" name="newCrew" @click="removeDS(dsItem.nomDS)">Retirer</button>
         </div>
       </div>
-      
-      
       <button class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
     </form>
   </div>
 </template>
 
 <script>
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 import PopHelp from './PopHelp.vue'
 import InputType from './InputType.vue'
+import MapView from './MapView.vue'
 import DechetSpecifique from './DechetSpecifique.vue'
 import formInfo from '@/assets/json/formInfo.json'
-import { latLng, icon } from "leaflet"
-import { LMap, LTileLayer, LMarker, LTooltip } from 'vue2-leaflet'
 
 export default {
   name: 'Form',
   components: {
     PopHelp,
     InputType,
+    MapView,
     DechetSpecifique,
-    LMap,
-    LTileLayer,
-    LMarker,
-    LTooltip
+    FadeLoader,
   }, data () {
     return {
       formInfo,
-      position: {},
-      mapAtt: {
-        loading: false,
-        icon: icon({
-          iconUrl: require("leaflet/dist/images/marker-icon.png"),
-          shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-          iconSize: [25, 41],
-          iconAnchor: [12, 41]
-        }),
-        address:"",
-        zoom: 5,
-        center: latLng(46.783, 2.667),
-        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-        mapOptions: { zoomSnap: 0.5 },
-        dragging: false
-      },
-      dechetIndicateur: '',
+      loading: false,
+      address: null,
+      addressText: null,
+      dechetIndicateur: null,
       ifDS: false,
-      crewType: '',
+      crewType: null,
       crew: {},
       crewTypeList: [],
       crewList: {},
       crewPickList: [],
       createdCrew: {
-        crewName: '',
-        crewTypeId: ''
+        crewName: null,
+        crewTypeId: null
       },
       ds: {
-        nomDS: '',
-        volumeDS: '',
-        descDS: '',
-        volEstDS: '',
+        nomDS: null,
+        volumeDS: null,
+        descDS: null,
+        volEstDS: null,
         provenanceDS: [],
-        commentaireDS: '',
-        poidsDS: '',
-        nombreDS: '',
+        commentaireDS: null,
+        poidsDS: null,
+        nombreDS: null,
+      },
+      lieu: {
+        _id: null,
+        lieu: null,
+        ville: null,
+        localisation: [null],
+        polyline: null,
+        polygon: null,
+        pays: null,
+        longueur: null,
+        surface: null,
+        typeLieu: null,
+
       },
       crewCreateSuccess: false,
       crewCreateError: false,
       newCrew: false,
       dis: 'disabled',
       sub: {
-        lieu: '',
-        ville: '',
-        dateEvenement: '',
-        dureeEvenement: '',
-        nombreParticipantsWings: '',
-        nombreParticipantsExterne: '',
-        latitude: '',
-        longitude: '',
-        pays: '',
+        dateEvenement: null,
+        lieuId: null,
+        dureeEvenement: null,
+        nombreParticipantsWings: null,
+        nombreParticipantsExterne: null,
         crewId: [],
-        autresStructures: '',
-        longueur: '',
-        surface: '',
-        typeLieu: '',
+        autresStructures: null,
         typesDechet: [],
         activites: [],
-        frequentation: '',
-        quantiteDechet: '',
+        frequentation: null,
+        quantiteDechet: null,
         pourquoiIlEnReste: [],
-        commentaire: '',
-        valeurIndicateur: {niv1: {}, niv2: {}},
+        commentaire: null,
+        dechetIndicateur: {},
         valeurQuantitatif: {poids: {}, volume: {}},
         dechetSpecifique: [],
       },
     }
   }, watch: {
-    position: {
-      deep: true,
-      async handler(value) {
-        this.mapAtt.address = await this.getAddress();
-        this.sub.latitude = +(value.lat.toFixed(7))
-        this.sub.longitude = +(value.lng.toFixed(7))
-      }
-    }, nbDechetSpecifique: {
-      handler(value) {
-        this.sub.nbDechetSpecifique = value
-        for (let val of ["nomDS", "volumeDS", "descDS", "volEstDS", "provenanceDS", "commentaireDS", "poidsDS", "nombreDS"]) {
-          if (this.sub[val].length < value) {
-            while (this.sub[val].length < value) {
-              if (val == "provenanceDS") {
-                this.sub[val].push([])
-              } else {
-                this.sub[val].push("")
-              }
-            }
-          } else if (this.sub[val].length > value) {
-            this.sub[val] = this.sub[val].slice(0, value)
-          }
-        }
-      }
-    }, dechetIndicateur: {
+    dechetIndicateur: {
       handler(value) {
         if (value == "Aucun") {
           for (let niv1 of formInfo.dechetIndicateur.value1) {
-            this.sub.valeurIndicateur.niv1[niv1[0]] = null
+            this.sub.dechetIndicateur[niv1[0]] = null
           }
           for (let niv2 of formInfo.dechetIndicateur.value2) {
-            this.sub.valeurIndicateur.niv2[niv2[0]] = null
+            this.sub.dechetIndicateur[niv2[0]] = null
           }
         } else if (value == "Niveau 1") {
           for (let niv2 of formInfo.dechetIndicateur.value2) {
-            this.sub.valeurIndicateur.niv2[niv2[0]] = null
+            this.sub.dechetIndicateur[niv2[0]] = null
           }
         }
       }
     }
   }, computed: {
-    tooltipContent() {
-      if (this.mapAtt.dragging) return "..."
-      if (this.mapAtt.loading) return "Loading..."
-      return `<strong>${this.mapAtt.address.replace(
-        ",",
-        "<br/>")}`
-    }
   }, mounted () {
     this.$http.get('api/crew').then((res) => {
       this.crewTypeList = res.data.crewType
@@ -392,49 +299,25 @@ export default {
       console.log(res)
     })
     for (let niv1 of formInfo.dechetIndicateur.value1) {
-      this.sub.valeurIndicateur.niv1[niv1[0]] = null
+      this.sub.dechetIndicateur[niv1[0]] = null
     }
     for (let niv2 of formInfo.dechetIndicateur.value2) {
-      this.sub.valeurIndicateur.niv2[niv2[0]] = null
+      this.sub.dechetIndicateur[niv2[0]] = null
     }
     for (let material of formInfo.dechetQuantitatif.value) {
-      this.sub.valeurQuantitatif.poids[material.name] = null
-      this.sub.valeurQuantitatif.volume[material.name] = null
+      this.sub.valeurQuantitatif.poids['poids'+material.name] = null
+      this.sub.valeurQuantitatif.volume['volume'+material.name] = null
     }
   }, methods: {
-    async getAddress() {
-      this.mapAtt.loading = true
-      let address = "adressage impossible"
-      let pays = ""
-      try {
-        const { lat, lng } = this.position;
-        const result = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
-        );
-        if (result.status === 200) {
-          const body = await result.json()
-          if (body.display_name != undefined) {
-            address = body.display_name
-            pays = body.address.country
-          }
-        }
-      } catch (e) {
-        console.error("Reverse Geocode Error->", e)
-      }
-      this.mapAtt.loading = false
-      this.sub.pays = pays
-      return address
-    }, onMapClick(value) {
-      // place the marker on the clicked spot
-      this.position = value.latlng
-    }, upValue(value, target, dechSpe = false) {
+    upValue(value, target, dechSpe = false) {
       if (dechSpe) {
         this.ds[target] = value
       } else {
         this.sub[target] = value
       }
-    }, range(size, startAt = 0) {
-    return [...Array(size).keys()].map(i => i + startAt);
+    }, updateLieu(lieu) {
+      this.lieu = lieu
+      this.sub.lieuId = lieu._id
     }, submission() {
       this.$http.post('api/form', this.sub).then(
         () => {
@@ -524,7 +407,7 @@ export default {
     display: none;
   }
 
-  #map {
+  #mapSpace {
     height: 60vh;
     margin-top: 10px;
     margin-bottom: 10px;
