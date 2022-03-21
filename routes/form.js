@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
   run()
   async function run() {
     try {
-      const dechetSpecifique = []
+      const dechetSpecifiqueId = []
       for (const dsIter of req.body.dechetSpecifique) {
         const dechetS = new DechetSpecifique({
           nom: dsIter.nomDS,
@@ -24,24 +24,17 @@ router.post('/', (req, res) => {
           nombre: dsIter.nombreDS,
         })
         await dechetS.save()
-        dechetSpecifique.push(dechetS._id)
+        dechetSpecifiqueId.push(dechetS._id)
       }
 
       const depoll = new Depoll({
-        lieu: req.body.lieu,
-        ville: req.body.ville,
+        lieuId: req.body.lieuId,
         dateEvenement,
         dureeEvenement,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        pays: req.body.pays,
         nombreParticipantsWings: req.body.nombreParticipantsWings,
         nombreParticipantsExterne: req.body.nombreParticipantsExterne,
         crewId: req.body.crewId,
         autresStructures: req.body.autresStructures.split(','),
-        longueur: req.body.longueur,
-        surface: req.body.surface,
-        typeLieu: req.body.typeLieu,
         typesDechet: req.body.typesDechet,
         activites: req.body.activites,
         frequentation: req.body.frequentation,
@@ -107,7 +100,7 @@ router.post('/', (req, res) => {
         vaisselleEnPlastique:
           req.body.valeurIndicateur.niv2.vaisselleEnPlastique,
         vetement: req.body.valeurIndicateur.niv2.vetement,
-        dechetSpecifique,
+        dechetSpecifiqueId,
       })
       await depoll.save()
       res.status(201).json({ message: 'bien enregistré' })

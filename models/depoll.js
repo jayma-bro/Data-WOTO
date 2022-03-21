@@ -13,13 +13,9 @@ const depollSchema = mongoose.Schema({
     default: () => Date.now(),
   },
   relecture: { type: Boolean, required: true, default: false },
-  lieu: { type: String, required: true },
-  ville: { type: String },
+  lieuId: { type: mongoose.Types.ObjectId, required: true, ref: 'Lieu' },
   dateEvenement: { type: Date, required: true },
   dureeEvenement: { type: Number, required: true },
-  latitude: { type: Number, required: true },
-  longitude: { type: Number, required: true },
-  pays: String,
   nombreParticipantsWings: Number,
   nombreParticipantsExterne: Number,
   crewId: [
@@ -30,9 +26,6 @@ const depollSchema = mongoose.Schema({
     },
   ],
   autresStructures: [String],
-  longueur: Number,
-  surface: { type: Number, required: true },
-  typeLieu: { type: String, required: true },
   typesDechet: [String],
   activites: [String],
   frequentation: String,
@@ -90,7 +83,7 @@ const depollSchema = mongoose.Schema({
   sacPlastique: Number,
   vaisselleEnPlastique: Number,
   vetement: Number,
-  dechetSpecifique: [
+  dechetSpecifiqueId: [
     {
       type: mongoose.Types.ObjectId,
       ref: 'DechetSpecifique',
