@@ -38,7 +38,7 @@
               v-for="depoll in depolls"
               :key="depoll.id"
               :icon="mapAtt.icon"
-              :lat-lng="depoll.location">
+              :lat-lng="depoll.localisation">
               <l-popup class="popup" :options="{offset: offset}">{{ depoll.lieu }} <br>
                 {{ depoll.dateEvenement.toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: '2-digit'}) }} <br>
                 Surface {{Math.round(depoll.surface)}}m² <br>
@@ -158,25 +158,23 @@ export default {
         rowDepolls[depoll].dateEvenement = new Date(rowDepolls[depoll].dateEvenement)
         if (rowDepolls[depoll].dateEvenement.getUTCFullYear() == this.$route.params.year) {
           depolls.push({
-            lieu: rowDepolls[depoll].lieu,
-            ville: rowDepolls[depoll].ville,
-            crewName: rowDepolls[depoll].crewName.split(";"),
-            crewType: rowDepolls[depoll].crewType.split(";"),
+            lieu: rowDepolls[depoll].lieuId.lieu,
+            ville: rowDepolls[depoll].lieuId.ville,
             dateEvenement: rowDepolls[depoll].dateEvenement,
             dureeEvenement: rowDepolls[depoll].dureeEvenement,
             nombreParticipantsWings: rowDepolls[depoll].nombreParticipantsWings,
             nombreParticipantsExterne: rowDepolls[depoll].nombreParticipantsExterne,
-            autresStructures: rowDepolls[depoll].autresStructures,
-            surface: rowDepolls[depoll].surface,
-            location: [rowDepolls[depoll].latitude, rowDepolls[depoll].longitude],
+            autresStructures: rowDepolls[depoll].autresStructures.join(', '),
+            surface: rowDepolls[depoll].lieuId.surface,
+            localisation: rowDepolls[depoll].lieuId.localisation,
             poidsTotal: 0,
             volumeTotal: 0
           })
           for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
-            for (let type of ['poids', 'volume']) {
-              if (rowDepolls[depoll][type + material] !== null) {
-                stats[type][material] += rowDepolls[depoll][type + material]
-                depolls[depoll_index][type + 'Total'] += rowDepolls[depoll][type + material]
+            for (let type of [{arr: 'dechetQuantitatifPoids', ty: 'poids'}, {arr: 'dechetQuantitatifVolume', ty: 'volume'}]) {
+              if (rowDepolls[depoll][type.arr][type.ty + material] !== null) {
+                stats[type.ty][material] += rowDepolls[depoll][type.arr][type.ty + material]
+                depolls[depoll_index][type.ty + 'Total'] += rowDepolls[depoll][type.arr][type.ty + material]
               }
             }
           }
