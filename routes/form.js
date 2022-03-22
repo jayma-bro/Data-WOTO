@@ -62,6 +62,14 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   Depoll.find()
+    .populate({
+      path: 'crewId',
+      populate: {
+        path: 'crewTypeId',
+      },
+    })
+    .populate('lieuId')
+    .populate('dechetSpecifiqueId')
     .then((depolls) => {
       const render = depolls
       return res.status(200).json(render)
