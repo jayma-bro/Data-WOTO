@@ -182,7 +182,9 @@
           <button type="button" class="btn btn-warning" name="newCrew" @click="removeDS(dsItem.nomDS)">Retirer</button>
         </div>
       </div>
-      <button class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
+      <button v-if="!submition" class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
+      <button v-if="submition" class="btn btn-primary" disabled >Soumission en cour</button>
+
     </form>
   </div>
 </template>
@@ -247,6 +249,7 @@ export default {
       crewCreateError: false,
       newCrew: false,
       dis: 'disabled',
+      submition: false,
       sub: {
         dateEvenement: null,
         lieuId: null,
@@ -319,11 +322,13 @@ export default {
       this.lieu = lieu
       this.sub.lieuId = lieu._id
     }, submission() {
+      this.submission = true
       this.$http.post('api/form', this.sub).then(
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {
           window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
+          this.submission = false
         }
       )
     }, createCrew() {
