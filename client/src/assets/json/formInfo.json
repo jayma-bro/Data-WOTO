@@ -262,6 +262,14 @@
       ["vetement", "Vêtement"]
     ]
   },
+  "selecDechetQuantitatif": {
+    "name": "selecDechetQuantitatif",
+    "req": false,
+    "label": "caractérisation quantitative des déchets",
+    "help": "selecDechetQuantitatif",
+    "type": "radio",
+    "value": ["Aucun", "Volume", "Poids et Volume"]
+  },
   "dechetQuantitatif": {
     "value": [
       {

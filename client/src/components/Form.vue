@@ -108,8 +108,13 @@
           <textarea name="commentaire" class="form-control" id="commentaire" v-model="sub.commentaire"></textarea>
         </div>
         <h3>Caractérisation des Déchets</h3>
+        <p>
+          pensez bien dans cette partie du formulaire, qu'un '0' est différents d'une valeur null <br>
+          '0' => je sais qu'il n'y a pas eu cette chose <br>
+          (une valeur null) => je ne sais pas si elle y était ou non, et ni dans quelle proportion.
+        </p>
         <div class="col-lg-6">
-          <label :for="formInfo.dechetIndicateur.name" class="form-label">{{ formInfo.dechetIndicateur.label }}</label>
+          <label :for="formInfo.dechetIndicateur.name" class="form-label"><h5>{{ formInfo.dechetIndicateur.label }}</h5></label>
           <pop-help :content="formInfo.dechetIndicateur.help"></pop-help>
           <select class="form-select" :name="formInfo.dechetIndicateur.name" id="indicateur" v-model="dechetIndicateur">
             <option :value="sel.value" selected v-for="sel in formInfo.dechetIndicateur.valueSel"  :key="sel.id"> {{ sel.label }} </option>
@@ -154,7 +159,12 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <table class="table">
+          <h5>Déchets Quantitatif</h5>
+          <p>
+            même si la valeur est approximative, essayez de renseigner le plus d'information possible dans les déchets quantitatifs
+          </p>
+          <input-type :content="formInfo.selecDechetQuantitatif" baseclass="" @update="upQuanti"></input-type>
+          <table class="table" v-if="dQ.volume">
             <thead>
               <th></th>
               <th width=100>Poids (Kg) </th>
@@ -164,7 +174,7 @@
               <tr v-for="material in formInfo.dechetQuantitatif.value" :key="material.id">
                 <th>{{ material.label }} <pop-help :content="material.help"></pop-help></th>
                 <td>
-                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids['poids'+material.name]" step="0.001">
+                  <input type="number" class="form-control" v-if="dQ.poid" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids['poids'+material.name]" step="0.001">
                 </td>
                 <td>
                   <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.valeurQuantitatif.volume['volume'+material.name]" step="0.1">
@@ -174,7 +184,7 @@
           </table>
         </div>
       </div>
-      <h3>Déchets Spécifiques</h3>
+      <h5>Déchets Spécifiques</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="ifDS" id="ifDS" v-model="ifDS">
         <label class="form-check-label" for="ifDS"> enregistrer des déchets spécifique ?</label>
@@ -258,6 +268,10 @@ export default {
       crewCreateError: false,
       newCrew: false,
       dis: 'disabled',
+      dQ: {
+        volume: true,
+        poid: true,
+      },
       submit: false,
       sub: {
         dateEvenement: null,
@@ -326,6 +340,24 @@ export default {
         this.ds[target] = value
       } else {
         this.sub[target] = value
+      }
+    }, upQuanti(value, target) {
+      if (value === 'Aucun') {
+        this.dQ.volume = false
+        this.dQ.poid = false
+        for (let material of formInfo.dechetQuantitatif.value) {
+          this.sub.valeurQuantitatif.poids['poids'+material.name] = null
+          this.sub.valeurQuantitatif.volume['volume'+material.name] = null
+        }
+      } else if (value === 'Volume') {
+        this.dQ.volume = true
+        this.dQ.poid = false
+        for (let material of formInfo.dechetQuantitatif.value) {
+          this.sub.valeurQuantitatif.poids['poids'+material.name] = null
+        }
+      } else if (value === 'Poids et Volume') {
+        this.dQ.volume = true
+        this.dQ.poid = true
       }
     }, updateLieu(lieu) {
       this.lieu = lieu
