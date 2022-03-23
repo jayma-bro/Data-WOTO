@@ -341,7 +341,7 @@ export default {
       } else {
         this.sub[target] = value
       }
-    }, upQuanti(value, target) {
+    }, upQuanti(value) {
       if (value === 'Aucun') {
         this.dQ.volume = false
         this.dQ.poid = false
