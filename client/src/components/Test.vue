@@ -1,52 +1,24 @@
 <template>
   <div>
-    <l-map
-      ref="map"
-      :zoom="mapAtt.zoom"
-      :center="mapAtt.center"
-      @click="onMapClick"
-      style="height: 500px">
-      <l-polygon :lat-lngs="coordinates"></l-polygon>
-      <l-tile-layer :url="mapAtt.url"/>
-      <l-control position="bottomleft" >
-        <button @click="resetPoly">
-        Reset Poly
-        </button>
-        <button @click="changeMapAction('poly')">
-        Edit Poly
-        </button>
-      </l-control>
-      <!-- other map components -->
-    </l-map>
-    <div class="map2" id="map2">
-
+    <div class="map" id="map">
     </div>
   </div>
 </template>
 
 <script>
-
-import { latLng, icon, L } from "leaflet"
-import { LMap, LTileLayer, LPolygon, LControl } from 'vue2-leaflet'
+import L from "leaflet"
+// import "leaflet-draw"
+import '@geoman-io/leaflet-geoman-free'
+import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
 export default {
   components: {
-    LMap,
-    LTileLayer,
-    LPolygon,
-    LControl
   }, data () {
     return {
       mapAtt: {
         loading: false,
-        icon: icon({
-          iconUrl: require("leaflet/dist/images/marker-icon.png"),
-          shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-          iconSize: [25, 41],
-          iconAnchor: [12, 41]
-        }),
         address:"",
         zoom: 5,
-        center: latLng(46.783, 2.667),
+        center: L.latLng(46.783, 2.667),
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
         mapOptions: { zoomSnap: 0.5 },
@@ -55,45 +27,28 @@ export default {
       mapAction: 'poly',
       coordinates: [
       ],
+      map: null,
+      tileLayer: null,
+      drawnItems: null,
+      drawControl: null,
+      test: 'blup'
     }
   }, mounted () {
-    this.map2 = L.map('map2').setView(this.mapAtt.center, 6);
-
+    L.PM.setOptIn(false)
+    this.map = L.map('map').setView(this.mapAtt.center, 6)
+    this.map.pm.setLang('fr')
     // Set up the OSM layer
     L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
         maxZoom: 18
-      }).addTo(this.map2);
-
-    // add a marker in the given location
-    L.marker(this.mapAtt.center).addTo(this.map2);
-    this.editableLayers = new L.FeatureGroup()
-    this.drawPluginOptions = {
-      position: 'topright',
-      draw: {
-        polygon: {
-          allowIntersection: false, // Restricts shapes to simple polygons
-          drawError: {
-            color: '#e1e100', // Color the shape will turn when intersects
-            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-          },
-          shapeOptions: {
-            color: '#97009c'
-          }
-        },
-        // disable toolbar item by setting it to false
-        polyline: false,
-        circle: false, // Turns off this drawing tool
-        rectangle: false,
-        marker: false,
-      },
-      edit: {
-        featureGroup: this.editableLayers, //REQUIRED!!
-        remove: false
-      }
-    },
-    this.drawControl = new L.Control.Draw(this.drawPluginOptions)
+    }).addTo(this.map)
+    this.map.pm.addControls({})
+    this.drawnItems = new L.FeatureGroup()
+    this.map.addLayer(this.drawnItems)
+    this.map.on('pm:create', (e) => {
+      L.PM.reInitLayer(e.layer);
+    })
   }, methods: {
     onMapClick(value) {
       this.coordinates.push(value.latlng)
@@ -125,56 +80,9 @@ export default {
     }
   }
 }
-
-
-/* var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
-
-var drawPluginOptions = {
-  position: 'topright',
-  draw: {
-    polygon: {
-      allowIntersection: false, // Restricts shapes to simple polygons
-      drawError: {
-        color: '#e1e100', // Color the shape will turn when intersects
-        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-      },
-      shapeOptions: {
-        color: '#97009c'
-      }
-    },
-    // disable toolbar item by setting it to false
-    polyline: false,
-    circle: false, // Turns off this drawing tool
-    rectangle: false,
-    marker: false,
-    },
-  edit: {
-    featureGroup: editableLayers, //REQUIRED!!
-    remove: false
-  }
-};
-
-// Initialise the draw control and pass it the FeatureGroup of editable layers
-var drawControl = new L.Control.Draw(drawPluginOptions);
-map.addControl(drawControl);
-
-var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
-
-map.on('draw:created', function(e) {
-  var type = e.layerType,
-    layer = e.layer;
-
-  if (type === 'marker') {
-    layer.bindPopup('A popup!');
-  }
-
-  editableLayers.addLayer(layer);
-}); */
-
 </script>
 
 <style>
+@import "~leaflet/dist/leaflet.css";
 .map { height: 600px }
 </style>

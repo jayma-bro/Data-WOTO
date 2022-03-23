@@ -5,7 +5,7 @@ import Form from '@/components/Form'
 import FilledForm from '@/components/FilledForm'
 import DataView from '@/components/DataView'
 import LieuForm from '@/components/LieuForm'
-import Test from '@/components/Test3'
+import Test from '@/components/Test'
 
 Vue.use(Router)
 

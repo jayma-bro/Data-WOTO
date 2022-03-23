@@ -8,7 +8,6 @@ const formRoutes = require('./routes/form')
 const statsRoutes = require('./routes/stats')
 const crewRoutes = require('./routes/crew')
 const lieuRoutes = require('./routes/lieu')
-const testRoutes = require('./routes/test')
 
 const app = express()
 
@@ -54,7 +53,6 @@ app.use('/api/form', formRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/crew', crewRoutes)
 app.use('/api/lieu', lieuRoutes)
-app.use('/api/test', testRoutes)
 
 app.use(express.static(path.join(__dirname, './dist')))
 app.get('*', (req, res) => {
