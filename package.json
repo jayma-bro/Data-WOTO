@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server",
     "start": "node server",
-    "dev:client": "npm run dev --prefix ./client",
+    "dev:client": "npm run serve --prefix ./client",
     "build": "npm run build --prefix ./client",
     "heroku-prebuild": "npm install --production=false --prefix ./client"
   },
