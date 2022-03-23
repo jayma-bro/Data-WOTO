@@ -1,16 +1,22 @@
 <template>
   <div class="form">
     <form  action="" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
-      <h1>Formulaire</h1>
+      <h1>Formulaire</h1><br>
+      <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>
       <div class="row">
         <input-type :content="formInfo.dateEvenement" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
         <input-type :content="formInfo.dureeEvenement" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
-        <div class="col-lg-3">
+        <div class="col-xl-3 col-md-6">
           <input-type :content="formInfo.nombreParticipantsWings" @update="upValue"></input-type>
         </div>
-        <div class="col-lg-3">
+        <div class="col-xl-3 col-md-6">
           <input-type :content="formInfo.nombreParticipantsExterne" @update="upValue"></input-type>
         </div>
+      </div>
+      <div class="row">
+        <p>
+          Selectionnez sur le lieu de dépollution sur la carte, s'il n'y est pas renseigné le par <router-link :to="{ name: 'LieuForm'}">ce formulaire !</router-link>
+        </p>
       </div>
       <div class="row">
         <map-view  class="col-md-9" id="mapSpace" @update="updateLieu">
@@ -18,13 +24,14 @@
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <div class="col-md-3">
           <p>
-          <strong>Nom</strong> : {{ lieu.lieu }} <br>
-          <strong>Type</strong> : {{ lieu.typeLieu }} <br>
-          <strong>Lat</strong> : {{ lieu.localisation[0] }} <br>
-          <strong>Lng</strong> : {{ lieu.localisation[1] }} <br>
-          <strong>Pays</strong> : {{ lieu.pays }} <br>
-          <strong>Longueur</strong> : {{ lieu.longueur }}m <br>
-          <strong>Surface</strong> : {{ lieu.surface }}m² <br>
+            <H3>Information sur le lieu selectioné</H3>
+            <strong>Nom</strong> : {{ lieu.lieu }} <br>
+            <strong>Type</strong> : {{ lieu.typeLieu }} <br>
+            <strong>Lat</strong> : {{ lieu.localisation[0] }} <br>
+            <strong>Lng</strong> : {{ lieu.localisation[1] }} <br>
+            <strong>Pays</strong> : {{ lieu.pays }} <br>
+            <strong>Longueur</strong> : {{ lieu.longueur }}m <br>
+            <strong>Surface</strong> : {{ lieu.surface }}m² <br>
           </p>
         </div>
       </div>
@@ -49,17 +56,19 @@
           <button type="button" class="btn btn-primary" name="crewAdd" @click="crewAdd">Valider</button>
         </div>
         <div class="col-xl-3 col-md-6">
-          <button type="button" class="btn btn-success" name="newCrew" v-if="!newCrew" @click="crewFormDisplay">Nouveau Crew</button>
+          <div v-if="!newCrew">
+            <p>
+              si votre label n'est pas présent dans la liste, <br>
+              renseignez-le par ce petit formulaire.
+            </p>
+            <button type="button" class="btn btn-success" name="newCrew" @click="crewFormDisplay">Nouveau Label</button>
+          </div>
           <div class="" v-else>
             <div class="">
-              <label for="crewTypeNew">Type</label>
-              <div class="form-check" v-for="val of crewTypeList"  :key="val.id">
-                <input class="form-check-input" type="radio" name="crewTypeNew" :id="val.value + 'New'" :value="val._id" v-model="createdCrew.crewTypeId">
-                <label class="form-check-label" :for="val.value + 'New'">{{ val.name }}</label>
-              </div>
-            </div>
-            <div class="">
               <label for="crewNameNew">Nom</label>
+              <p>
+                renseignez le nom que vous vous donnez (nom du bateau, de l'équipe, de l'organisme...)
+              </p>
               <input type="text" class="form-control" name="crewNameNew" v-model="createdCrew.crewName">
             </div>
             <button type="button" class="btn btn-success" name="createCrew" @click="createCrew">Valider</button>
@@ -182,8 +191,8 @@
           <button type="button" class="btn btn-warning" name="newCrew" @click="removeDS(dsItem.nomDS)">Retirer</button>
         </div>
       </div>
-      <button v-if="!submition" class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
-      <button v-if="submition" class="btn btn-primary" disabled >Soumission en cour</button>
+      <button v-if="!submit" class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
+      <button v-if="submit" class="btn btn-primary" disabled >Soumission en cour</button>
 
     </form>
   </div>
@@ -220,7 +229,7 @@ export default {
       crewPickList: [],
       createdCrew: {
         crewName: null,
-        crewTypeId: null
+        crewTypeId: '6235c992fb2a4d3758e4f32d',
       },
       ds: {
         nomDS: null,
@@ -249,7 +258,7 @@ export default {
       crewCreateError: false,
       newCrew: false,
       dis: 'disabled',
-      submition: false,
+      submit: false,
       sub: {
         dateEvenement: null,
         lieuId: null,
@@ -322,13 +331,13 @@ export default {
       this.lieu = lieu
       this.sub.lieuId = lieu._id
     }, submission() {
-      this.submission = true
+      this.submit = true
       this.$http.post('api/form', this.sub).then(
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {
           window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
-          this.submission = false
+          this.submit = false
         }
       )
     }, createCrew() {
@@ -357,7 +366,7 @@ export default {
           this.crewCreateError = true
         }
       )
-      this.createdCrew = {crewName: '', crewTypeId: ''}
+      this.createdCrew.crewName = ''
     }, crewFormDisplay() {
       this.newCrew = !this.newCrew
       this.dis = ''

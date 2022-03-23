@@ -3,13 +3,36 @@
     <form action="" accept-charset="utf-8" autocomplete="on" name="formulaire lieu" class="needs-validation" novalidate>
       <h1>Formulaire du Lieu</h1>
       <div class="row">
+        <ol>
+          <li>
+            utilisez l'icône <img src="../assets/img/Marker_icon.svg"> pour localiser le lieu de dépoll (par exemple le centre de carac et trie) <br>
+          </li>
+          <li>
+          utilisez l'icône <img src="../assets/img/Polygon_icon.svg"> pour dessiner la surface dépolluée <br>
+          </li>
+          <li>
+          utilisez l'icône <img src="../assets/img/Polyline_icon.svg"> pour mesurer la longueur du terrain dépollué
+          </li>
+        </ol>
+        <ul>
+          <li>
+            <em>maintenez la touche Alt pour désactiver le magnetisme des points</em>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>
+          </li>
+        </ul>
+        <p>
+        </p>
+      </div>
+      <div class="row">
         <map-form  class="col-md-9" id="mapSpace" :content="formInfo.carte"  @update="updateMap">
         </map-form>
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <div class="col-md-3">
           <p>
-          <strong>Lat</strong> : {{ sub.latitude }} <br>
-          <strong>Lng</strong> : {{ sub.longitude }} <br>
+          <strong>Lat</strong> : {{ sub.localisation[0] }} <br>
+          <strong>Lng</strong> : {{ sub.localisation[1] }} <br>
           <strong>Pays</strong> : {{ sub.pays }} <br>
           <strong>Longueur</strong> : {{ sub.longueur }}m <br>
           <strong>Surface</strong> : {{ sub.surface }}m² <br>
@@ -61,7 +84,7 @@ export default {
       sub: {
         lieu: null,
         ville: null,
-        localisation: null,
+        localisation: [null, null],
         polyline: null,
         polygon: null,
         pays: null,

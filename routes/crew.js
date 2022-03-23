@@ -20,8 +20,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res, next) => {
   const crew = new Crew({
-    crewTypeId: req.body.crewTypeId,
-    crewName: req.body.crewName,
+    ...req.body,
   })
   crew
     .save()
