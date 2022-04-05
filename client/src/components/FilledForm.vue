@@ -4,7 +4,7 @@
       <div class="alert alert-success" style="margin-top: 30vh;">
         felicitation pour avoir rempli le formulaire
       </div>
-      <router-link :to="{ name: 'Home'}">page d'aceuil</router-link>
+      <router-link :to="{ name: 'Home'}">page d'accueil</router-link>
     </div>
   </div>
 </template>
