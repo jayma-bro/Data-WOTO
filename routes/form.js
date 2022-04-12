@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
         crewId: req.body.crewId,
         autresStructures: req.body.autresStructures
           ? req.body.autresStructures.split(',')
-          : null,
+          : [],
         typesDechet: req.body.typesDechet,
         activites: req.body.activites,
         frequentation: req.body.frequentation,
