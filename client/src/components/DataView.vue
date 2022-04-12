@@ -178,8 +178,8 @@ export default {
               }
             }
           }
-          if (rowDepolls[depoll].surface !== null) {
-            stats.surfaceTotal += rowDepolls[depoll].surface
+          if (rowDepolls[depoll].lieuId.surface !== null) {
+            stats.surfaceTotal += rowDepolls[depoll].lieuId.surface
           }
           depoll_index ++
         }
