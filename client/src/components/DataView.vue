@@ -53,6 +53,7 @@
       <div class="row">
         <table class="col-12 table table-striped table-bordered">
           <thead>
+            <th>N°</th>
             <th>Lieu</th>
             <th>Ville</th>
             <th>Crew</th>
@@ -65,10 +66,11 @@
             <th>Volume</th>
           </thead>
           <tbody>
-            <tr  v-for="depoll of depolls" :key="depoll.id">
+            <tr  v-for="(depoll, depollIndex) of depolls" :key="depoll.id">
+              <th>{{ depolls.length - depollIndex }}</th>
               <th>{{ depoll.lieu }}</th>
               <td>{{ depoll.ville }}</td>
-              <td><span v-for="(crewId, crewIndex) of depoll.crewName" :key='crewId.id'>{{ depoll.crewType[crewIndex] + ' : '+ crewId }}<br></span></td>
+              <td><span v-for="crew of depoll.crew" :key='crew.id'>{{ crew.crewTypeId.name + ' : '+ crew.crewName }}<br></span></td>
               <td>{{ depoll.dateEvenement.toLocaleDateString("fr-FR", { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'}) }}</td>
               <td>{{ Math.floor(depoll.dureeEvenement/60) }}h{{ depoll.dureeEvenement%60 }}</td>
               <td>{{ depoll.nombreParticipantsWings }} Wings, {{ depoll.nombreParticipantsExterne }} Externe</td>
@@ -160,6 +162,7 @@ export default {
           depolls.push({
             lieu: rowDepolls[depoll].lieuId.lieu,
             ville: rowDepolls[depoll].lieuId.ville,
+            crew: rowDepolls[depoll].crewId,
             dateEvenement: rowDepolls[depoll].dateEvenement,
             dureeEvenement: rowDepolls[depoll].dureeEvenement,
             nombreParticipantsWings: rowDepolls[depoll].nombreParticipantsWings,
