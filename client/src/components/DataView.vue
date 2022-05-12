@@ -6,16 +6,16 @@
         <h2>info général {{ $route.params.year }} </h2>
         <h4>Surface total : {{stats.surfaceTotal}}m²</h4>
         <div class="col-6">
-          <h6>Poids total par materiaux</h6>
+          <h6>Poids total par materiaux :</h6>
           <ul>
-            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + Math.round(val)}}</li>
+            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + Math.round(val)}}Kg</li>
           </ul>
           <h4>Poids total : {{stats.poidsTotal}}Kg</h4>
         </div>
         <div class="col-6">
-          <h6>Volume total par materiaux</h6>
+          <h6>Volume total par materiaux :</h6>
           <ul>
-            <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + Math.round(val)}}</li>
+            <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + Math.round(val)}}L</li>
           </ul>
           <h4>Volume total : {{stats.volumeTotal}}L</h4>
         </div>
