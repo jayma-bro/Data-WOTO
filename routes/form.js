@@ -17,12 +17,12 @@ router.post('/', (req, res) => {
       const dechetSpecifiqueId = []
       for (const dsIter of req.body.dechetSpecifique) {
         const dechetS = new DechetSpecifique({
-          nom: dsIter.nomDS,
+          nom: dsIter.nomDS.trim(),
           volume: dsIter.volumeDS,
-          desc: dsIter.descDS,
+          desc: dsIter.descDS.trim(),
           volEst: dsIter.volEstDS,
           provenance: dsIter.provenanceDS,
-          commentaire: dsIter.commentaireDS,
+          commentaire: dsIter.commentaireDS.trim(),
           poids: dsIter.poidsDS,
           nombre: dsIter.nombreDS,
         })
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
         frequentation: req.body.frequentation,
         quantiteDechet: req.body.quantiteDechet,
         pourquoiIlEnReste: req.body.pourquoiIlEnReste,
-        commentaire: req.body.commentaire,
+        commentaire: req.body.commentaire.trim(),
         dechetQuantitatifPoids: req.body.valeurQuantitatif.poids,
         dechetQuantitatifVolume: req.body.valeurQuantitatif.volume,
         dechetIndicateur: req.body.dechetIndicateur,
