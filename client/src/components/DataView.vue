@@ -4,6 +4,7 @@
     <div class="" v-else>
       <div class="row">
         <h2>info général {{ $route.params.year }} </h2>
+        <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>
         <h4>Surface total : {{stats.surfaceTotal}}m²</h4>
         <div class="col-6">
           <h6>Poids total par materiaux :</h6>
