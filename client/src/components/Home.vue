@@ -42,6 +42,12 @@
     </div>
     <h2 class="titre">Nouveautées</h2>
     <div class="row news">
+      <h4>Correction de la visualisation des données</h4>
+      <p class="date">15/05/2022</p>
+      il y a maintenant une indexation des dépollutions pour voir rapidement combien de dépollutions ont été fait par années <br>
+      les crew de dépoll sont aussi visible maintenant.
+    </div>
+    <div class="row news">
       <h4>Changement de la liste des déchets indicateurs Niveau 3</h4>
       <p class="date">06/04/2022</p>
       Merterre à récemment changé la liste de ses déchets indicateurs de niveau 3. <br>
