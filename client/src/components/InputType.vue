@@ -34,7 +34,7 @@ export default {
   }, watch: {
     value: {
       handler(val) {
-        this.$emit('update', val.trim(), this.target)
+        this.$emit('update', val, this.target)
       }
     }
   }, mounted () {

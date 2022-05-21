@@ -337,9 +337,9 @@ export default {
   }, methods: {
     upValue(value, target, dechSpe = false) {
       if (dechSpe) {
-        this.ds[target] = value
+        this.ds[target] = value.trim()
       } else {
-        this.sub[target] = value
+        this.sub[target] = value.trim()
       }
     }, upQuanti(value) {
       if (value === 'Aucun') {
