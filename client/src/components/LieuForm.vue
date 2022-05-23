@@ -159,12 +159,8 @@ export default {
           this.sub.surface = Math.round(turf.area(turfPolygon))
         }
       }
-    }, upValue(value, target, dechSpe = false) {
-      if (dechSpe) {
-        this.ds[target] = value
-      } else {
-        this.sub[target] = value
-      }
+    }, upValue(value, target) {
+      this.sub[target] = value.trim()
     }, submission() {
       this.$http.post('api/lieu', this.sub).then(
         () => {
