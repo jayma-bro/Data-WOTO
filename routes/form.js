@@ -19,10 +19,12 @@ router.post('/', (req, res) => {
         const dechetS = new DechetSpecifique({
           nom: dsIter.nomDS.trim(),
           volume: dsIter.volumeDS,
-          desc: dsIter.descDS.trim(),
+          desc: dsIter.descDS ? dsIter.descDS.trim() : null,
           volEst: dsIter.volEstDS,
           provenance: dsIter.provenanceDS,
-          commentaire: dsIter.commentaireDS.trim(),
+          commentaire: dsIter.commentaireDS
+            ? dsIter.commentaireDS.trim()
+            : null,
           poids: dsIter.poidsDS,
           nombre: dsIter.nombreDS,
         })
@@ -45,7 +47,7 @@ router.post('/', (req, res) => {
         frequentation: req.body.frequentation,
         quantiteDechet: req.body.quantiteDechet,
         pourquoiIlEnReste: req.body.pourquoiIlEnReste,
-        commentaire: req.body.commentaire.trim(),
+        commentaire: req.body.commentaire ? req.body.commentaire.trim() : null,
         dechetQuantitatifPoids: req.body.valeurQuantitatif.poids,
         dechetQuantitatifVolume: req.body.valeurQuantitatif.volume,
         dechetIndicateur: req.body.dechetIndicateur,
