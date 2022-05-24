@@ -6,7 +6,7 @@
       ref="myMap"
       :zoom="mapAtt.zoom"
       :center="mapAtt.center"
-      :options="mapAtt.mapOptions"
+      :bounds="mapAtt.bounds"
       style="height: 100%">
       <l-tile-layer
         :url="mapAtt.url"
@@ -62,11 +62,9 @@ export default {
       loading: true,
       offset: L.point(0, -25),
       mapAtt: {
-        zoom: 5,
-        center: L.latLng(46.783, 2.667),
         url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
         attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-        mapOptions: { zoomSnap: 0.5 },
+        bounds: null,
       },
       clusterOptions: {maxClusterRadius: 35}
     }
@@ -74,6 +72,7 @@ export default {
     this.$http.get('api/depoll').then((res) => {
       this.lieu = res.data
       let rowDepolls = res.data
+      let latlng = []
       let depolls = []
       let depoll_index = 0
       for (let depoll in rowDepolls) {
@@ -95,6 +94,7 @@ export default {
             poidsTotal: 0,
             volumeTotal: 0
           })
+          latlng.push(rowDepolls[depoll].lieuId.localisation)
           for (let material of ['PlastiqueNonRecy', 'PlastiqueRecy', 'Metal', 'VerreEtCeramique', 'Textile', 'PapierEtCarton', 'Bois', 'Caoutchouc', 'Autre']) {
             for (let type of [{arr: 'dechetQuantitatifPoids', ty: 'poids'}, {arr: 'dechetQuantitatifVolume', ty: 'volume'}]) {
               if (rowDepolls[depoll][type.arr][type.ty + material] !== null) {
@@ -105,8 +105,9 @@ export default {
           depoll_index ++
         }
       }
-      console.log('depolls:', depolls)
       this.depolls = depolls
+      let polyline = L.polyline(latlng)
+      this.mapAtt.bounds = polyline.getBounds()
     })
     this.loading = false
   }, methods: {
