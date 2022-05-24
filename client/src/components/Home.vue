@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home container">
     <h2><router-link :to="{ name: 'Form'}">Le Formulaire</router-link></h2>
     <img width="400" height="400" alt='Logo de wings' src="../assets/img/logo favicon.png"> <br>
     <router-link :to="{ name: 'DataView', params: {year: 2021}}">visualisation des données 2021</router-link> <br>

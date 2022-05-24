@@ -1,5 +1,5 @@
 <template>
-  <div class="form">
+  <div class="form container">
     <form  action="" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
       <h1>Formulaire</h1><br>
       <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>

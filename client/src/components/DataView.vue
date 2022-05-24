@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="container">
     <fade-loader v-if='chargement' class="position-absolute top-50 start-50"></fade-loader>
     <div class="" v-else>
       <div class="row">

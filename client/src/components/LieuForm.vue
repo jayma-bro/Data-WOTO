@@ -1,5 +1,5 @@
 <template>
-  <div class="form">
+  <div class="form container">
     <form action="" accept-charset="utf-8" autocomplete="on" name="formulaire lieu" class="needs-validation" novalidate>
       <h1>Formulaire du Lieu</h1>
       <div class="row">
