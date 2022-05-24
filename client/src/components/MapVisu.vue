@@ -77,7 +77,7 @@ export default {
       let depoll_index = 0
       for (let depoll in rowDepolls) {
         rowDepolls[depoll].dateEvenement = new Date(rowDepolls[depoll].dateEvenement)
-        if (rowDepolls[depoll].crewId.some(crew => encodeURIComponent(crew.crewName) === this.$route.params.crew)) {
+        if (rowDepolls[depoll].crewId.some(crew => encodeURIComponent(crew._id) === this.$route.params.crewid)) {
           depolls.push({
             lieu: rowDepolls[depoll].lieuId.lieu,
             ville: rowDepolls[depoll].lieuId.ville,

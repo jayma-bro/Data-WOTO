@@ -38,7 +38,7 @@ export default new Router({
       name: 'Test',
       component: Test
     }, {
-      path: '/mapvisu/:crew',
+      path: '/mapvisu/:crewid',
       name: 'MapVisu',
       component: MapVisu
     }
