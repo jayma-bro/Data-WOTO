@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const path = require('path')
 const history = require('connect-history-api-fallback')
 
-const formRoutes = require('./routes/form')
+const depollRoutes = require('./routes/depoll')
 const statsRoutes = require('./routes/stats')
 const crewRoutes = require('./routes/crew')
 const lieuRoutes = require('./routes/lieu')
@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 app.use(history())
 
 // Routes
-app.use('/api/form', formRoutes)
+app.use('/api/depoll', depollRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/crew', crewRoutes)
 app.use('/api/lieu', lieuRoutes)

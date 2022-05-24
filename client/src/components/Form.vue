@@ -364,7 +364,7 @@ export default {
       this.sub.lieuId = lieu._id
     }, submission() {
       this.submit = true
-      this.$http.post('api/form', this.sub).then(
+      this.$http.post('api/depoll', this.sub).then(
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {

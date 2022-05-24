@@ -71,7 +71,7 @@ export default {
       clusterOptions: {maxClusterRadius: 35}
     }
   }, mounted () {
-    this.$http.get('api/form').then((res) => {
+    this.$http.get('api/depoll').then((res) => {
       this.lieu = res.data
       let rowDepolls = res.data
       let depolls = []
