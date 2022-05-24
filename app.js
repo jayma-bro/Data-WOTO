@@ -55,10 +55,6 @@ app.use('/api/form', formRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/crew', crewRoutes)
 app.use('/api/lieu', lieuRoutes)
-app.use('/map', (req, res, next) => {
-  res.redirect('/mapvisu')
-  next()
-})
 app.use(express.static(path.join(__dirname, './dist')))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './dist'))
