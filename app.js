@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const path = require('path')
+const history = require('connect-history-api-fallback')
 
 const formRoutes = require('./routes/form')
 const statsRoutes = require('./routes/stats')
@@ -47,13 +48,17 @@ app.use((req, res, next) => {
   )
   next()
 })
+app.use(history())
 
 // Routes
 app.use('/api/form', formRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/crew', crewRoutes)
 app.use('/api/lieu', lieuRoutes)
-
+app.use('/map', (req, res, next) => {
+  res.redirect('/mapvisu')
+  next()
+})
 app.use(express.static(path.join(__dirname, './dist')))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './dist'))
