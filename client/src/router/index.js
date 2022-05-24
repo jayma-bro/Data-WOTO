@@ -6,6 +6,7 @@ import FilledForm from '@/components/FilledForm'
 import DataView from '@/components/DataView'
 import LieuForm from '@/components/LieuForm'
 import Test from '@/components/Test'
+import MapVisu from '@/components/MapVisu'
 
 Vue.use(Router)
 
@@ -36,6 +37,10 @@ export default new Router({
       path: '/test',
       name: 'Test',
       component: Test
+    }, {
+      path: '/mapvisu/:crew',
+      name: 'MapVisu',
+      component: MapVisu
     }
   ]
 })
