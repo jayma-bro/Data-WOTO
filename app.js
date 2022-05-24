@@ -48,13 +48,14 @@ app.use((req, res, next) => {
   )
   next()
 })
-app.use(history())
 
 // Routes
 app.use('/api/depoll', depollRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/crew', crewRoutes)
 app.use('/api/lieu', lieuRoutes)
+
+app.use(history())
 app.use(express.static(path.join(__dirname, './dist')))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './dist'))
