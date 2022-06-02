@@ -311,7 +311,7 @@ export default {
     }
   }, computed: {
   }, mounted () {
-    this.$http.get('api/crew').then((res) => {
+    this.$http.get('api/crews').then((res) => {
       this.crewTypeList = res.data.crewType
       const crewList = {}
       for (let crewType of res.data.crewType) {
@@ -364,7 +364,7 @@ export default {
       this.sub.lieuId = lieu._id
     }, submission() {
       this.submit = true
-      this.$http.post('api/depoll', this.sub).then(
+      this.$http.post('api/depolls', this.sub).then(
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {
@@ -373,7 +373,7 @@ export default {
         }
       )
     }, createCrew() {
-      this.$http.post('api/crew', this.createdCrew).then(
+      this.$http.post('api/crews', this.createdCrew).then(
         (res) => {
           const index = this.crewTypeList.findIndex((value) => value._id == res.body.crew.crewTypeId)
           this.crew = { name: res.body.crew.crewName, type: this.crewTypeList[index].name, _id: res.body.crew._id}
@@ -381,7 +381,7 @@ export default {
           this.crewAdd()
           this.crewCreateSuccess = true
           this.crewFormDisplay()
-          this.$http.get('api/crew').then((res) => {
+          this.$http.get('api/crews').then((res) => {
           const crewList = {}
           for (let crewType of res.data.crewType) {
             crewList[crewType.value] = []

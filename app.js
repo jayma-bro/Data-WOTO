@@ -50,10 +50,10 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/api/depoll', depollRoutes)
+app.use('/api/depolls', depollRoutes)
 app.use('/api/stats', statsRoutes)
-app.use('/api/crew', crewRoutes)
-app.use('/api/lieu', lieuRoutes)
+app.use('/api/crews', crewRoutes)
+app.use('/api/lieux', lieuRoutes)
 
 app.use(history())
 app.use(express.static(path.join(__dirname, './dist')))

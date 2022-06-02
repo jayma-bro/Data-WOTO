@@ -126,7 +126,7 @@ export default {
       }
     }
   }, mounted () {
-    this.$http.get('api/depoll').then((res) => {
+    this.$http.get('api/depolls').then((res) => {
       let rowDepolls = res.data
       let depolls = []
       let stats = {

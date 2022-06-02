@@ -162,7 +162,7 @@ export default {
     }, upValue(value, target) {
       this.sub[target] = value.trim()
     }, submission() {
-      this.$http.post('api/lieu', this.sub).then(
+      this.$http.post('api/lieux', this.sub).then(
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {

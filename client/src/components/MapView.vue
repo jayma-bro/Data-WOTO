@@ -71,7 +71,7 @@ export default {
       }
     }
   }, mounted () {
-    this.$http.get('api/lieu').then((res) => {
+    this.$http.get('api/lieux').then((res) => {
       this.lieux = res.data
     })
     this.loading = false

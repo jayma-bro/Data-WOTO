@@ -69,7 +69,7 @@ export default {
       clusterOptions: {maxClusterRadius: 35}
     }
   }, mounted () {
-    this.$http.get('api/depoll').then((res) => {
+    this.$http.get('api/depolls').then((res) => {
       this.lieu = res.data
       let rowDepolls = res.data
       let latlng = []
