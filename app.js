@@ -8,6 +8,7 @@ const history = require('connect-history-api-fallback')
 const depollRoutes = require('./routes/depoll')
 const statsRoutes = require('./routes/stats')
 const crewRoutes = require('./routes/crew')
+const crewTypeRoutes = require('./routes/crewType')
 const lieuRoutes = require('./routes/lieu')
 
 const app = express()
@@ -42,17 +43,26 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
   )
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-  )
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
   next()
 })
+// app.use((req, res, next) => {
+//   if (!req.headers.authorization) {
+//     return res
+//       .status(401)
+//       .send("Pour cette route une clé d'authentification est nécésaire")
+//   } else if (req.headers.authorization === process.env.AUT_KEY) {
+//     next()
+//   } else {
+//     return res.status(401).send("La clé d'authentification est pas correct")
+//   }
+// })
 
 // Routes
 app.use('/api/depolls', depollRoutes)
 app.use('/api/stats', statsRoutes)
 app.use('/api/crews', crewRoutes)
+app.use('/api/crew_types', crewTypeRoutes)
 app.use('/api/lieux', lieuRoutes)
 
 app.use(history())
