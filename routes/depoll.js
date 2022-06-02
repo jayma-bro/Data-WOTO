@@ -1,85 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const Depoll = require('../models/depoll')
-const DechetSpecifique = require('../models/dechetSpecifique')
-
-router.post('/', (req, res) => {
-  const dateEvenement = new Date(req.body.dateEvenement)
-  let dureeEvenement = null
-  if (req.body.dureeEvenement) {
-    dureeEvenement =
-      parseInt(req.body.dureeEvenement.slice(0, 2)) * 60 +
-      parseInt(req.body.dureeEvenement.slice(3, 5))
-  }
-  run()
-  async function run() {
-    try {
-      const dechetSpecifiqueId = []
-      for (const dsIter of req.body.dechetSpecifique) {
-        const dechetS = new DechetSpecifique({
-          nom: dsIter.nomDS.trim(),
-          volume: dsIter.volumeDS,
-          desc: dsIter.descDS ? dsIter.descDS.trim() : null,
-          volEst: dsIter.volEstDS,
-          provenance: dsIter.provenanceDS,
-          commentaire: dsIter.commentaireDS
-            ? dsIter.commentaireDS.trim()
-            : null,
-          poids: dsIter.poidsDS,
-          nombre: dsIter.nombreDS,
-        })
-        await dechetS.save()
-        dechetSpecifiqueId.push(dechetS._id)
-      }
-
-      const depoll = new Depoll({
-        lieuId: req.body.lieuId,
-        dateEvenement,
-        dureeEvenement,
-        nombreParticipantsWings: req.body.nombreParticipantsWings,
-        nombreParticipantsExterne: req.body.nombreParticipantsExterne,
-        crewId: req.body.crewId,
-        autresStructures: req.body.autresStructures
-          ? req.body.autresStructures.trim().split(',')
-          : [],
-        typesDechet: req.body.typesDechet,
-        activites: req.body.activites,
-        frequentation: req.body.frequentation,
-        quantiteDechet: req.body.quantiteDechet,
-        pourquoiIlEnReste: req.body.pourquoiIlEnReste,
-        commentaire: req.body.commentaire ? req.body.commentaire.trim() : null,
-        dechetQuantitatifPoids: req.body.valeurQuantitatif.poids,
-        dechetQuantitatifVolume: req.body.valeurQuantitatif.volume,
-        dechetIndicateur: req.body.dechetIndicateur,
-        dechetSpecifiqueId,
-      })
-      await depoll.save()
-      res.status(201).json({ message: 'bien enregistré' })
-    } catch (error) {
-      console.log('error:', error)
-      res.status(400).json({ error: error.message })
-    }
-  }
-})
+// const Auth = require('../middleware/auth')
 
 router.get('/', (req, res) => {
   Depoll.find()
-    .populate({
-      path: 'crewId',
-      populate: {
-        path: 'crewTypeId',
-      },
-    })
-    .populate('lieuId')
-    .populate('dechetSpecifiqueId')
-    .then((render) => {
-      return res.status(200).json(render)
-    })
-    .catch((error) => res.status(400).json({ error }))
-})
-
-router.get('/:Id', (req, res) => {
-  Depoll.findById(req.params.Id)
     .populate({
       path: 'crewId',
       populate: {
@@ -260,6 +185,36 @@ router.get('/array/:crewId', (req, res) => {
       return res.status(200).json(render)
     })
     .catch((error) => res.status(400).json({ error }))
+})
+
+router.get('/:Id', (req, res) => {
+  Depoll.findById(req.params.Id)
+    .populate({
+      path: 'crewId',
+      populate: {
+        path: 'crewTypeId',
+      },
+    })
+    .populate('lieuId')
+    .populate('dechetSpecifiqueId')
+    .then((render) => {
+      return res.status(200).json(render)
+    })
+    .catch((error) => res.status(400).json({ error }))
+})
+
+router.post('/', (req, res, next) => {
+  const depoll = new Depoll({
+    ...req.body,
+  })
+  depoll
+    .save()
+    .then(() => {
+      res.status(201).json({ message: 'dépollution bien enregistré' })
+    })
+    .catch((error) => {
+      res.status(400).json({ error })
+    })
 })
 
 module.exports = router

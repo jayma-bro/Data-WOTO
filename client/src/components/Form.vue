@@ -370,7 +370,53 @@ export default {
       this.sub.lieuId = lieu._id
     }, submission() {
       this.submit = true
-      this.$http.post('api/depolls', this.sub).then(
+      const dechetSpecifiqueId = []
+      const dateEvenement = new Date(this.sub.dateEvenement)
+      const dureeEvenement = parseInt(this.sub.dureeEvenement.slice(0, 2)) * 60 + parseInt(this.sub.dureeEvenement.slice(3, 5))
+      for (const dsIter of this.sub.dechetSpecifique) {
+        const sendDS = {
+          nom: dsIter.nomDS.trim(),
+          volume: dsIter.volumeDS,
+          desc: dsIter.descDS ? dsIter.descDS.trim() : null,
+          volEst: dsIter.volEstDS,
+          provenance: dsIter.provenanceDS,
+          commentaire: dsIter.commentaireDS
+            ? dsIter.commentaireDS.trim()
+            : null,
+          poids: dsIter.poidsDS,
+          nombre: dsIter.nombreDS,
+        }
+        this.$http.post('api/dechet_specifiques', sendDS).then(
+        (res) => {
+          dechetSpecifiqueId.push(res.data.dechetSpecifique._id)
+        }, () => {
+          window.alert("un des déchet specifique est mal renseigner, vérifiez bien tout, si le souci persiste contactez moi, jayma")
+          this.submit = false
+          return
+        })
+      }
+      const sendDepoll = {
+        lieuId: this.sub.lieuId,
+        dateEvenement,
+        dureeEvenement,
+        nombreParticipantsWings: this.sub.nombreParticipantsWings,
+        nombreParticipantsExterne: this.sub.nombreParticipantsExterne,
+        crewId: this.sub.crewId,
+        autresStructures: this.sub.autresStructures
+          ? this.sub.autresStructures.trim().split(',')
+          : [],
+        typesDechet: this.sub.typesDechet,
+        activites: this.sub.activites,
+        frequentation: this.sub.frequentation,
+        quantiteDechet: this.sub.quantiteDechet,
+        pourquoiIlEnReste: this.sub.pourquoiIlEnReste,
+        commentaire: this.sub.commentaire ? this.sub.commentaire.trim() : null,
+        dechetQuantitatifPoids: this.sub.valeurQuantitatif.poids,
+        dechetQuantitatifVolume: this.sub.valeurQuantitatif.volume,
+        dechetIndicateur: this.sub.dechetIndicateur,
+        dechetSpecifiqueId,
+      }
+      this.$http.post('api/depolls', sendDepoll).then(
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {
