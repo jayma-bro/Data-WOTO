@@ -311,13 +311,19 @@ export default {
     }
   }, computed: {
   }, mounted () {
-    this.$http.get('api/crews').then((res) => {
-      this.crewTypeList = res.data.crewType
+    this.$http.get('api/crew_types').then((res) => {
+      this.crewTypeList = res.data
       const crewList = {}
-      for (let crewType of res.data.crewType) {
+      for (let crewType of res.data) {
         crewList[crewType.value] = []
       }
-      for (let crew of res.data.crew) {
+      this.crewList = crewList
+    }, (res) => {
+      console.log(res)
+    })
+    this.$http.get('api/crews').then((res) => {
+      const crewList = {}
+      for (let crew of res.data) {
         crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
       }
       this.crewList = crewList
@@ -381,15 +387,22 @@ export default {
           this.crewAdd()
           this.crewCreateSuccess = true
           this.crewFormDisplay()
+          this.$http.get('api/crew_types').then((res) => {
+            this.crewTypeList = res.data
+            const crewList = {}
+            for (let crewType of res.data) {
+              crewList[crewType.value] = []
+            }
+            this.crewList = crewList
+          }, (res) => {
+            console.log(res)
+          })
           this.$http.get('api/crews').then((res) => {
-          const crewList = {}
-          for (let crewType of res.data.crewType) {
-            crewList[crewType.value] = []
-          }
-          for (let crew of res.data.crew) {
-            crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
-          }
-          this.crewList = crewList
+            const crewList = {}
+            for (let crew of res.data) {
+              crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
+            }
+            this.crewList = crewList
           }, (res) => {
             console.log(res)
           })
