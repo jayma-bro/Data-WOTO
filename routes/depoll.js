@@ -72,8 +72,23 @@ router.get('/', (req, res) => {
     })
     .populate('lieuId')
     .populate('dechetSpecifiqueId')
-    .then((depolls) => {
-      const render = depolls
+    .then((render) => {
+      return res.status(200).json(render)
+    })
+    .catch((error) => res.status(400).json({ error }))
+})
+
+router.get('/:Id', (req, res) => {
+  Depoll.findById(req.params.Id)
+    .populate({
+      path: 'crewId',
+      populate: {
+        path: 'crewTypeId',
+      },
+    })
+    .populate('lieuId')
+    .populate('dechetSpecifiqueId')
+    .then((render) => {
       return res.status(200).json(render)
     })
     .catch((error) => res.status(400).json({ error }))
