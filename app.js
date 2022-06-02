@@ -10,6 +10,7 @@ const statsRoutes = require('./routes/stats')
 const crewRoutes = require('./routes/crew')
 const crewTypeRoutes = require('./routes/crewType')
 const lieuRoutes = require('./routes/lieu')
+const dechetSpecifiqueRoutes = require('./routes/dechetSpecifique')
 
 const app = express()
 
@@ -64,6 +65,7 @@ app.use('/api/stats', statsRoutes)
 app.use('/api/crews', crewRoutes)
 app.use('/api/crew_types', crewTypeRoutes)
 app.use('/api/lieux', lieuRoutes)
+app.use('/api/dechet_specifiques', dechetSpecifiqueRoutes)
 
 app.use(history())
 app.use(express.static(path.join(__dirname, './dist')))
