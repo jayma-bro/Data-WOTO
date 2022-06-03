@@ -322,7 +322,7 @@ export default {
       console.log(res)
     })
     this.$http.get('api/crews').then((res) => {
-      const crewList = {}
+      const crewList = this.crewList
       for (let crew of res.data) {
         crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
       }

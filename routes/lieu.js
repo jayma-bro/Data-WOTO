@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
   crew
     .save()
     .then(() => {
-      res.status(201).json({ message: 'Nouveau Crew renseigné', crew })
+      res.status(201).json({ message: 'Nouveau Lieu renseigné', crew })
     })
     .catch((error) => {
       res.status(400).json({ error })
