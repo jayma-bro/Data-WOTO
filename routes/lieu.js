@@ -4,7 +4,6 @@ const Lieu = require('../models/lieu')
 const Auth = require('../middleware/auth')
 
 router.get('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Lieu.find()
     .then((render) => {
       res.status(200).json(render)
@@ -13,7 +12,6 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:Id', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Lieu.findById(req.params.Id)
     .then((render) => {
       res.status(200).json(render)
@@ -22,7 +20,6 @@ router.get('/:Id', (req, res) => {
 })
 
 router.put('/:Id', Auth, (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Lieu.findByIdAndUpdate(req.params.Id, req.body, {
     new: true,
   })
@@ -33,7 +30,6 @@ router.put('/:Id', Auth, (req, res, next) => {
 })
 
 router.delete('/:Id', Auth, (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Lieu.findByIdAndDelete(req.params.Id)
     .then((render) => {
       res.status(200).json(render)

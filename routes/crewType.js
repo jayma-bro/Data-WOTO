@@ -3,7 +3,6 @@ const router = express.Router()
 const CrewType = require('../models/crewType')
 
 router.get('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   CrewType.find()
     .then((render) => {
       res.status(200).json(render)
@@ -12,7 +11,6 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:Id', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   CrewType.findById(req.params.Id)
     .then((render) => {
       res.status(200).json(render)

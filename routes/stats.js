@@ -3,7 +3,6 @@ const router = express.Router()
 const Depoll = require('../models/depoll')
 
 router.get('/general', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Depoll.find()
     .then((depolls) => {
       const render = { poidsTotal: 0, volumeTotal: 0, surfaceTotal: 0 }
