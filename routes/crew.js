@@ -4,7 +4,6 @@ const Crew = require('../models/crew')
 const Auth = require('../middleware/auth')
 
 router.get('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Crew.find()
     .populate('crewTypeId')
     .then((render) => {
@@ -14,7 +13,6 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:Id', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Crew.findById(req.params.Id)
     .populate('crewTypeId')
     .then((render) => {
@@ -24,7 +22,6 @@ router.get('/:Id', (req, res) => {
 })
 
 router.put('/:Id', Auth, (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Crew.findByIdAndUpdate(req.params.Id, req.body, {
     new: true,
   })
@@ -35,7 +32,6 @@ router.put('/:Id', Auth, (req, res, next) => {
 })
 
 router.delete('/:Id', Auth, (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Crew.findByIdAndDelete(req.params.Id)
     .then((render) => {
       res.status(200).json(render)
