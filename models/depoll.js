@@ -61,6 +61,10 @@ const depollSchema = mongoose.Schema({
       ref: 'DechetSpecifique',
     },
   ],
+  polyline: [[Number, Number]],
+  polygon: [[Number, Number]],
+  longueur: Number,
+  surface: Number,
 })
 
 depollSchema.pre('save', function (next) {
