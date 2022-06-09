@@ -19,9 +19,15 @@
         </p>
       </div>
       <div class="row">
-        <map-view  class="col-md-9" id="mapSpace" @update="updateLieu">
+        <map-view  class="col-md-9" id="mapSpace" :config="{
+          show: 'lieux',
+          edit: false,
+          poly: true,
+          modif: newSurface
+        }" @update="updateLieu" @uppoly="updatePoly">
         </map-view>
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
+        <input type="checkbox" v-model="newSurface">
         <div class="col-md-3">
           <p>
             <H3>Information sur le lieu selectioné</H3>
@@ -30,8 +36,8 @@
             <strong>Lat</strong> : {{ lieu.localisation[0] }} <br>
             <strong>Lng</strong> : {{ lieu.localisation[1] }} <br>
             <strong>Pays</strong> : {{ lieu.pays }} <br>
-            <strong>Longueur</strong> : {{ lieu.longueur }}m <br>
-            <strong>Surface</strong> : {{ lieu.surface }}m² <br>
+            <strong>Longueur</strong> : {{ sub.longueur }}m <br>
+            <strong>Surface</strong> : {{ sub.surface }}m² <br>
           </p>
         </div>
       </div>
@@ -212,22 +218,26 @@
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 import PopHelp from './PopHelp.vue'
 import InputType from './InputType.vue'
-import MapView from './MapView.vue'
 import DechetSpecifique from './DechetSpecifique.vue'
 import formInfo from '@/assets/json/formInfo.json'
+import MapView from './MapView.vue'
+import * as turf from '@turf/turf'
 
 export default {
   name: 'Form',
   components: {
     PopHelp,
     InputType,
-    MapView,
     DechetSpecifique,
     FadeLoader,
+    MapView,
   }, data () {
     return {
       formInfo,
       loading: false,
+      submit: false,
+      // cette variable (par une checkbox) permet d'activer ou désactiver la redéfinition de la surface
+      newSurface: false,
       address: null,
       addressText: null,
       dechetIndicateur: null,
@@ -272,7 +282,6 @@ export default {
         volume: true,
         poid: true,
       },
-      submit: false,
       sub: {
         dateEvenement: null,
         lieuId: null,
@@ -290,6 +299,12 @@ export default {
         dechetIndicateur: {},
         valeurQuantitatif: {poids: {}, volume: {}},
         dechetSpecifique: [],
+        // Les variable de la surface et longueur qui seront envoyer pour la soumition du formulaire
+        // seulement quand elle à été retouché
+        polyline: null,
+        polygon: null,
+        longueur: null,
+        surface: null,
       },
     }
   }, watch: {
@@ -306,6 +321,15 @@ export default {
           for (let niv2 of formInfo.dechetIndicateur.value2) {
             this.sub.dechetIndicateur[niv2[0]] = null
           }
+        }
+      }
+    }, newSurface: {
+      handler(value) {
+        if (!value) {
+          this.sub.polyline = null
+          this.sub.polygon = null
+          this.sub.longueur = null
+          this.sub.surface = null
         }
       }
     }
@@ -368,6 +392,31 @@ export default {
     }, updateLieu(lieu) {
       this.lieu = lieu
       this.sub.lieuId = lieu._id
+      this.sub.polyline = lieu.polyline
+      this.sub.polygon = lieu.polygon
+      this.sub.longueur = lieu.longueur
+      this.sub.surface = lieu.surface
+    }, updatePoly(shape, elem) {
+      if (shape === 'Line') {
+        const polylineObj = elem.layer.getLatLngs()
+        let polyline = []
+        for (let index = 0; index < polylineObj.length; index++) {
+          polyline.push([polylineObj[index].lat, polylineObj[index].lng])
+        }
+        const turfPolyline = turf.lineString(polyline)
+        this.sub.polyline = polyline
+        this.sub.longueur = Math.round(turf.length(turfPolyline)*1000)
+      } else if (shape === 'Polygon') {
+        const polygonObj = elem.layer.getLatLngs()[0]
+        let polygon = []
+        for (let index = 0; index < polygonObj.length; index++) {
+          polygon.push([polygonObj[index].lat, polygonObj[index].lng])
+        }
+        polygon.push(polygon[0])
+        const turfPolygon = turf.polygon([polygon])
+        this.sub.polygon = polygon
+        this.sub.surface = Math.round(turf.area(turfPolygon))
+      }
     }, submission() {
       this.submit = true
       const dechetSpecifiqueId = []
@@ -415,6 +464,11 @@ export default {
         dechetQuantitatifVolume: this.sub.valeurQuantitatif.volume,
         dechetIndicateur: this.sub.dechetIndicateur,
         dechetSpecifiqueId,
+        // Pour envoyer les information
+        // polyline: this.sub.polyline,
+        // polygon: this.sub.polygon,
+        // longueur: this.sub.longueur,
+        // surface: this.sub.surface,
       }
       this.$http.post('api/depolls', sendDepoll).then(
         () => {
@@ -513,6 +567,12 @@ export default {
   }
 
   #mapSpace {
+    height: 60vh;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  #mapEdit {
     height: 60vh;
     margin-top: 10px;
     margin-bottom: 10px;

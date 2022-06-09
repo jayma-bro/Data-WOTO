@@ -43,8 +43,8 @@ router.get('/array', (req, res) => {
           localisation: el.lieuId.localisation.join(', '),
           ville: el.lieuId.ville,
           pays: el.lieuId.pays,
-          longueur: el.lieuId.longueur,
-          surface: el.lieuId.surface,
+          longueur: el.longueur != null ? el.longueur : el.lieuId.longueur,
+          surface: el.surface != null ? el.surface : el.lieuId.surface,
           typeLieu: el.lieuId.typeLieu,
           nombreParticipantsWings: el.nombreParticipantsWings,
           nombreParticipantsExterne: el.nombreParticipantsExterne,
@@ -204,7 +204,6 @@ router.get('/:Id', (req, res) => {
 })
 
 router.put('/:Id', Auth, (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Depoll.findByIdAndUpdate(req.params.Id, req.body, {
     new: true,
   })
@@ -215,7 +214,6 @@ router.put('/:Id', Auth, (req, res, next) => {
 })
 
 router.delete('/:Id', Auth, (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   Depoll.findByIdAndDelete(req.params.Id)
     .then((render) => {
       res.status(200).json(render)
