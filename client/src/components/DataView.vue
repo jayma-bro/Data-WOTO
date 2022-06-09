@@ -22,33 +22,8 @@
         </div>
       </div>
       <div class="" id="map" style="">
-        <l-map
-          ref="myMap"
-          :zoom="mapAtt.zoom"
-          :center="mapAtt.center"
-          :options="mapAtt.mapOptions"
-          style="height: 100%">
-          <l-tile-layer
-            :url="mapAtt.url"
-            :attribution="mapAtt.attribution"/>
-          <l-control-fullscreen position="topleft"
-            :options="{ title: { 'false': 'Go big!', 'true': 'Be regular' } }"/>
-          <v-marker-cluster
-            ref="cluster">
-            <l-marker
-              v-for="depoll in depolls"
-              :key="depoll.id"
-              :icon="mapAtt.icon"
-              :lat-lng="depoll.localisation">
-              <l-popup class="popup" :options="{offset: offset}">{{ depoll.lieu }} <br>
-                {{ depoll.dateEvenement.toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: '2-digit'}) }} <br>
-                Surface {{Math.round(depoll.surface)}}m² <br>
-                Poids {{Math.round(depoll.poidsTotal)}}Kg <br>
-                Volume {{Math.round(depoll.volumeTotal)}}L
-              </l-popup>
-            </l-marker>
-          </v-marker-cluster>
-        </l-map>
+        <map-form  class="col-md-9" id="mapSpace" :config="{show: 'depolls', edit: false}">
+        </map-form>
       </div>
       <h1>les dépolls enregistré</h1>
       <div class="row">
@@ -89,21 +64,14 @@
 
 <script>
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
-import LControlFullscreen from 'vue2-leaflet-fullscreen'
 import L from "leaflet"
-import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet'
-import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
+import MapForm from './MapForm.vue'
 
 export default {
   name: 'DataView',
   components: {
     FadeLoader,
-    LControlFullscreen,
-    LMap,
-    LMarker,
-    LTileLayer,
-    LPopup,
-    'v-marker-cluster': Vue2LeafletMarkerCluster
+    MapForm
   },
   data () {
     return {
@@ -111,19 +79,6 @@ export default {
       stats: {},
       chargement: true,
       offset: L.point(0, -25),
-      mapAtt: {
-        zoom: 5,
-        center: L.latLng(46.783, 2.667),
-        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        attribution: 'Wings Of The Ocean &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-        mapOptions: { zoomSnap: 0.5 },
-        icon: L.icon({
-          iconUrl: require("leaflet/dist/images/marker-icon.png"),
-          shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-          iconSize: [25, 41],
-          iconAnchor: [12, 41]
-        })
-      }
     }
   }, mounted () {
     this.$http.get('api/depolls').then((res) => {

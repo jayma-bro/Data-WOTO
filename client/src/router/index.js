@@ -5,7 +5,7 @@ import Form from '@/components/Form'
 import FilledForm from '@/components/FilledForm'
 import DataView from '@/components/DataView'
 import LieuForm from '@/components/LieuForm'
-import MapVisu from '@/components/MapVisu'
+import MapForm from '@/components/MapForm'
 
 Vue.use(Router)
 
@@ -33,9 +33,17 @@ export default new Router({
       name: 'LieuForm',
       component: LieuForm
     }, {
-      path: '/mapvisu/:crewid',
+      path: '/mapvisu/:crewid?',
       name: 'MapVisu',
-      component: MapVisu
+      component: MapForm,
+      props: {
+        config: {
+          show: 'depolls',
+          edit: false,
+          poly: false,
+          tile: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+        }
+      }
     }
   ]
 })

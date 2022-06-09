@@ -26,7 +26,12 @@
         </p>
       </div>
       <div class="row">
-        <map-form  class="col-md-9" id="mapSpace" :content="formInfo.carte"  @update="updateMap">
+        <map-form  class="col-md-9" id="mapSpace" :config="{
+          show: null,
+          edit: true,
+          poly: false,
+          editVal: formInfo.carte.value
+        }"  @update="updateMap">
         </map-form>
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <div class="col-md-3">
