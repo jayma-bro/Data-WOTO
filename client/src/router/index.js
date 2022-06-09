@@ -5,7 +5,7 @@ import Form from '@/components/Form'
 import FilledForm from '@/components/FilledForm'
 import DataView from '@/components/DataView'
 import LieuForm from '@/components/LieuForm'
-import MapForm from '@/components/MapForm'
+import MapView from '@/components/MapView'
 
 Vue.use(Router)
 
@@ -34,8 +34,8 @@ export default new Router({
       component: LieuForm
     }, {
       path: '/mapvisu/:crewid?',
-      name: 'MapVisu',
-      component: MapForm,
+      name: 'MapView',
+      component: MapView,
       props: {
         config: {
           show: 'depolls',

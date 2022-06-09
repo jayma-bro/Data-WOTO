@@ -19,8 +19,13 @@
         </p>
       </div>
       <div class="row">
-        <map-form  class="col-md-9" id="mapSpace" :config="{show: 'lieux', edit: false, poly: true, modif: newSurface, lieu: lieu}" @update="updateLieu" @uppoly="updatePoly">
-        </map-form>
+        <map-view  class="col-md-9" id="mapSpace" :config="{
+          show: 'lieux',
+          edit: false,
+          poly: true,
+          modif: newSurface
+        }" @update="updateLieu" @uppoly="updatePoly">
+        </map-view>
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <input type="checkbox" v-model="newSurface">
         <div class="col-md-3">
@@ -213,10 +218,9 @@
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 import PopHelp from './PopHelp.vue'
 import InputType from './InputType.vue'
-// import MapView from './MapView.vue'
 import DechetSpecifique from './DechetSpecifique.vue'
 import formInfo from '@/assets/json/formInfo.json'
-import MapForm from './MapForm.vue'
+import MapView from './MapView.vue'
 import * as turf from '@turf/turf'
 
 export default {
@@ -226,7 +230,7 @@ export default {
     InputType,
     DechetSpecifique,
     FadeLoader,
-    MapForm,
+    MapView,
   }, data () {
     return {
       formInfo,
@@ -393,7 +397,6 @@ export default {
       this.sub.longueur = lieu.longueur
       this.sub.surface = lieu.surface
     }, updatePoly(shape, elem) {
-      console.log(shape, elem)
       if (shape === 'Line') {
         const polylineObj = elem.layer.getLatLngs()
         let polyline = []

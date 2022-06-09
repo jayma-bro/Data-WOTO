@@ -22,8 +22,8 @@
         </div>
       </div>
       <div class="" id="map" style="">
-        <map-form  class="col-md-9" id="mapSpace" :config="{show: 'depolls', edit: false}">
-        </map-form>
+        <map-view  class="col-md-9" id="mapSpace" :config="{show: 'depolls', edit: false}">
+        </map-view>
       </div>
       <h1>les dépolls enregistré</h1>
       <div class="row">
@@ -65,13 +65,13 @@
 <script>
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 import L from "leaflet"
-import MapForm from './MapForm.vue'
+import MapView from './MapView.vue'
 
 export default {
   name: 'DataView',
   components: {
     FadeLoader,
-    MapForm
+    MapView
   },
   data () {
     return {
