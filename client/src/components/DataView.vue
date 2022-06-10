@@ -3,18 +3,18 @@
     <fade-loader v-if='chargement' class="position-absolute top-50 start-50"></fade-loader>
     <div class="" v-else>
       <div class="row">
-        <h2>info général {{ $route.params.year }} </h2>
-        <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>
-        <h4>Surface total : {{stats.surfaceTotal}}m²</h4>
+        <h2>Informations générales {{ $route.params.year }} </h2>
+        <router-link :to="{ name: 'Home'}">Retour à l'accueil</router-link>
+        <h4>Surface totale : {{stats.surfaceTotal}}m²</h4>
         <div class="col-6">
-          <h6>Poids total par materiaux :</h6>
+          <h6>Poids total par matériaux :</h6>
           <ul>
-            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + Math.round(val)}}Kg</li>
+            <li v-for="(val, material) in stats.poids" :key="val.id">{{material + " : " + Math.round(val)}}kg</li>
           </ul>
-          <h4>Poids total : {{stats.poidsTotal}}Kg</h4>
+          <h4>Poids total : {{stats.poidsTotal}}kg</h4>
         </div>
         <div class="col-6">
-          <h6>Volume total par materiaux :</h6>
+          <h6>Volume total par matériaux :</h6>
           <ul>
             <li v-for="(val, material) in stats.volume" :key="val.id">{{material + " : " + Math.round(val)}}L</li>
           </ul>
@@ -43,25 +43,25 @@
               <l-popup class="popup" :options="{offset: offset}">{{ depoll.lieu }} <br>
                 {{ depoll.dateEvenement.toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: '2-digit'}) }} <br>
                 Surface {{Math.round(depoll.surface)}}m² <br>
-                Poids {{Math.round(depoll.poidsTotal)}}Kg <br>
+                Poids {{Math.round(depoll.poidsTotal)}}kg <br>
                 Volume {{Math.round(depoll.volumeTotal)}}L
               </l-popup>
             </l-marker>
           </v-marker-cluster>
         </l-map>
       </div>
-      <h1>les dépolls enregistré</h1>
+      <h1>Les dépollutions enregistrées</h1>
       <div class="row">
         <table class="col-12 table table-striped table-bordered">
           <thead>
             <th>N°</th>
             <th>Lieu</th>
             <th>Ville</th>
-            <th>Crew</th>
+            <th>Equipe</th>
             <th>Date</th>
             <th>Durée</th>
-            <th>Participant</th>
-            <th>Structures Externe</th>
+            <th>Participant·e·s</th>
+            <th>Structures Externes</th>
             <th>Surface</th>
             <th>Poids</th>
             <th>Volume</th>
