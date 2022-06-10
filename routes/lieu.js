@@ -38,13 +38,13 @@ router.delete('/:Id', Auth, (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  const crew = new Lieu({
+  const lieu = new Lieu({
     ...req.body,
   })
-  crew
+  lieu
     .save()
     .then(() => {
-      res.status(201).json({ message: 'Nouveau Lieu renseigné', crew })
+      res.status(201).json({ message: 'Nouveau Lieu renseigné', lieu })
     })
     .catch((error) => {
       res.status(400).json({ error })
