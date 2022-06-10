@@ -7,32 +7,33 @@ ce dépôt regroue à la fois le Frontend et le Backend.
 le site est disponible à [cette adresse](https://data-woto.herokuapp.com/)
 ## les API
 toutes les APIs commencent par la même url qui est celle du site suivi de 'api' :
+
 ``https://data-woto.herokuapp.com/api/``
 
 ### Index
 - [Depolls](#Depolls)
-	- [GET](#GET:-/depolls/{Id})
-	- [GET array](#GET:-/depolls/array/{crewId})
-	- [PUT](#PUT:-/depolls/{Id})
-	- [DELETE](#DELETE:-/depolls/{Id})
-	- [POST](#POST:-/depolls/)
+	- GET
+	- GET array
+	- PUT
+	- DELETE
+	- POST
 - [Lieux](#Lieux)
-	- [GET](#GET:-/lieux/{Id})
-	- [PUT](#PUT:-/lieux/{Id})
-	- [DELETE](#DELETE:-/lieux/{Id})
-	- [POST](#POST:-/lieux/)
+	- GET
+	- PUT
+	- DELETE
+	- POST
 - [Crew](#Crew)
-	- [GET](#GET:-/crews/{Id})
-	- [PUT](#PUT:-/crews/{Id})
-	- [DELETE](#DELETE:-/crews/{Id})
-	- [POST](#POST:-/crews/)
+	- GET
+	- PUT
+	- DELETE
+	- POST
 - [Crew Type](#Crew-Type)
-	- [GET](#GET:-/crew_types/{Id})
+	- GET
 - [Dechet Specifiques](#Dechet-Specifiques)
-	- [GET](#GET:-/dechet_specifiques/{Id})
-	- [PUT](#PUT:-/dechet_specifiques/{Id})
-	- [DELETE](#DELETE:-/dechet_specifiques/{Id})
-	- [POST](#POST:-/dechet_specifiques/)
+	- GET
+	- PUT
+	- DELETE
+	- POST
 ### Depolls
 #### GET: /depolls/{Id}
 pour récupérer les données tel qu'elles sont stocké dans la base de donnée
