@@ -9,95 +9,95 @@
     "name": "ville",
     "req": false,
     "label": "Agglomération ou Commune",
-    "help": "Le nom de la ville, village ou de l'aglomération où a eu lieu l'evenement"
+    "help": "Le nom de la ville, du village ou de l'agglomération où a eu lieu l'évènement"
   },
   "dateEvenement": {
     "name": "dateEvenement",
     "req": true,
     "label": "Date",
-    "help": "La date de l'evenement",
+    "help": "La date de l'évènement",
     "type": "date"
   },
   "dureeEvenement": {
     "name": "dureeEvenement",
     "req": true,
-    "label": "Durée de l'Evenement",
-    "help": "Entre le début de la collecte et la fin de la caractérisation \n (note : dans le cas d'une carac. précise et tres longue, ne pas la prendre en compte dans le decompte)",
+    "label": "Durée de l'évènement",
+    "help": "Entre le début de la collecte et la fin de la caractérisation \n (note : dans le cas d'une caractérisation précise et longue, ne pas la prendre en compte dans la durée de l'évènement)",
     "type": "time"
   },
   "nombreParticipantsWings": {
     "name": "nombreParticipantsWings",
     "req": true,
-    "label": "Nombre de membre Wings",
-    "help": "nombreParticipantsWings",
+    "label": "Nombre de participant·e·s de Wings of the Ocean",
+    "help": "nombreParticipantsWings//",
     "type": "number"
   },
   "nombreParticipantsExterne": {
     "name": "nombreParticipantsExterne",
     "req": true,
-    "label": "Nombre de participants Externe",
-    "help": "nombreParticipantsExterne",
+    "label": "Nombre de participant·e·s externe à l'association",
+    "help": "nombreParticipantsExterne//",
     "type": "number"
   },
   "carte": {
     "value": {
-      "marker": { "name": "Position", "text": "Positionez le Marker au lieu de la dépoll"},
-      "polyline": { "name": "Longeur", "text": "Mesurez la longeur du terrain"},
-      "polygon": { "name": "Surface", "text": "Déssinez la surface dépollué"}
+      "marker": { "name": "Position", "text": "Positionnez le marqueur à l'emplacement de la dépollution"},
+      "polyline": { "name": "Longeur", "text": "Mesurez la longueur du terrain"},
+      "polygon": { "name": "Surface", "text": "Définissez la surface dépolluée"}
     }
   },
   "latitude": {
     "name": "latitude",
     "req": true,
-    "label": "latitude",
-    "help": "latitude",
+    "label": "Latitude",
+    "help": "latitude//",
     "type": "number",
     "step": "0.0000001"
   },
   "longitude": {
     "name": "longitude",
     "req": true,
-    "label": "longitude",
-    "help": "longitude",
+    "label": "Longitude",
+    "help": "longitude//",
     "type": "number",
     "step": "0.0000001"
   },
   "crew": {
     "name": "crew",
     "req": true,
-    "label": "Crew de dépoll",
-    "help": "sélectionnez le type de crew, puis son nom dans la liste (pensez à valider la sélection), s'il n'y est pas vous pouvez le rajouter ! Dépoll Pirate correspond à toute dépollutions qui ne rentre pas dans les autre cas de figure bien sûr, vous pouvez en sélectionner plusieurs"
+    "label": "Equipe de dépollution",
+    "help": "sélectionnez la catégorie de l'équipe et son nom dans la liste (pensez à valider la sélection), s'il n'y est pas vous pouvez le rajouter. Une dépollution Pirate correspond à une dépollutions qui ne rentre pas dans les autres cas de figure bien sûr, vous pouvez en sélectionner plusieurs///"
   },
   "autresStructures": {
     "name": "autresStructures",
     "req": false,
     "label": "Autres structures participantes",
-    "help": "Séparez les si plusieurs d'une virgule ','"
+    "help": "S'il y a plusieurs structures, séparez chacune d'entre elles d'une virgule ','"
   },
   "longueur": {
     "name": "longueur",
     "req": false,
-    "label": "Longueur de la zone",
-    "help": "longueur",
+    "label": "Longueur de la zone dépolluée",
+    "help": "longueur//",
     "type": "number",
     "step": "0.1"
   },
   "surface": {
     "name": "surface",
     "req": true,
-    "label": "Surface de la zone",
-    "help": "surface",
+    "label": "Surface de la zone dépolluée",
+    "help": "surface//",
     "type": "number",
     "step": "0.1"
   },
   "typeLieu": {
     "name": "typeLieu",
     "req": true,
-    "label": "Type de lieu",
-    "help": "typeLieu",
+    "label": "Type du lieu dépollué",
+    "help": "typeLieu//",
     "type": "select",
     "groups": [
-      "littoral-Port-Zones humides",
+      "Littoral-Port-Zones humides",
       "Estuaire",
       "Mer-Océan",
       "Lacs-Cours d'eau-Marais-Zones humides",
@@ -122,30 +122,30 @@
       ],
       "Zone urbaine": [
         "Voie de chemin de fer",
-        "Infrastructure routières (Routes, rues, avn, blvd, place ...)",
-        "Parcs urbains - Jardins publics"
+        "Infrastructure routière (route, rue, avenue, boulevard, place ...)",
+        "Parc urbain - Jardin public"
       ],
       "Zone rurale": [
         "Voie de chemin de fer",
         "Forêt - bois",
-        "Champs - pairies - landes - garrigues - maquis",
-        "Chemin de randonnée - vtt - equestre",
-        "Autre espaces naturels"
+        "Champ - pairie - lande - garrigue - maquis",
+        "Chemin de randonnée - vtt - équestre",
+        "Autre espace naturel"
       ],
       "Montagne": [
         "Forêt - bois",
-        "Chemin de randonnée - vtt - equestre",
+        "Chemin de randonnée - vtt - équestre",
         "Piste de ski",
         "Station de ski",
-        "Autre espaces naturels"
+        "Autre espace naturel"
       ]
     }
   },
   "typesDechet": {
     "name": "typesDechet",
     "req": false,
-    "label": "Type(s) de déchets",
-    "help": "typesDechet",
+    "label": "Types de déchets",
+    "help": "typesDechet//",
     "type": "checkbox",
     "value": [
       "Echoués",
@@ -160,20 +160,20 @@
     "name": "activites",
     "req": false,
     "label": "Activités à proximité",
-    "help": "activites",
+    "help": "activites//",
     "type": "checkbox",
     "value": [
-      "Pêche local",
-      "Pêche industriel (chalutier...)",
+      "Pêche locale",
+      "Pêche industrielle (chalutier...)",
       "Activités Commerciales",
       "Tourisme",
       "Activités portuaires",
       "Plaisance",
       "Activités industrielles",
       "Industrie portuaire",
-      "Activités nautiques (Plongée ...)",
+      "Activités nautiques (plongée ...)",
       "Conchyliculture",
-      "Restauration/Bar",
+      "Restauration ou bar",
       "Autre activité"
     ]
   },
@@ -181,15 +181,15 @@
     "name": "frequentation",
     "req": false,
     "label": "Fréquentation humaine",
-    "help": "frequentation",
+    "help": "frequentation//",
     "type": "radio",
-    "value": ["Sauvage", "Peu Fréquentée", "Fréquentée", "Très Fréquentée"]
+    "value": ["Sauvage", "Peu fréquentée", "Fréquentée", "Très fréquentée"]
   },
   "quantiteDechet": {
     "name": "quantiteDechet",
     "req": false,
-    "label": "Quantité déchet restante",
-    "help": "quantiteDechet",
+    "label": "Quantité restante de déchet",
+    "help": "quantiteDechet//",
     "type": "radio",
     "value": ["Plus de la moitié", "Beaucoup", "Peu", "Presque rien"]
   },
@@ -197,12 +197,12 @@
     "name": "pourquoiIlEnReste",
     "req": false,
     "label": "S'il en reste, pourquoi ?",
-    "help": "pourquoiIlEnReste",
+    "help": "pourquoiIlEnReste//",
     "type": "checkbox",
     "value": [
-      "Inaccessibles/Bloqués",
+      "Inaccessibles ou bloqués",
       "Trop petits et nombreux",
-      "Plus assez de temps",
+      "Manque de temps",
       "Autre raison"
     ]
   },
@@ -210,14 +210,14 @@
     "name": "commentaire",
     "req": false,
     "label": "Commentaire",
-    "help": "commentaire",
+    "help": "commentaire//",
     "type": "textarea"
   },
   "dechetIndicateur": {
     "name": "dechetIndicateur",
     "req": false,
     "label": "Déchets indicateurs",
-    "help": "dechetIndicateur",
+    "help": "dechetIndicateur///",
     "type": "select",
     "valueSel": [
       { "label": "Aucun", "value": "aucun" },
@@ -228,7 +228,7 @@
       ["bouteillePlastiqueAlim", "Bouteille plastique alimentaire"],
       ["bouteilleEnVerre", "Bouteille en verre"],
       ["canetteEnMetal", "Canette en métal"],
-      ["masque", "Masque Covid (chirurgical)"],
+      ["masque", "Masque chirurgical"],
       ["megot", "Mégot"],
       ["pneu", "Pneu"]
     ],
@@ -237,8 +237,8 @@
       ["ballonDeBaudruche", "Ballon de baudruche"],
       ["batonDeSucette", "Bâton de sucette"],
       ["batterie", "Batterie"],
-      ["boiteDAppats", "Boîte d'appats"],
-      ["boiteDeMedicaments", "Boîte de medicaments"],
+      ["boiteDAppats", "Boite d'appâts"],
+      ["boiteDeMedicaments", "Boite de médicaments"],
       ["bouchonEnPlastique", "Bouchon en plastique"],
       ["bouteillePlastiqueNonAlim", "Bouteille plastique non alimentaire"],
       ["briquet", "Briquet"],
@@ -254,7 +254,7 @@
       ["gobeletPlastique", "Gobelet en plastique"],
       ["jouetEnPlastique", "Jouet en plastique"],
       ["materielDePeche", "Matériel de pêche (hors plomb, fil et filet)"],
-      ["mediaFiltrant", "Média filtrant"],
+      ["mediaFiltrant", "Média filtrant (biomédia)"],
       ["mousse", "Mousse"],
       ["pailleEnPlastique", "Paille en plastique"],
       ["PlombPeche", "Plomb de pêche"],
@@ -267,8 +267,8 @@
   "selecDechetQuantitatif": {
     "name": "selecDechetQuantitatif",
     "req": false,
-    "label": "caractérisation quantitative des déchets",
-    "help": "selecDechetQuantitatif",
+    "label": "Caractérisation quantitative des déchets",
+    "help": "selecDechetQuantitatif//",
     "type": "radio",
     "value": ["Aucun", "Volume", "Poids et Volume"]
   },
@@ -276,36 +276,36 @@
     "value": [
       {
         "name": "PlastiqueNonRecy",
-        "help": "PlastiqueNonRecy",
+        "help": "PlastiqueNonRecy//",
         "label": "Plastique non recyclable"
       },
       {
         "name": "PlastiqueRecy",
-        "help": "PlastiqueRecy",
+        "help": "PlastiqueRecy//",
         "label": "Plastique recyclable"
       },
-      { "name": "Metal", "help": "Metal", "label": "Métal" },
+      { "name": "Metal", "help": "Metal //", "label": "Métal"},
       {
         "name": "VerreEtCeramique",
-        "help": "VerreEtCeramique",
+        "help": "VerreEtCeramique//",
         "label": "Verre et Céramique"
       },
-      { "name": "Textile", "help": "Textile", "label": "Textile" },
+      { "name": "Textile", "help": "Textile //", "label": "Textile"},
       {
         "name": "PapierEtCarton",
-        "help": "PapierEtCarton",
+        "help": "PapierEtCarton//",
         "label": "Papier et Carton"
       },
-      { "name": "Bois", "help": "Bois", "label": "Bois" },
-      { "name": "Caoutchouc", "help": "Caoutchouc", "label": "Caoutchouc" },
-      { "name": "Autre", "help": "Autre", "label": "Autre" }
+      { "name": "Bois", "help": "Bois //", "label": "Bois"},
+      { "name": "Caoutchouc", "help": "Caoutchouc //", "label": "Caoutchouc"},
+      { "name": "Autre", "help": "Autre//", "label": "Autre" }
     ]
   },
   "nbDechetSpecifique": {
     "name": "nbDechetSpecifique",
     "req": false,
-    "label": "Nombre de déchets spécifiques",
-    "help": "permet de caractériser certaine dechet plus spécifiquement.",
+    "label": "Nombre de type de déchets spécifiques",
+    "help": "Cela permet de caractériser certain dechet plus spécifiquement.///",
     "type": "select",
     "maxValue": 10
   },
@@ -313,64 +313,64 @@
     "nomDS": {
       "name": "nomDS",
       "req": true,
-      "label": "Nom du Dechet",
-      "help": "nomDS"
+      "label": "Type de déchet",
+      "help": "nomDS//"
     },
     "volumeDS": {
       "name": "volumeDS",
       "req": true,
-      "label": "Volume du Dechet",
-      "help": "volumeDS",
+      "label": "Volume du déchet",
+      "help": "volumeDS//",
       "type": "number",
       "step": 0.001
     },
     "descDS": {
       "name": "descDS",
       "req": false,
-      "label": "Description du Dechet",
-      "help": "descDS"
+      "label": "Description du déchet",
+      "help": "descDS//"
     },
     "volEstDS": {
       "name": "volEstDS",
       "req": true,
-      "label": "Volume Estimé",
-      "help": "volEstDS",
+      "label": "Méthode d'estimation du volume",
+      "help": "volEstDS//",
       "type": "radio",
-      "value": ["A l’œil", "Estimation des sac", "Précisément"]
+      "value": ["A l’œil", "Estimation des sacs", "Précisément"]
     },
     "provenanceDS": {
       "name": "provenanceDS",
       "req": false,
-      "label": "Provenance principal du déchet",
-      "help": "provenanceDS",
+      "label": "Provenance principale du déchet",
+      "help": "provenanceDS//",
       "type": "checkbox",
       "value": [
-        "Posé au sol",
+        "Abandonné au sol sur le lieu",
         "De la mer",
         "Crue de rivière",
-        "Autre Provenance"
+        "Autre provenance"
       ]
     },
     "commentaireDS": {
       "name": "commentaireDS",
       "req": false,
       "label": "Commentaire",
-      "help": "commentaireDS",
+      "help": "commentaireDS//",
       "type": "textarea"
     },
     "poidsDS": {
       "name": "poidsDS",
       "req": false,
       "label": "Poids",
-      "help": "poidsDS",
+      "help": "poidsDS//",
       "type": "number",
       "step": 0.001
     },
     "nombreDS": {
       "name": "nombreDS",
       "req": false,
-      "label": "Nombre d'objet",
-      "help": "nombreDS",
+      "label": "Nombre d'objets",
+      "help": "nombreDS//",
       "type": "number"
     }
   }
