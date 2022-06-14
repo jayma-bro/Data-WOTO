@@ -15,7 +15,7 @@
         <strong>Essayer de répondre à un maximum de questions, et se relire pour ne pas faire d'erreur</strong>
       </li>
       <li>
-        L'association Wings of the Ocean vous remercie de donner de votre temps pour collecter des données et en apprendre plus <br>
+        L'association Wings of the Ocean vous remercie de donner de votre temps pour collecter des données et en apprendre plus 
         sur la problématique des déchets plastiques.
       </li>
     </ol>
