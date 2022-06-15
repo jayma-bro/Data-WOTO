@@ -23,11 +23,10 @@
           show: 'lieux',
           edit: false,
           poly: true,
-          modif: newSurface
+          modif: changeSurface
         }" @update="updateLieu" @uppoly="updatePoly">
         </map-view>
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
-        <input type="checkbox" v-model="newSurface">
         <div class="col-md-3">
           <p>
             <H3>Information sur le lieu selectioné</H3>
@@ -36,9 +35,19 @@
             <strong>Lat</strong> : {{ lieu.localisation[0] }} <br>
             <strong>Lng</strong> : {{ lieu.localisation[1] }} <br>
             <strong>Pays</strong> : {{ lieu.pays }} <br>
-            <strong>Longueur</strong> : {{ sub.longueur }}m <br>
-            <strong>Surface</strong> : {{ sub.surface }}m² <br>
+            <strong>Longueur</strong> : {{ lieu.longueur }}m <br>
+            <strong>Surface</strong> : {{ lieu.surface }}m² <br>
           </p>
+        </div>
+        <div class="col-md-3">
+          <input type="checkbox" name="changeSurface" id="changeSurface" v-model="changeSurface">
+          <label class="form-check-label" for="changeSurface">Changer la zone dépolluer et/ou surface, longueur</label>
+          <div v-if="changeSurface">
+            <label class="form-check-label" for="newLongueur">Longueur ajusté à la dépoll</label>
+            <input type="number" name="newLongueur" id="newLongueur" step="0.1" v-model="sub.longueur">
+            <label class="form-check-label" for="newSurface">Surface ajusté à la dépoll</label>
+            <input type="number" name="newSurface" id="newSurface" step="0.1" v-model="sub.surface">
+          </div>
         </div>
       </div>
       <div class="row bigblock d-flex justify-content-between">
@@ -237,7 +246,7 @@ export default {
       loading: false,
       submit: false,
       // cette variable (par une checkbox) permet d'activer ou désactiver la redéfinition de la surface
-      newSurface: false,
+      changeSurface: false,
       address: null,
       addressText: null,
       dechetIndicateur: null,
@@ -323,7 +332,7 @@ export default {
           }
         }
       }
-    }, newSurface: {
+    }, changeSurface: {
       handler(value) {
         if (!value) {
           this.sub.polyline = null
