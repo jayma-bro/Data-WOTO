@@ -270,7 +270,7 @@
     "label": "caractérisation quantitative des déchets",
     "help": "selecDechetQuantitatif",
     "type": "radio",
-    "value": ["Aucun", "Volume", "Poids et Volume"]
+    "value": ["Aucun", "Volume et Volumineux", "Poids, Volume et Volumineux"]
   },
   "dechetQuantitatif": {
     "value": [

@@ -182,17 +182,21 @@
           <table class="table" v-if="dQ.volume">
             <thead>
               <th></th>
-              <th width=100>Poids (Kg) </th>
+              <th  v-if="dQ.poid" width=100>Poids (Kg) </th>
               <th width=100>Volume (L) </th>
+              <th width=100>Volumineux (L) <pop-help content="à y renseigner tous les déchets qui ne rentrent pas dans un sac"></pop-help></th>
             </thead>
             <tbody>
               <tr v-for="material in formInfo.dechetQuantitatif.value" :key="material.id">
                 <th>{{ material.label }} <pop-help :content="material.help"></pop-help></th>
-                <td>
-                  <input type="number" class="form-control" v-if="dQ.poid" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids['poids'+material.name]" step="0.001">
+                <td v-if="dQ.poid">
+                  <input type="number" class="form-control" :name="'poids' + material.name" v-model="sub.valeurQuantitatif.poids['poids'+material.name]" step="0.001">
                 </td>
                 <td>
                   <input type="number" class="form-control" :name="'volume' + material.name" v-model="sub.valeurQuantitatif.volume['volume'+material.name]" step="0.1">
+                </td>
+                <td>
+                  <input type="number" class="form-control" :name="'volumineux' + material.name" v-model="sub.valeurQuantitatif.volumineux['volumineux'+material.name]" step="1">
                 </td>
               </tr>
             </tbody>
@@ -306,7 +310,7 @@ export default {
         pourquoiIlEnReste: [],
         commentaire: null,
         dechetIndicateur: {},
-        valeurQuantitatif: {poids: {}, volume: {}},
+        valeurQuantitatif: {poids: {}, volume: {}, volumineux: {}},
         dechetSpecifique: [],
         // Les variable de la surface et longueur qui seront envoyer pour la soumition du formulaire
         // seulement quand elle à été retouché
@@ -387,14 +391,15 @@ export default {
         for (let material of formInfo.dechetQuantitatif.value) {
           this.sub.valeurQuantitatif.poids['poids'+material.name] = null
           this.sub.valeurQuantitatif.volume['volume'+material.name] = null
+          this.sub.valeurQuantitatif.volumineux['volumineux'+material.name] = null
         }
-      } else if (value === 'Volume') {
+      } else if (value === 'Volume et Volumineux') {
         this.dQ.volume = true
         this.dQ.poid = false
         for (let material of formInfo.dechetQuantitatif.value) {
           this.sub.valeurQuantitatif.poids['poids'+material.name] = null
         }
-      } else if (value === 'Poids et Volume') {
+      } else if (value === 'Poids, Volume et Volumineux') {
         this.dQ.volume = true
         this.dQ.poid = true
       }
@@ -427,66 +432,69 @@ export default {
         this.sub.surface = Math.round(turf.area(turfPolygon))
       }
     }, submission() {
-      this.submit = true
-      const dechetSpecifiqueId = []
-      const dateEvenement = new Date(this.sub.dateEvenement)
-      const dureeEvenement = parseInt(this.sub.dureeEvenement.slice(0, 2)) * 60 + parseInt(this.sub.dureeEvenement.slice(3, 5))
-      for (const dsIter of this.sub.dechetSpecifique) {
-        const sendDS = {
-          nom: dsIter.nomDS.trim(),
-          volume: dsIter.volumeDS,
-          desc: dsIter.descDS ? dsIter.descDS.trim() : null,
-          volEst: dsIter.volEstDS,
-          provenance: dsIter.provenanceDS,
-          commentaire: dsIter.commentaireDS
-            ? dsIter.commentaireDS.trim()
-            : null,
-          poids: dsIter.poidsDS,
-          nombre: dsIter.nombreDS,
+      let run = async () => {
+        this.submit = true
+        const dechetSpecifiqueId = []
+        const dateEvenement = new Date(this.sub.dateEvenement)
+        const dureeEvenement = parseInt(this.sub.dureeEvenement.slice(0, 2)) * 60 + parseInt(this.sub.dureeEvenement.slice(3, 5))
+        for (const dsIter of this.sub.dechetSpecifique) {
+          const sendDS = {
+            nom: dsIter.nomDS.trim(),
+            volume: dsIter.volumeDS,
+            desc: dsIter.descDS ? dsIter.descDS.trim() : null,
+            volEst: dsIter.volEstDS,
+            provenance: dsIter.provenanceDS,
+            commentaire: dsIter.commentaireDS
+              ? dsIter.commentaireDS.trim()
+              : null,
+            poids: dsIter.poidsDS,
+            nombre: dsIter.nombreDS,
+          }
+          await this.$http.post('api/dechet_specifiques', sendDS).then(
+          (res) => {
+            dechetSpecifiqueId.push(res.data.dechetSpecifique._id)
+          }, () => {
+            window.alert("un des déchet specifique est mal renseigner, vérifiez bien tout, si le souci persiste contactez moi, jayma")
+            this.submit = false
+            return
+          })
         }
-        this.$http.post('api/dechet_specifiques', sendDS).then(
-        (res) => {
-          dechetSpecifiqueId.push(res.data.dechetSpecifique._id)
-        }, () => {
-          window.alert("un des déchet specifique est mal renseigner, vérifiez bien tout, si le souci persiste contactez moi, jayma")
-          this.submit = false
-          return
-        })
-      }
-      const sendDepoll = {
-        lieuId: this.sub.lieuId,
-        dateEvenement,
-        dureeEvenement,
-        nombreParticipantsWings: this.sub.nombreParticipantsWings,
-        nombreParticipantsExterne: this.sub.nombreParticipantsExterne,
-        crewId: this.sub.crewId,
-        autresStructures: this.sub.autresStructures
-          ? this.sub.autresStructures.trim().split(',')
-          : [],
-        typesDechet: this.sub.typesDechet,
-        activites: this.sub.activites,
-        frequentation: this.sub.frequentation,
-        quantiteDechet: this.sub.quantiteDechet,
-        pourquoiIlEnReste: this.sub.pourquoiIlEnReste,
-        commentaire: this.sub.commentaire ? this.sub.commentaire.trim() : null,
-        dechetQuantitatifPoids: this.sub.valeurQuantitatif.poids,
-        dechetQuantitatifVolume: this.sub.valeurQuantitatif.volume,
-        dechetIndicateur: this.sub.dechetIndicateur,
-        dechetSpecifiqueId,
-        // Pour envoyer les information
-        // polyline: this.sub.polyline,
-        // polygon: this.sub.polygon,
-        // longueur: this.sub.longueur,
-        // surface: this.sub.surface,
-      }
-      this.$http.post('api/depolls', sendDepoll).then(
-        () => {
-          this.$router.push({ name: 'FilledForm' })
-        }, () => {
-          window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
-          this.submit = false
+        const sendDepoll = {
+          lieuId: this.sub.lieuId,
+          dateEvenement,
+          dureeEvenement,
+          nombreParticipantsWings: this.sub.nombreParticipantsWings,
+          nombreParticipantsExterne: this.sub.nombreParticipantsExterne,
+          crewId: this.sub.crewId,
+          autresStructures: this.sub.autresStructures
+            ? this.sub.autresStructures.trim().split(',')
+            : [],
+          typesDechet: this.sub.typesDechet,
+          activites: this.sub.activites,
+          frequentation: this.sub.frequentation,
+          quantiteDechet: this.sub.quantiteDechet,
+          pourquoiIlEnReste: this.sub.pourquoiIlEnReste,
+          commentaire: this.sub.commentaire ? this.sub.commentaire.trim() : null,
+          dechetQuantitatifPoids: this.sub.valeurQuantitatif.poids,
+          dechetQuantitatifVolume: this.sub.valeurQuantitatif.volume,
+          dechetQuantitatifVolumineux: this.sub.valeurQuantitatif.volumineux,
+          dechetIndicateur: this.sub.dechetIndicateur,
+          dechetSpecifiqueId,
+          polyline: this.sub.polyline,
+          polygon: this.sub.polygon,
+          longueur: this.sub.longueur,
+          surface: this.sub.surface,
         }
-      )
+        await this.$http.post('api/depolls', sendDepoll).then(
+          () => {
+            this.$router.push({ name: 'FilledForm' })
+          }, () => {
+            window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
+            this.submit = false
+          }
+        )
+      }
+      run()
     }, createCrew() {
       this.$http.post('api/crews', this.createdCrew).then(
         (res) => {

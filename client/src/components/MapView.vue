@@ -83,6 +83,7 @@ export default {
             }
             if (rowDepolls[depoll].crewId.some(crew => encodeURIComponent(crew._id) === crewId || crewId === null)) {
               depolls.push({
+                _id: rowDepolls[depoll]._id,
                 lieu: rowDepolls[depoll].lieuId.lieu,
                 ville: rowDepolls[depoll].lieuId.ville,
                 crew: rowDepolls[depoll].crewId,
@@ -120,6 +121,7 @@ export default {
           let lieux = []
           for (let lieu in rowLieux) {
             lieux.push({
+                _id: rowLieux[lieu]._id,
                 lieu: rowLieux[lieu].lieu,
                 ville: rowLieux[lieu].ville,
                 pays: rowLieux[lieu].pays,
