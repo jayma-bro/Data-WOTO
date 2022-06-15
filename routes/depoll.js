@@ -57,6 +57,7 @@ router.get('/array', (req, res) => {
           commentaire: el.commentaire,
           ...el.dechetQuantitatifPoids,
           ...el.dechetQuantitatifVolume,
+          ...el.dechetQuantitatifVolumineux,
         })
         const crewName = []
         const crewType = []

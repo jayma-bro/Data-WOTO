@@ -54,6 +54,17 @@ const depollSchema = mongoose.Schema({
     volumeCaoutchouc: Number,
     volumeAutre: Number,
   },
+  dechetQuantitatifVolumineux: {
+    volumineuxPlastiqueNonRecy: Number,
+    volumineuxPlastiqueRecy: Number,
+    volumineuxMetal: Number,
+    volumineuxVerreEtCeramique: Number,
+    volumineuxTextile: Number,
+    volumineuxPapierEtCarton: Number,
+    volumineuxBois: Number,
+    volumineuxCaoutchouc: Number,
+    volumineuxAutre: Number,
+  },
   dechetIndicateur: { type: Map, of: Number },
   dechetSpecifiqueId: [
     {
