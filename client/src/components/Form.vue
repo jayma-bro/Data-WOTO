@@ -40,8 +40,8 @@
           </p>
         </div>
         <div class="col-md-3">
+          <label class="form-check-label" for="changeSurface">Modifier la zone dépolluée et/ou surface</label>
           <input type="checkbox" name="changeSurface" id="changeSurface" v-model="changeSurface">
-          <label class="form-check-label" for="changeSurface">Changer la zone dépolluer et/ou surface, longueur</label>
           <div v-if="changeSurface">
             <label class="form-check-label" for="newLongueur">Longueur ajusté à la dépoll</label>
             <input type="number" name="newLongueur" id="newLongueur" step="0.1" v-model="sub.longueur">
