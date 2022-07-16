@@ -2,7 +2,7 @@
   <div class="form container">
     <form  action="" method="post" accept-charset="utf-8" autocomplete="on" name="formulaire depoll" class="needs-validation" novalidate>
       <h1>Formulaire</h1><br>
-      <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>
+      <router-link :to="{ name: 'Home'}">Retour à l'accueil</router-link>
       <div class="row">
         <input-type :content="formInfo.dateEvenement" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
         <input-type :content="formInfo.dureeEvenement" baseclass="col-xl-3 col-md-6" @update="upValue"></input-type>
@@ -15,7 +15,7 @@
       </div>
       <div class="row">
         <p>
-          Selectionnez sur le lieu de dépollution sur la carte, s'il n'y est pas renseigné le par <router-link :to="{ name: 'LieuForm'}">ce formulaire !</router-link>
+          Sélectionner le lieu de dépollution sur la carte, s'il n'y est pas, renseigner le par <router-link :to="{ name: 'LieuForm'}">ce formulaire</router-link>
         </p>
       </div>
       <div class="row">
@@ -29,11 +29,11 @@
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <div class="col-md-3">
           <p>
-            <H3>Information sur le lieu selectioné</H3>
+            <H3>Information sur le lieu sélectionné</H3>
             <strong>Nom</strong> : {{ lieu.lieu }} <br>
             <strong>Type</strong> : {{ lieu.typeLieu }} <br>
-            <strong>Lat</strong> : {{ lieu.localisation[0] }} <br>
-            <strong>Lng</strong> : {{ lieu.localisation[1] }} <br>
+            <strong>Latitude</strong> : {{ lieu.localisation[0] }} <br>
+            <strong>Longitude</strong> : {{ lieu.localisation[1] }} <br>
             <strong>Pays</strong> : {{ lieu.pays }} <br>
             <strong>Longueur</strong> : {{ lieu.longueur }}m <br>
             <strong>Surface</strong> : {{ lieu.surface }}m² <br>
@@ -73,16 +73,16 @@
         <div class="col-xl-3 col-md-6">
           <div v-if="!newCrew">
             <p>
-              si votre label n'est pas présent dans la liste, <br>
-              renseignez-le par ce petit formulaire.
+              Si votre label n'est pas présent dans la liste, <br>
+              renseignez-le ici
             </p>
-            <button type="button" class="btn btn-success" name="newCrew" @click="crewFormDisplay">Nouveau Label</button>
+            <button type="button" class="btn btn-success" name="newCrew" @click="crewFormDisplay">Nouveau label</button>
           </div>
           <div class="" v-else>
             <div class="">
               <label for="crewNameNew">Nom</label>
               <p>
-                renseignez le nom que vous vous donnez (nom du bateau, de l'équipe, de l'organisme...)
+                Renseignez votre nom (nom du bateau, de l'équipe, de l'organisme...)
               </p>
               <input type="text" class="form-control" name="crewNameNew" v-model="createdCrew.crewName">
             </div>
@@ -91,11 +91,11 @@
           </div>
           <div class="alert alert-success" v-if="crewCreateSuccess">
             <img class="position-absolute top-0 end-0" src="@/assets/img/ui-close.svg" alt="" height="15" @click="close('crewCreateSuccess')">
-            le nouveau crew a bien été enregistré
+            Le nouveau label a bien été enregistré
           </div>
           <div class="alert alert-danger" v-if="crewCreateError">
             <img class="position-absolute top-0 end-0" src="@/assets/img/ui-close.svg" alt="" height="15" @click="close('crewCreateError')">
-            le nouveau crew n'a pas pu être enregistré
+            le nouveau label n'a pas pu être enregistré
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
           <pop-help :content="formInfo.commentaire.help"></pop-help>
           <textarea name="commentaire" class="form-control" id="commentaire" v-model="sub.commentaire"></textarea>
         </div>
-        <h3>Caractérisation des Déchets</h3>
+        <h3>Caractérisation des déchets</h3>
         <p>
           Chaque section de la caractérisation des déchets se fait indépendamment. <br>
           Les déchets qui sont caractérisés dans une partie ne se substituent pas aux autres. <br>
@@ -131,9 +131,9 @@
           spécifique en plus dans le cas d'une marque prédominante par exemple)
         </p>
         <p>
-          pensez bien dans cette partie du formulaire, qu'un '0' est différents d'une valeur null <br>
-          '0' => je sais qu'il n'y a pas eu cette chose <br>
-          (une valeur null) => je ne sais pas si elle y était ou non, et ni dans quelle proportion.
+          Pensez bien dans cette partie du formulaire, qu'un '0' est différents d'une valeur non renseignée <br>
+          0 => Aucun déchet de ce type trouvé/ramassé <br>
+          Valeur non renseignée => Je ne sais pas si ce déchet était présent ou non, ni dans quelle proportion.
         </p>
         <div class="col-lg-6">
           <label :for="formInfo.dechetIndicateur.name" class="form-label"><h5>{{ formInfo.dechetIndicateur.label }}</h5></label>
@@ -181,9 +181,9 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <h5>Déchets Quantitatif</h5>
+          <h5>Informations quantitatives sur les déchets</h5>
           <p>
-            même si la valeur est approximative, essayez de renseigner le plus d'information possible dans les déchets quantitatifs
+            Même si les valeurs sont approximatives, essayez de renseigner le plus d'informations possibles
           </p>
           <input-type :content="formInfo.selecDechetQuantitatif" baseclass="" @update="upQuanti"></input-type>
           <table class="table" v-if="dQ.volume">
@@ -210,10 +210,10 @@
           </table>
         </div>
       </div>
-      <h5>Déchets Spécifiques</h5>
+      <h5>Déchets spécifiques</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="ifDS" id="ifDS" v-model="ifDS">
-        <label class="form-check-label" for="ifDS"> enregistrer des déchets spécifique ?</label>
+        <label class="form-check-label" for="ifDS"> Enregistrer des déchets spécifiques ?</label>
         <pop-help :content="formInfo.nbDechetSpecifique.help"></pop-help>
       </div>
       <div class="row" v-if="ifDS">
@@ -228,7 +228,7 @@
         </div>
       </div>
       <button v-if="!submit" class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
-      <button v-if="submit" class="btn btn-primary" disabled >Soumission en cour</button>
+      <button v-if="submit" class="btn btn-primary" disabled >Soumission en courS</button>
 
     </form>
   </div>

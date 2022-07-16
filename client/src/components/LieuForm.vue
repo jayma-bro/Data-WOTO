@@ -1,7 +1,7 @@
 <template>
   <div class="form container">
     <form action="" accept-charset="utf-8" autocomplete="on" name="formulaire lieu" class="needs-validation" novalidate>
-      <h1>Formulaire du Lieu</h1>
+      <h1>Formulaire du lieu dépollué</h1>
       <div class="row">
         <p>
           Attention cette partie de formulaire peut provoquer des bugs sur les Mac (ou juste safari) <br>
@@ -9,21 +9,21 @@
         </p>
         <ol>
           <li>
-            utilisez l'icône <img src="../assets/img/Marker_icon.svg"> pour localiser le lieu de dépoll (par exemple le centre de carac et trie) <br>
+            Utilisez le marqueur <img src="../assets/img/Marker_icon.svg"> pour localiser le lieu de dépollution (ex : le centre de caractérisation et de tri) <br>
           </li>
           <li>
-          utilisez l'icône <img src="../assets/img/Polygon_icon.svg"> pour dessiner la surface dépolluée <br>
+          Utilisez l'icône <img src="../assets/img/Polygon_icon.svg"> pour dessiner la surface dépolluée <br>
           </li>
           <li>
-          utilisez l'icône <img src="../assets/img/Polyline_icon.svg"> pour mesurer la longueur du terrain dépollué
+          Utilisez l'icône <img src="../assets/img/Polyline_icon.svg"> pour mesurer la longueur du terrain dépollué
           </li>
         </ol>
         <ul>
           <li>
-            <em>maintenez la touche Alt pour désactiver le magnetisme des points</em>
+            <em>Maintenez la touche Alt pour désactiver le magnétisme des points</em>
           </li>
           <li>
-            <router-link :to="{ name: 'Home'}">Retour à l'acceuil</router-link>
+            <router-link :to="{ name: 'Home'}">Retour à l'accueil</router-link>
           </li>
         </ul>
         <p>
@@ -40,12 +40,12 @@
         <fade-loader v-if='loading' class="position-absolute top-50 start-50"></fade-loader>
         <div class="col-md-3">
           <p>
-          <strong>Lat</strong> : {{ sub.localisation[0] }} <br>
-          <strong>Lng</strong> : {{ sub.localisation[1] }} <br>
+          <strong>Latitude</strong> : {{ sub.localisation[0] }} <br>
+          <strong>Longitude</strong> : {{ sub.localisation[1] }} <br>
           <strong>Pays</strong> : {{ sub.pays }} <br>
           <strong>Longueur</strong> : {{ sub.longueur }}m <br>
           <strong>Surface</strong> : {{ sub.surface }}m² <br>
-          <strong>Sugestion de nom de lieu</strong> : <br>
+          <strong>Suggestion de nom de lieu</strong> : <br>
           <span v-html="addressText"></span><br>
           </p>
         </div>
@@ -57,7 +57,7 @@
           <label :for="formInfo.typeLieu.name" class="form-label" :class="{required: formInfo.typeLieu.req}">{{ formInfo.typeLieu.label }}</label>
           <pop-help :content="formInfo.typeLieu.help"></pop-help>
           <select class="form-select" name="typeLieu" v-model="sub.typeLieu" required>
-              <option value="none" selected disabled hidden>Selectionez une option</option>
+              <option value="none" selected disabled hidden>Sélectionnez une option</option>
             <optgroup :label="group" v-for="group in formInfo.typeLieu.groups"  :key="group.id">
               <option :value="value" v-for="value in formInfo.typeLieu.values[group]"  :key="value.id"> {{ value }} </option>
             </optgroup>
@@ -175,7 +175,7 @@ export default {
         () => {
           this.$router.push({ name: 'FilledForm' })
         }, () => {
-          window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
+          window.alert("Le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
         }
       )
     },
