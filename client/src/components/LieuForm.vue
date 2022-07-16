@@ -3,6 +3,10 @@
     <form action="" accept-charset="utf-8" autocomplete="on" name="formulaire lieu" class="needs-validation" novalidate>
       <h1>Formulaire du Lieu</h1>
       <div class="row">
+        <p>
+          Attention cette partie de formulaire peut provoquer des bugs sur les Mac (ou juste safari) <br>
+          si vous avez des difficultés à dessiner la géométrie du lieu, retenter à partir d'un pc.
+        </p>
         <ol>
           <li>
             utilisez l'icône <img src="../assets/img/Marker_icon.svg"> pour localiser le lieu de dépoll (par exemple le centre de carac et trie) <br>
