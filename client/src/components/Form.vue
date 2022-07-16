@@ -124,6 +124,13 @@
         </div>
         <h3>Caractérisation des Déchets</h3>
         <p>
+          Chaque section de la caractérisation des déchets se fait indépendamment. <br>
+          Les déchets qui sont caractérisés dans une partie ne se substituent pas aux autres. <br>
+          ex : quand j'ai compté le nombre de bouteilles en plastique dans les déchets indicateurs, <br>
+          je vais également mesurer leurs poids et volume (et je peux les renseigner en déchets <br>
+          spécifique en plus dans le cas d'une marque prédominante par exemple)
+        </p>
+        <p>
           pensez bien dans cette partie du formulaire, qu'un '0' est différents d'une valeur null <br>
           '0' => je sais qu'il n'y a pas eu cette chose <br>
           (une valeur null) => je ne sais pas si elle y était ou non, et ni dans quelle proportion.
