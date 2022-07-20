@@ -1,43 +1,96 @@
 <template>
   <div class="home container">
-    <h2><router-link :to="{ name: 'Form'}">Le formulaire</router-link></h2>
-    <img width="400" height="400" alt='Logo de wings' src="../assets/img/logo favicon.png"> <br>
-    <router-link :to="{ name: 'DataView', params: {year: 2021}}">Visualisation des données 2021</router-link> <br>
-    <router-link :to="{ name: 'DataView', params: {year: 2022}}">Visualisation des données 2022</router-link><br>
-    <h2>Etapes à suivre pour renseigner sa dépollution</h2><br>
+    <h2><router-link :to="{ name: 'Form' }">Le formulaire</router-link></h2>
+    <img
+      width="400"
+      height="400"
+      alt="Logo de wings"
+      src="../assets/img/logo favicon.png"
+    />
+    <br />
+    <router-link :to="{ name: 'DataView', params: { year: 2021 } }"
+      >Visualisation des données 2021</router-link
+    >
+    <br />
+    <router-link :to="{ name: 'DataView', params: { year: 2022 } }"
+      >Visualisation des données 2022</router-link
+    ><br />
+    <h2>Etapes à suivre pour renseigner sa dépollution</h2>
+    <br />
     <ol class="list">
       <li>
-        Renseigner le lieu dépollué par <router-link :to="{ name: 'LieuForm'}">le formulaire de lieu</router-link><br>
+        Renseigner le lieu dépollué par
+        <router-link :to="{ name: 'LieuForm' }"
+          >le formulaire de lieu</router-link
+        ><br />
         <strong>Uniquement s'il n'est pas déjà enregistré</strong>
       </li>
       <li>
-        Renseigner la dépollution par <router-link :to="{ name: 'Form'}">le formulaire de dépollution</router-link><br>
-        <strong>Essayer de répondre à un maximum de questions, et se relire pour ne pas faire d'erreur</strong>
+        Renseigner la dépollution par
+        <router-link :to="{ name: 'Form' }"
+          >le formulaire de dépollution</router-link
+        ><br />
+        <strong
+          >Essayer de répondre à un maximum de questions, et se relire pour ne
+          pas faire d'erreur</strong
+        >
       </li>
       <li>
-        L'association Wings of the Ocean vous remercie de donner de votre temps pour collecter des données et en apprendre plus 
-        sur la problématique des déchets plastiques.
+        L'association Wings of the Ocean vous remercie de donner de votre temps
+        pour collecter des données et en apprendre plus sur la problématique des
+        déchets plastiques.
       </li>
     </ol>
     <div class="row">
-      <h3 class="titre">Voici une petite vidéo tutorielle pour apprendre à utiliser le formulaire en cas de doute.</h3>
+      <h3 class="titre">
+        Voici une petite vidéo tutorielle pour apprendre à utiliser le
+        formulaire en cas de doute.
+      </h3>
       <div class="iframe-container">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/XN2cX25JBz8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/XN2cX25JBz8"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
     <div class="row">
-      <h3 class="titre">Voici des formulaires utiles pour l'amélioration de l'outil ou revenir sur l'enregistrement de votre dépollution</h3>
+      <h3 class="titre">
+        Voici des formulaires utiles pour l'amélioration de l'outil ou revenir
+        sur l'enregistrement de votre dépollution
+      </h3>
       <div class="col-4">
-        <a class="lien-form" target="_blank" href="https://forms.gle/8aWkaDX5YJv9aCfZ9">Formulaire de correction</a><br>
+        <a
+          class="lien-form"
+          target="_blank"
+          href="https://forms.gle/8aWkaDX5YJv9aCfZ9"
+          >Formulaire de correction</a
+        ><br />
         en cas d'erreur lors du remplissage du premier formulaire
       </div>
       <div class="col-4">
-        <a class="lien-form" target="_blank" href="https://forms.gle/TEb1XT93sSpUUHmJ6">Formulaire de signalement d'un problème technique</a><br>
-        Si vous rencontrez un problème technique sur la plateforme, n'hésitez pas à le signaler ici
+        <a
+          class="lien-form"
+          target="_blank"
+          href="https://forms.gle/TEb1XT93sSpUUHmJ6"
+          >Formulaire de signalement d'un problème technique</a
+        ><br />
+        Si vous rencontrez un problème technique sur la plateforme, n'hésitez
+        pas à le signaler ici
       </div>
       <div class="col-4">
-        <a class="lien-form" target="_blank" href="https://forms.gle/NCAnKsPx28hohu7n9">Idée d'amélioration</a><br>
-       Toutes sugestions ou idées d'amélioration pour l'avenir peuvent être proposées ici
+        <a
+          class="lien-form"
+          target="_blank"
+          href="https://forms.gle/NCAnKsPx28hohu7n9"
+          >Idée d'amélioration</a
+        ><br />
+        Toutes sugestions ou idées d'amélioration pour l'avenir peuvent être
+        proposées ici
       </div>
     </div>
     <!--
@@ -61,47 +114,9 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
 }
 </script>
 
-<style>
-.home {
-  text-align: center;
-}
-.list {
-  font-size: 1.5em;
-  text-align: left;
-}
-.iframe-container{
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%; 
-  height: 0;
-}
-.iframe-container iframe{
-  position: absolute;
-  top:0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.titre {
-  margin: 30px 0;
-}
-.lien-form {
-  font-size: 1.5em;
-}
-.vide {
-  margin: 200px;
-}
-.news {
-  text-align: left;
-  font-size: 1.1em;
-}
-.date {
-  font-size: 0.8em;
-  font-style: italic;
-  margin: 0;
-}
+<style scoped src="../assets/css/style.css">
 </style>

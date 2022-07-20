@@ -251,7 +251,8 @@ export default {
     DechetSpecifique,
     FadeLoader,
     MapView,
-  }, data () {
+  },
+  data() {
     return {
       formInfo,
       loading: false,
@@ -292,7 +293,6 @@ export default {
         longueur: null,
         surface: null,
         typeLieu: null,
-
       },
       crewCreateSuccess: false,
       crewCreateError: false,
@@ -317,7 +317,7 @@ export default {
         pourquoiIlEnReste: [],
         commentaire: null,
         dechetIndicateur: {},
-        valeurQuantitatif: {poids: {}, volume: {}, volumineux: {}},
+        valeurQuantitatif: { poids: {}, volume: {}, volumineux: {} },
         dechetSpecifique: [],
         // Les variable de la surface et longueur qui seront envoyer pour la soumition du formulaire
         // seulement quand elle à été retouché
@@ -327,23 +327,25 @@ export default {
         surface: null,
       },
     }
-  }, watch: {
+  },
+  watch: {
     dechetIndicateur: {
       handler(value) {
-        if (value == "Aucun") {
+        if (value == 'Aucun') {
           for (let niv1 of formInfo.dechetIndicateur.value1) {
             this.sub.dechetIndicateur[niv1[0]] = null
           }
           for (let niv2 of formInfo.dechetIndicateur.value2) {
             this.sub.dechetIndicateur[niv2[0]] = null
           }
-        } else if (value == "Niveau 1") {
+        } else if (value == 'Niveau 1') {
           for (let niv2 of formInfo.dechetIndicateur.value2) {
             this.sub.dechetIndicateur[niv2[0]] = null
           }
         }
-      }
-    }, changeSurface: {
+      },
+    },
+    changeSurface: {
       handler(value) {
         if (!value) {
           this.sub.polyline = null
@@ -351,29 +353,40 @@ export default {
           this.sub.longueur = null
           this.sub.surface = null
         }
+      },
+    },
+  },
+  computed: {},
+  mounted() {
+    this.$http.get('api/crew_types').then(
+      (res) => {
+        this.crewTypeList = res.data
+        const crewList = {}
+        for (let crewType of res.data) {
+          crewList[crewType.value] = []
+        }
+        this.crewList = crewList
+      },
+      (res) => {
+        console.log(res)
       }
-    }
-  }, computed: {
-  }, mounted () {
-    this.$http.get('api/crew_types').then((res) => {
-      this.crewTypeList = res.data
-      const crewList = {}
-      for (let crewType of res.data) {
-        crewList[crewType.value] = []
+    )
+    this.$http.get('api/crews').then(
+      (res) => {
+        const crewList = this.crewList
+        for (let crew of res.data) {
+          crewList[crew.crewTypeId.value].push({
+            name: crew.crewName,
+            type: crew.crewTypeId.name,
+            _id: crew._id,
+          })
+        }
+        this.crewList = crewList
+      },
+      (res) => {
+        console.log(res)
       }
-      this.crewList = crewList
-    }, (res) => {
-      console.log(res)
-    })
-    this.$http.get('api/crews').then((res) => {
-      const crewList = this.crewList
-      for (let crew of res.data) {
-        crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
-      }
-      this.crewList = crewList
-    }, (res) => {
-      console.log(res)
-    })
+    )
     for (let niv1 of formInfo.dechetIndicateur.value1) {
       this.sub.dechetIndicateur[niv1[0]] = null
     }
@@ -381,43 +394,48 @@ export default {
       this.sub.dechetIndicateur[niv2[0]] = null
     }
     for (let material of formInfo.dechetQuantitatif.value) {
-      this.sub.valeurQuantitatif.poids['poids'+material.name] = null
-      this.sub.valeurQuantitatif.volume['volume'+material.name] = null
+      this.sub.valeurQuantitatif.poids['poids' + material.name] = null
+      this.sub.valeurQuantitatif.volume['volume' + material.name] = null
     }
-  }, methods: {
+  },
+  methods: {
     upValue(value, target, dechSpe = false) {
       if (dechSpe) {
         this.ds[target] = value
       } else {
         this.sub[target] = value
       }
-    }, upQuanti(value) {
+    },
+    upQuanti(value) {
       if (value === 'Aucun') {
         this.dQ.volume = false
         this.dQ.poid = false
         for (let material of formInfo.dechetQuantitatif.value) {
-          this.sub.valeurQuantitatif.poids['poids'+material.name] = null
-          this.sub.valeurQuantitatif.volume['volume'+material.name] = null
-          this.sub.valeurQuantitatif.volumineux['volumineux'+material.name] = null
+          this.sub.valeurQuantitatif.poids['poids' + material.name] = null
+          this.sub.valeurQuantitatif.volume['volume' + material.name] = null
+          this.sub.valeurQuantitatif.volumineux['volumineux' + material.name] =
+            null
         }
       } else if (value === 'Volume et Volumineux') {
         this.dQ.volume = true
         this.dQ.poid = false
         for (let material of formInfo.dechetQuantitatif.value) {
-          this.sub.valeurQuantitatif.poids['poids'+material.name] = null
+          this.sub.valeurQuantitatif.poids['poids' + material.name] = null
         }
       } else if (value === 'Poids, Volume et Volumineux') {
         this.dQ.volume = true
         this.dQ.poid = true
       }
-    }, updateLieu(lieu) {
+    },
+    updateLieu(lieu) {
       this.lieu = lieu
       this.sub.lieuId = lieu._id
       this.sub.polyline = lieu.polyline
       this.sub.polygon = lieu.polygon
       this.sub.longueur = lieu.longueur
       this.sub.surface = lieu.surface
-    }, updatePoly(shape, elem) {
+    },
+    updatePoly(shape, elem) {
       if (shape === 'Line') {
         const polylineObj = elem.layer.getLatLngs()
         let polyline = []
@@ -426,7 +444,7 @@ export default {
         }
         const turfPolyline = turf.lineString(polyline)
         this.sub.polyline = polyline
-        this.sub.longueur = Math.round(turf.length(turfPolyline)*1000)
+        this.sub.longueur = Math.round(turf.length(turfPolyline) * 1000)
       } else if (shape === 'Polygon') {
         const polygonObj = elem.layer.getLatLngs()[0]
         let polygon = []
@@ -438,12 +456,15 @@ export default {
         this.sub.polygon = polygon
         this.sub.surface = Math.round(turf.area(turfPolygon))
       }
-    }, submission() {
+    },
+    submission() {
       let run = async () => {
         this.submit = true
         const dechetSpecifiqueId = []
         const dateEvenement = new Date(this.sub.dateEvenement)
-        const dureeEvenement = parseInt(this.sub.dureeEvenement.slice(0, 2)) * 60 + parseInt(this.sub.dureeEvenement.slice(3, 5))
+        const dureeEvenement =
+          parseInt(this.sub.dureeEvenement.slice(0, 2)) * 60 +
+          parseInt(this.sub.dureeEvenement.slice(3, 5))
         for (const dsIter of this.sub.dechetSpecifique) {
           const sendDS = {
             nom: dsIter.nomDS.trim(),
@@ -458,13 +479,17 @@ export default {
             nombre: dsIter.nombreDS,
           }
           await this.$http.post('api/dechet_specifiques', sendDS).then(
-          (res) => {
-            dechetSpecifiqueId.push(res.data.dechetSpecifique._id)
-          }, () => {
-            window.alert("un des déchet specifique est mal renseigner, vérifiez bien tout, si le souci persiste contactez moi, jayma")
-            this.submit = false
-            return
-          })
+            (res) => {
+              dechetSpecifiqueId.push(res.data.dechetSpecifique._id)
+            },
+            () => {
+              window.alert(
+                'un des déchet specifique est mal renseigner, vérifiez bien tout, si le souci persiste contactez moi, jayma'
+              )
+              this.submit = false
+              return
+            }
+          )
         }
         const sendDepoll = {
           lieuId: this.sub.lieuId,
@@ -481,7 +506,9 @@ export default {
           frequentation: this.sub.frequentation,
           quantiteDechet: this.sub.quantiteDechet,
           pourquoiIlEnReste: this.sub.pourquoiIlEnReste,
-          commentaire: this.sub.commentaire ? this.sub.commentaire.trim() : null,
+          commentaire: this.sub.commentaire
+            ? this.sub.commentaire.trim()
+            : null,
           dechetQuantitatifPoids: this.sub.valeurQuantitatif.poids,
           dechetQuantitatifVolume: this.sub.valeurQuantitatif.volume,
           dechetQuantitatifVolumineux: this.sub.valeurQuantitatif.volumineux,
@@ -495,71 +522,101 @@ export default {
         await this.$http.post('api/depolls', sendDepoll).then(
           () => {
             this.$router.push({ name: 'FilledForm' })
-          }, () => {
-            window.alert("le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma")
+          },
+          () => {
+            window.alert(
+              "le formulaire n'est pas correctement rempli, veuillez vérifier les champs, sinon contactez moi : jayma"
+            )
             this.submit = false
           }
         )
       }
       run()
-    }, createCrew() {
+    },
+    createCrew() {
       this.$http.post('api/crews', this.createdCrew).then(
         (res) => {
-          const index = this.crewTypeList.findIndex((value) => value._id == res.body.crew.crewTypeId)
-          this.crew = { name: res.body.crew.crewName, type: this.crewTypeList[index].name, _id: res.body.crew._id}
-          
+          const index = this.crewTypeList.findIndex(
+            (value) => value._id == res.body.crew.crewTypeId
+          )
+          this.crew = {
+            name: res.body.crew.crewName,
+            type: this.crewTypeList[index].name,
+            _id: res.body.crew._id,
+          }
+
           this.crewAdd()
           this.crewCreateSuccess = true
           this.crewFormDisplay()
-          this.$http.get('api/crew_types').then((res) => {
-            this.crewTypeList = res.data
-            const crewList = {}
-            for (let crewType of res.data) {
-              crewList[crewType.value] = []
+          this.$http.get('api/crew_types').then(
+            (res) => {
+              this.crewTypeList = res.data
+              const crewList = {}
+              for (let crewType of res.data) {
+                crewList[crewType.value] = []
+              }
+              this.crewList = crewList
+            },
+            (res) => {
+              console.log(res)
             }
-            this.crewList = crewList
-          }, (res) => {
-            console.log(res)
-          })
-          this.$http.get('api/crews').then((res) => {
-            const crewList = {}
-            for (let crew of res.data) {
-              crewList[crew.crewTypeId.value].push({name: crew.crewName, type: crew.crewTypeId.name, _id: crew._id})
+          )
+          this.$http.get('api/crews').then(
+            (res) => {
+              const crewList = {}
+              for (let crew of res.data) {
+                crewList[crew.crewTypeId.value].push({
+                  name: crew.crewName,
+                  type: crew.crewTypeId.name,
+                  _id: crew._id,
+                })
+              }
+              this.crewList = crewList
+            },
+            (res) => {
+              console.log(res)
             }
-            this.crewList = crewList
-          }, (res) => {
-            console.log(res)
-          })
-        }, (error) => {
+          )
+        },
+        (error) => {
           console.log(error)
           this.crewCreateError = true
         }
       )
       this.createdCrew.crewName = ''
-    }, crewFormDisplay() {
+    },
+    crewFormDisplay() {
       this.newCrew = !this.newCrew
       this.dis = ''
-    }, close(valClose) {
+    },
+    close(valClose) {
       this[valClose] = false
-    }, resetCrewName() {
+    },
+    resetCrewName() {
       this.crew = {}
-    }, crewAdd() {
+    },
+    crewAdd() {
       this.sub.crewId.unshift(this.crew._id)
       this.crewPickList.unshift(this.crew)
       this.crew = {}
       this.crewType = ''
-    }, removeCrew(crew) {
+    },
+    removeCrew(crew) {
       const index = this.crewPickList.indexOf(crew)
       if (index !== -1) {
         this.sub.crewId.splice(index, 1)
         this.crewPickList.splice(index, 1)
       }
-    }, removeDS(nomDS) {
-      const index = this.sub.dechetSpecifique.findIndex((value) => value.nomDS == nomDS)
+    },
+    removeDS(nomDS) {
+      const index = this.sub.dechetSpecifique.findIndex(
+        (value) => value.nomDS == nomDS
+      )
       if (index !== -1) {
         this.sub.dechetSpecifique.splice(index, 1)
       }
-    }, dsAdd() {
+    },
+    dsAdd() {
       this.sub.dechetSpecifique.unshift(this.ds)
       this.ds = {
         nomDS: '',
@@ -571,63 +628,10 @@ export default {
         poidsDS: '',
         nombreDS: '',
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style>
-  .required::after {
-    content: ' *';
-    color: red;
-  }
-
-  .show {
-    display: block;
-  }
-
-  .hide {
-    display: none;
-  }
-
-  #mapSpace {
-    height: 60vh;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  #mapEdit {
-    height: 60vh;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .leaflet-tooltip {
-    left: 15px;
-  }
-
-  .crewItem {
-    border: solid;
-    border-radius: 1rem;
-    border-width: thin;
-    background-color: rgb(228, 228, 228);
-    margin: 10px;
-    padding: 15px;
-  }
-
-  .bigblock {
-    border: solid;
-    border-radius: 1rem;
-    border-width: thin;
-    padding: 15px;
-  }
-
-  .d_specifique {
-    border: solid;
-    border-radius: 1rem;
-    border-width: thin;
-    background-color: rgb(228, 228, 228);
-    margin: 20px 0;
-    padding: 20px;
-  }
+<style scoped src="../assets/css/style.css">
 </style>

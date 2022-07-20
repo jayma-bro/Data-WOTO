@@ -6,6 +6,7 @@ import FilledForm from '@/components/FilledForm'
 import DataView from '@/components/DataView'
 import LieuForm from '@/components/LieuForm'
 import MapView from '@/components/MapView'
+import Depoll from '@/components/Depoll'
 
 Vue.use(Router)
 
@@ -44,6 +45,10 @@ export default new Router({
           tile: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         }
       }
+    }, {
+      path: '/depoll/:depollid',
+      name: 'Depoll',
+      component: Depoll
     }
   ]
 })

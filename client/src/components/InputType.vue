@@ -1,10 +1,26 @@
 <template>
   <div :class="baseclass">
-    <label :for="target + DS" class="form-label" :class="{required: req}">{{ label }}</label>
+    <label :for="target + DS" class="form-label" :class="{ required: req }">{{
+      label
+    }}</label>
     <pop-help :content="help" v-if="content"></pop-help>
-    <input :type="type" class="form-control" :name="target + DS" v-model="value" :step="step ? step : ''" v-if="type != 'radio' && type != 'checkbox'">
+    <input
+      :type="type"
+      class="form-control"
+      :name="target + DS"
+      v-model="value"
+      :step="step ? step : ''"
+      v-if="type != 'radio' && type != 'checkbox'"
+    />
     <div class="form-check" v-else v-for="val in values" :key="val">
-      <input class="form-check-input" :type="type" :name="target + DS" :id="val + DS" :value="val" v-model="value">
+      <input
+        class="form-check-input"
+        :type="type"
+        :name="target + DS"
+        :id="val + DS"
+        :value="val"
+        v-model="value"
+      />
       <label class="form-check-label" :for="val + DS">{{ val }}</label>
     </div>
   </div>
@@ -16,11 +32,13 @@ export default {
   name: 'InputType',
   components: {
     PopHelp,
-  }, props: {
+  },
+  props: {
     content: Object,
-    baseclass: {type: String, default: ''},
-    DS: {type: String, default: ''},
-  }, data () {
+    baseclass: { type: String, default: '' },
+    DS: { type: String, default: '' },
+  },
+  data() {
     return {
       target: '',
       req: '',
@@ -31,22 +49,24 @@ export default {
       value: '',
       values: [],
     }
-  }, watch: {
+  },
+  watch: {
     value: {
       handler(val) {
         this.$emit('update', val, this.target)
-      }
-    }
-  }, mounted () {
+      },
+    },
+  },
+  mounted() {
     this.target = this.content.name
     this.req = this.content.req
     this.label = this.content.label
     this.help = this.content.help
     if (this.content.type != undefined) {
       this.type = this.content.type
-      if (this.content.type == "checkbox" || this.content.type == "radio") {
+      if (this.content.type == 'checkbox' || this.content.type == 'radio') {
         this.values = this.content.value
-        if (this.content.type == "checkbox") {
+        if (this.content.type == 'checkbox') {
           this.value = []
         }
       }
@@ -54,10 +74,9 @@ export default {
     if (this.content.step != undefined) {
       this.step = this.content.step
     }
-
-  }
+  },
 }
 </script>
 
-<style>
+<style scoped src="../assets/css/style.css">
 </style>

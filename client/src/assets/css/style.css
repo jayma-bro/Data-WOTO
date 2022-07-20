@@ -1,0 +1,161 @@
+@import '~leaflet.markercluster/dist/MarkerCluster.css';
+@import '~leaflet.markercluster/dist/MarkerCluster.Default.css';
+
+.d_specifique {
+  border: solid;
+  border-radius: 1rem;
+  border-width: thin;
+  background-color: rgb(228, 228, 228);
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.depoll {
+  border: solid;
+  border-radius: 1rem;
+  border-width: thin;
+  background-color: rgb(228, 228, 228);
+  margin: 8px;
+  padding: 10px;
+}
+
+#map {
+  height: 100%;
+  width: auto;
+}
+
+.cluster-text {
+  margin: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: #FEBF34;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  overflow: hidden;
+  line-height: 40px;
+}
+
+.leaflet-popup {
+  bottom: 20px;
+}
+
+.required::after {
+  content: ' *';
+  color: red;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+#mapSpace {
+  height: 60vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#mapEdit {
+  height: 60vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.leaflet-tooltip {
+  left: 15px;
+}
+
+.crewItem {
+  border: solid;
+  border-radius: 1rem;
+  border-width: thin;
+  background-color: rgb(228, 228, 228);
+  margin: 10px;
+  padding: 15px;
+}
+
+.bigblock {
+  border: solid;
+  border-radius: 1rem;
+  border-width: thin;
+  padding: 15px;
+}
+
+.home {
+  text-align: center;
+}
+
+.list {
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.iframe-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.titre {
+  margin: 30px 0;
+}
+
+.lien-form {
+  font-size: 1.5em;
+}
+
+.vide {
+  margin: 200px;
+}
+
+.news {
+  text-align: left;
+  font-size: 1.1em;
+}
+
+.date {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0;
+}
+
+.full {
+  height: 100vh;
+  width: 100vw;
+}
+
+#full-map {
+  height: 100%;
+  margin: 0;
+}
+
+.popcontent {
+  position: absolute;
+  max-width: 276px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  padding: 0.5rem 0.8rem;
+  font-size: .875rem;
+  background-color: #fff;
+}
+
+#map-depoll {
+  height: 100%;
+  width: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
