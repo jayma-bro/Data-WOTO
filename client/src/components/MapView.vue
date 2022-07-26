@@ -94,9 +94,13 @@ export default {
             }
             if (
               rowDepolls[depoll].crewId.some(
-                (crew) =>
-                  encodeURIComponent(crew._id) === crewId || crewId === null
-              )
+                (crew) => encodeURIComponent(crew._id) === crewId
+              ) ||
+              (crewId == 'labels' &&
+                rowDepolls[depoll].crewId.some(
+                  (crew) => crew.crewTypeId.value === 'labels'
+                )) ||
+              crewId === null
             ) {
               depolls.push({
                 _id: rowDepolls[depoll]._id,
@@ -146,7 +150,19 @@ export default {
             }
           }
           this.markers = depolls
-          this.mapAtt.bounds = L.latLngBounds(latlng)
+          if (
+            this.$route.query.top != undefined &&
+            this.$route.query.bottom != undefined &&
+            this.$route.query.right != undefined &&
+            this.$route.query.left != undefined
+          ) {
+            this.mapAtt.bounds = L.latLngBounds([
+              [this.$route.query.top, this.$route.query.right],
+              [this.$route.query.bottom, this.$route.query.left],
+            ])
+          } else {
+            this.mapAtt.bounds = L.latLngBounds(latlng)
+          }
         })
         this.map = L.map('map', { zoomSnap: 0.25 }).fitBounds(
           this.mapAtt.bounds
@@ -172,7 +188,19 @@ export default {
             latlng.push(rowLieux[lieu].localisation)
           }
           this.markers = lieux
-          this.mapAtt.bounds = L.latLngBounds(latlng)
+          if (
+            this.$route.query.top != undefined &&
+            this.$route.query.bottom != undefined &&
+            this.$route.query.right != undefined &&
+            this.$route.query.left != undefined
+          ) {
+            this.mapAtt.bounds = L.latLngBounds([
+              [this.$route.query.top, this.$route.query.right],
+              [this.$route.query.bottom, this.$route.query.left],
+            ])
+          } else {
+            this.mapAtt.bounds = L.latLngBounds(latlng)
+          }
         })
         this.map = L.map('map', { zoomSnap: 0.25 }).fitBounds(
           this.mapAtt.bounds
@@ -210,7 +238,19 @@ export default {
           this.markers = [marker]
           this.polygon = marker.polygon
           this.polyline = marker.polyline
-          this.mapAtt.bounds = L.latLngBounds(marker.polygon)
+          if (
+            this.$route.query.top != undefined &&
+            this.$route.query.bottom != undefined &&
+            this.$route.query.right != undefined &&
+            this.$route.query.left != undefined
+          ) {
+            this.mapAtt.bounds = L.latLngBounds([
+              [this.$route.query.top, this.$route.query.right],
+              [this.$route.query.bottom, this.$route.query.left],
+            ])
+          } else {
+            this.mapAtt.bounds = L.latLngBounds(marker.polygon)
+          }
         })
         this.map = L.map('map', { zoomSnap: 0.25 }).fitBounds(
           this.mapAtt.bounds
