@@ -227,10 +227,18 @@
           <button type="button" class="btn btn-warning" name="newCrew" @click="removeDS(dsItem.nomDS)">Retirer</button>
         </div>
       </div>
-      <button v-if="!submit" class="btn btn-primary" type="submit" @click.prevent="submission">Soumission</button>
-      <button v-if="submit" class="btn btn-primary" disabled >Soumission en courS</button>
-
     </form>
+    <button v-if="!submit" class="btn btn-primary" @click="preSub">Soumission</button>
+    <button v-if="submit" class="btn btn-primary" disabled >Soumission en cours</button>
+    <div class="popup" v-if="submit">
+      <div class="popup-inner">
+        <p>
+          Est tu sur de vouloir envoyer le formulaire
+        </p>
+        <button class="btn btn-warning" @click="cancelSub">Non</button>
+        <button class="btn btn-primary" @click="submission">Oui</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -457,9 +465,14 @@ export default {
         this.sub.surface = Math.round(turf.area(turfPolygon))
       }
     },
+    cancelSub() {
+      this.submit = false
+    },
+    preSub() {
+      this.submit = true
+    },
     submission() {
       let run = async () => {
-        this.submit = true
         const dechetSpecifiqueId = []
         const dateEvenement = new Date(this.sub.dateEvenement)
         const dureeEvenement =
