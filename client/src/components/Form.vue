@@ -404,6 +404,7 @@ export default {
     for (let material of formInfo.dechetQuantitatif.value) {
       this.sub.valeurQuantitatif.poids['poids' + material.name] = null
       this.sub.valeurQuantitatif.volume['volume' + material.name] = null
+      this.sub.valeurQuantitatif.volumineux['volumineux' + material.name] = null
     }
   },
   methods: {
