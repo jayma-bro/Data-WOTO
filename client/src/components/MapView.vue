@@ -100,6 +100,10 @@ export default {
                 rowDepolls[depoll].crewId.some(
                   (crew) => crew.crewTypeId.value === 'labels'
                 )) ||
+              (crewId == 'antenneLocal' &&
+                rowDepolls[depoll].crewId.some(
+                  (crew) => crew.crewTypeId.value === 'antenneLocal'
+                )) ||
               crewId === null
             ) {
               depolls.push({
