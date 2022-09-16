@@ -63,8 +63,6 @@
         ></fade-loader>
         <div class="col-md-3">
           <p>
-            <strong>Latitude</strong> : {{ sub.localisation[0] }} <br />
-            <strong>Longitude</strong> : {{ sub.localisation[1] }} <br />
             <strong>Pays</strong> : {{ sub.pays }} <br />
             <strong>Longueur</strong> : {{ sub.longueur }}m <br />
             <strong>Surface</strong> : {{ sub.surface }}m² <br />
@@ -149,7 +147,7 @@ export default {
       sub: {
         lieu: null,
         ville: null,
-        localisation: [null, null],
+        localisation: null,
         polyline: null,
         polygon: null,
         pays: null,
