@@ -1,6 +1,6 @@
 <template>
   <div class="home container">
-    <h2><router-link :to="{ name: 'Form' }">Le formulaire</router-link></h2>
+    <h2>Le formulaire</h2>
     <img
       width="400"
       height="400"

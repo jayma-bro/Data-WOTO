@@ -206,6 +206,12 @@
                   <input type="number" class="form-control" :name="'volumineux' + material.name" v-model="sub.valeurQuantitatif.volumineux['volumineux'+material.name]" step="1">
                 </td>
               </tr>
+              <tr>
+                <th> TOTAL </th>
+                <td> {{ total.poid }} </td>
+                <td> {{ total.volume }} </td>
+                <td> {{ total.volumineux }} </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -310,6 +316,11 @@ export default {
         volume: true,
         poid: true,
       },
+      total: {
+        poid: 0,
+        volume: 0,
+        volumineux: 0,
+      },
       sub: {
         dateEvenement: null,
         lieuId: null,
@@ -363,10 +374,45 @@ export default {
         }
       },
     },
+    sub: {
+      handler(value) {
+        let poid = 0
+        let volume = 0
+        let volumineux = 0
+        for (const material in value.valeurQuantitatif.poids) {
+          if (
+            Object.hasOwnProperty.call(value.valeurQuantitatif.poids, material)
+          ) {
+            poid += +value.valeurQuantitatif.poids[material]
+          }
+        }
+        for (const material in value.valeurQuantitatif.volume) {
+          if (
+            Object.hasOwnProperty.call(value.valeurQuantitatif.volume, material)
+          ) {
+            volume += +value.valeurQuantitatif.volume[material]
+          }
+        }
+        for (const material in value.valeurQuantitatif.volumineux) {
+          if (
+            Object.hasOwnProperty.call(
+              value.valeurQuantitatif.volumineux,
+              material
+            )
+          ) {
+            volumineux += +value.valeurQuantitatif.volumineux[material]
+          }
+        }
+        this.total.poid = poid
+        this.total.volume = volume
+        this.total.volumineux = volumineux
+      },
+      deep: true,
+    },
   },
   computed: {},
-  mounted() {
-    this.$http.get('api/crew_types').then(
+  async mounted() {
+    await this.$http.get('api/crew_types').then(
       (res) => {
         this.crewTypeList = res.data
         const crewList = {}
@@ -379,7 +425,7 @@ export default {
         console.log(res)
       }
     )
-    this.$http.get('api/crews').then(
+    await this.$http.get('api/crews').then(
       (res) => {
         const crewList = this.crewList
         for (let crew of res.data) {
@@ -400,11 +446,6 @@ export default {
     }
     for (let niv2 of formInfo.dechetIndicateur.value2) {
       this.sub.dechetIndicateur[niv2[0]] = null
-    }
-    for (let material of formInfo.dechetQuantitatif.value) {
-      this.sub.valeurQuantitatif.poids['poids' + material.name] = null
-      this.sub.valeurQuantitatif.volume['volume' + material.name] = null
-      this.sub.valeurQuantitatif.volumineux['volumineux' + material.name] = null
     }
   },
   methods: {
@@ -474,6 +515,29 @@ export default {
     },
     submission() {
       let run = async () => {
+        for (let material of formInfo.dechetQuantitatif.value) {
+          if (
+            this.sub.valeurQuantitatif.poids['poids' + material.name] ===
+            undefined
+          ) {
+            this.sub.valeurQuantitatif.poids['poids' + material.name] = null
+          }
+          if (
+            this.sub.valeurQuantitatif.volume['volume' + material.name] ===
+            undefined
+          ) {
+            this.sub.valeurQuantitatif.volume['volume' + material.name] = null
+          }
+          if (
+            this.sub.valeurQuantitatif.volumineux[
+              'volumineux' + material.name
+            ] === undefined
+          ) {
+            this.sub.valeurQuantitatif.volumineux[
+              'volumineux' + material.name
+            ] = null
+          }
+        }
         const dechetSpecifiqueId = []
         const dateEvenement = new Date(this.sub.dateEvenement)
         const dureeEvenement =
