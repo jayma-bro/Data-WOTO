@@ -57,7 +57,8 @@
               <th>
                 <router-link
                   :to="{ name: 'Depoll', params: { depollid: depoll.id } }"
-                  >{{ depolls.length - depollIndex }}</router-link
+                  >{{ depolls.length - depollIndex }}
+                  {{ depoll.relecture }}</router-link
                 >
               </th>
               <th>{{ depoll.lieu }}</th>
@@ -159,6 +160,7 @@ export default {
         ) {
           depolls.push({
             id: rowDepolls[depoll]._id,
+            relecture: rowDepolls[depoll].relecture ? 'relu' : '',
             lieu: rowDepolls[depoll].lieuId.lieu,
             ville: rowDepolls[depoll].lieuId.ville,
             crew: rowDepolls[depoll].crewId,
