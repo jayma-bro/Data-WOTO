@@ -15,6 +15,9 @@
     <router-link :to="{ name: 'DataView', params: { year: 2022 } }"
       >Visualisation des données 2022</router-link
     ><br />
+    <router-link :to="{ name: 'DataView', params: { year: 2023 } }"
+      >Visualisation des données 2023</router-link
+    ><br />
     <h2>Etapes à suivre pour renseigner sa dépollution</h2>
     <br />
     <ol class="list">

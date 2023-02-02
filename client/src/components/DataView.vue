@@ -32,7 +32,11 @@
         <map-view
           class="col-md-9"
           id="mapSpace"
-          :config="{ show: 'depolls', edit: false }"
+          :config="{
+            show: 'depolls',
+            edit: false,
+            year: this.$route.params.year,
+          }"
         >
         </map-view>
       </div>

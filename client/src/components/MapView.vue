@@ -28,6 +28,7 @@ export default {
       poly: false, // pour choisir d'afficher ou non la géométrie du lieu
       modif: null, // pour retoucher la géométrie d'un lieu à la volé
       tile: null, // pour utiliser un autre fond de carte
+      year: false,
     },
   },
   data() {
@@ -84,66 +85,75 @@ export default {
           rowDepolls[depoll].dateEvenement = new Date(
             rowDepolls[depoll].dateEvenement
           )
-          let crewId = null
-          if (this.$route.params.crewid != undefined) {
-            crewId = this.$route.params.crewid
-          }
           if (
-            rowDepolls[depoll].crewId.some(
-              (crew) => encodeURIComponent(crew._id) === crewId
-            ) ||
-            (crewId == 'labels' &&
-              rowDepolls[depoll].crewId.some(
-                (crew) => crew.crewTypeId.value === 'labels'
-              )) ||
-            (crewId == 'antenneLocal' &&
-              rowDepolls[depoll].crewId.some(
-                (crew) => crew.crewTypeId.value === 'antenneLocal'
-              )) ||
-            crewId === null
+            rowDepolls[depoll].dateEvenement.getUTCFullYear() ==
+              this.config.year ||
+            this.config.year == false
           ) {
-            depolls.push({
-              _id: rowDepolls[depoll]._id,
-              lieu: rowDepolls[depoll].lieuId.lieu,
-              ville: rowDepolls[depoll].lieuId.ville,
-              crew: rowDepolls[depoll].crewId,
-              dateEvenement: rowDepolls[depoll].dateEvenement,
-              dureeEvenement: rowDepolls[depoll].dureeEvenement,
-              nombreParticipantsWings:
-                rowDepolls[depoll].nombreParticipantsWings,
-              nombreParticipantsExterne:
-                rowDepolls[depoll].nombreParticipantsExterne,
-              autresStructures: rowDepolls[depoll].autresStructures.join(', '),
-              surface: rowDepolls[depoll].lieuId.surface,
-              localisation: rowDepolls[depoll].lieuId.localisation,
-              polygon: rowDepolls[depoll].lieuId.polygon,
-              polyline: rowDepolls[depoll].lieuId.polyline,
-              poidsTotal: 0,
-              volumeTotal: 0,
-            })
-            latlng.push(rowDepolls[depoll].lieuId.localisation)
-            for (let material of [
-              'PlastiqueNonRecy',
-              'PlastiqueRecy',
-              'Metal',
-              'VerreEtCeramique',
-              'Textile',
-              'PapierEtCarton',
-              'Bois',
-              'Caoutchouc',
-              'Autre',
-            ]) {
-              for (let type of [
-                { arr: 'dechetQuantitatifPoids', ty: 'poids' },
-                { arr: 'dechetQuantitatifVolume', ty: 'volume' },
+            let crewId = null
+            if (this.$route.params.crewid != undefined) {
+              crewId = this.$route.params.crewid
+            }
+            if (
+              rowDepolls[depoll].crewId.some(
+                (crew) => encodeURIComponent(crew._id) === crewId
+              ) ||
+              (crewId == 'labels' &&
+                rowDepolls[depoll].crewId.some(
+                  (crew) => crew.crewTypeId.value === 'labels'
+                )) ||
+              (crewId == 'antenneLocal' &&
+                rowDepolls[depoll].crewId.some(
+                  (crew) => crew.crewTypeId.value === 'antenneLocal'
+                )) ||
+              crewId === null
+            ) {
+              depolls.push({
+                _id: rowDepolls[depoll]._id,
+                lieu: rowDepolls[depoll].lieuId.lieu,
+                ville: rowDepolls[depoll].lieuId.ville,
+                crew: rowDepolls[depoll].crewId,
+                dateEvenement: rowDepolls[depoll].dateEvenement,
+                dureeEvenement: rowDepolls[depoll].dureeEvenement,
+                nombreParticipantsWings:
+                  rowDepolls[depoll].nombreParticipantsWings,
+                nombreParticipantsExterne:
+                  rowDepolls[depoll].nombreParticipantsExterne,
+                autresStructures:
+                  rowDepolls[depoll].autresStructures.join(', '),
+                surface: rowDepolls[depoll].lieuId.surface,
+                localisation: rowDepolls[depoll].lieuId.localisation,
+                polygon: rowDepolls[depoll].lieuId.polygon,
+                polyline: rowDepolls[depoll].lieuId.polyline,
+                poidsTotal: 0,
+                volumeTotal: 0,
+              })
+              latlng.push(rowDepolls[depoll].lieuId.localisation)
+              for (let material of [
+                'PlastiqueNonRecy',
+                'PlastiqueRecy',
+                'Metal',
+                'VerreEtCeramique',
+                'Textile',
+                'PapierEtCarton',
+                'Bois',
+                'Caoutchouc',
+                'Autre',
               ]) {
-                if (rowDepolls[depoll][type.arr][type.ty + material] !== null) {
-                  depolls[depoll_index][type.ty + 'Total'] +=
-                    rowDepolls[depoll][type.arr][type.ty + material]
+                for (let type of [
+                  { arr: 'dechetQuantitatifPoids', ty: 'poids' },
+                  { arr: 'dechetQuantitatifVolume', ty: 'volume' },
+                ]) {
+                  if (
+                    rowDepolls[depoll][type.arr][type.ty + material] !== null
+                  ) {
+                    depolls[depoll_index][type.ty + 'Total'] +=
+                      rowDepolls[depoll][type.arr][type.ty + material]
+                  }
                 }
               }
+              depoll_index++
             }
-            depoll_index++
           }
         }
         this.markers = depolls
